@@ -1,0 +1,10 @@
+#ifndef MUSICLIBRARY_AUDIOPLAYER_H
+#define MUSICLIBRARY_AUDIOPLAYER_H
+
+
+class AudioPlayer {
+
+};
+
+
+#endif //MUSICLIBRARY_AUDIOPLAYER_H
