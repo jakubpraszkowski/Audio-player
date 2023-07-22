@@ -5,6 +5,7 @@
 #include <iostream>
 
 class Song {
+protected:
     std::string title;
     std::string artist;
     std::string album;
@@ -13,6 +14,7 @@ class Song {
     int duration;
 
 public:
+    Song() = default;
     Song(std::string title, std::string artist, std::string album, std::string genre,
          int year, int duration);
 
@@ -29,6 +31,7 @@ public:
     int getDuration() const;
     void setDuration(int duration);
 
+    Song createSong();
     friend std::ostream& operator<<(std::ostream& os, const Song& song);
 };
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "MusicLibrary.h"
+#include "UserInterface.h"
 
 int main() {
     MusicLibrary<Song> musicLibrary;
