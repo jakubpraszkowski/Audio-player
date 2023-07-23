@@ -2,34 +2,40 @@
 #include "MusicLibrary.h"
 
 template <typename T>
-void MusicLibrary<T>::addSong(Song& song) {
+void MusicLibrary<T>::addSong(const Song& song) {
     songs.push_back(song);
 }
 
 template <typename T>
-void MusicLibrary<T>::addPlaylist(Playlist& playlist) {
+void MusicLibrary<T>::addPlaylist(const Playlist& playlist) {
     playlists.push_back(playlist);
 }
 
 template <typename T>
-void MusicLibrary<T>::removeSong(Song& song) {
-    for (int i = 0; i < songs.size(); i++) {
-        if (songs[i].getTitle() == song.getTitle() && songs[i].getArtist() == song.getArtist()) {
-            songs.erase(songs.begin() + i);
-            break;
+void MusicLibrary<T>::removeItem(const std::string &itemTitle) {
+    if (std::is_same<T, Song>::value) {
+        for (auto it = songs.begin(); it != songs.end(); ++it) {
+            if (it->getTitle() == itemTitle) {
+                songs.erase(it);
+                std::cout << "Song '" << itemTitle << "' removed from the library." << std::endl;
+                return;
+            }
         }
+        std::cout << "Song '" << itemTitle << "' not found in the library." << std::endl;
+    } else if (std::is_same<T, Playlist>::value) {
+        for (auto it = playlists.begin(); it != playlists.end(); ++it) {
+            if (it->getTitle() == itemTitle) {
+                playlists.erase(it);
+                std::cout << "Playlist '" << itemTitle << "' removed from the library." << std::endl;
+                return;
+            }
+        }
+        std::cout << "Playlist '" << itemTitle << "' not found in the library." << std::endl;
+    } else {
+        std::cout << "Error: Invalid type." << std::endl;
     }
 }
 
-template <typename T>
-void MusicLibrary<T>::removePlaylist(Playlist& playlist) {
-    for (int i = 0; i < playlists.size(); i++) {
-        if (playlists[i].getTitle() == playlist.getTitle()) {
-            playlists.erase(playlists.begin() + i);
-            break;
-        }
-    }
-}
 
 template<typename T>
 void MusicLibrary<T>::print() {
@@ -116,3 +122,4 @@ double MusicLibrary<T>::calculateDurationPlaylist() {
 }
 
 template class MusicLibrary<Song>;
+template class MusicLibrary<Playlist>;

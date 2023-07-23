@@ -9,18 +9,10 @@ class Playlist : public Song{
     std::vector<Song> playlistSongs;
 
 public:
+    Playlist() = default;
     Playlist(std::string title);
-    void createPlaylist();
-//
-//    int getDuration() const;
-//    void setDuration(int duration);
-//    std::string getName() const;
-//    void setName(const std::string &name);
-//    std::string getArtist() const;
-//    void setArtist(const std::string &artist);
-
-
-
+    Playlist(std::string title, std::string artist);
+    Playlist createPlaylist();
 };
 
 

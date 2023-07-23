@@ -31,7 +31,7 @@ public:
     int getDuration() const;
     void setDuration(int duration);
 
-    Song createSong();
+    void createSong();
     friend std::ostream& operator<<(std::ostream& os, const Song& song);
 };
 

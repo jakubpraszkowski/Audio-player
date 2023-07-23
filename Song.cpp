@@ -58,7 +58,7 @@ os << "Title: " << song.title << " Artist: " << song.artist << " Album: " << son
     return os;
 }
 
-Song Song::createSong() {
+void Song::createSong() {
     std::cout << "Enter the title of the song: ";
     std::cin >> title;
     std::cout << "Enter the artist of the song: ";
@@ -71,7 +71,4 @@ Song Song::createSong() {
     std::cin >> year;
     std::cout << "Enter the duration of the song: ";
     std::cin >> duration;
-
-    Song s1(title, artist, album, genre, year, duration);
-    return s1;
 }

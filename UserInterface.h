@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "MusicLibrary.h"
+#include "Song.h"
 
 class UserInterface {
 public:
@@ -10,8 +11,15 @@ public:
     static void printSortSongMenu();
     static void printSortPlaylistMenu();
     static void welcomeMessage();
+    static void clearScreen();
+    void sortPlaylistMenu(MusicLibrary<Playlist> &ml);
+    void sortSongMenu(MusicLibrary<Song> &ml);
 
-    void Menu();
+    std::string whichSong2Remove();
+    std::string whichPlaylist2Remove();
+
+    void mainMenu();
+
 
 };
 

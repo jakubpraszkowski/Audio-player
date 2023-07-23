@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <iostream>
-#include "Song.h"
+#include <type_traits>
 #include "Playlist.h"
 
 template <typename T>
@@ -13,10 +13,10 @@ class MusicLibrary {
 
 public:
     MusicLibrary() = default;
-    void addSong(Song& song);
-    void addPlaylist(Playlist& playlist);
-    void removeSong(Song& song);
-    void removePlaylist(Playlist& playlist);
+    void addSong(const Song& song);
+    void addPlaylist(const Playlist& playlist);
+    void removeItem(const std::string &itemTitle);
+
     void print();
     bool isEmpty(std::vector<T> &vector);
 
