@@ -12,16 +12,13 @@ public:
     static void printSortPlaylistMenu();
     static void welcomeMessage();
     static void clearScreen();
-    void sortPlaylistMenu();
-    void sortSongMenu(MusicLibrary &ml);
+    static void sortPlaylistMenu(MusicLibrary &ml);
+    static void sortSongMenu(MusicLibrary &ml);
 
     std::string whichSong2Remove();
     std::string whichPlaylist2Remove();
 
     void mainMenu();
-
-
 };
-
 
 #endif //MUSICLIBRARY_USERINTERFACE_H

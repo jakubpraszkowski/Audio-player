@@ -66,6 +66,7 @@ void UserInterface::mainMenu() {
             case 6:
                 clearScreen();
                 std::cout << "Sort playlists" << std::endl;
+                sortPlaylistMenu(ml);
                 break;
             case 7:
                 clearScreen();
@@ -125,14 +126,55 @@ void UserInterface::sortSongMenu(MusicLibrary &ml) {
             case 2:
                 clearScreen();
                 std::cout << "Sort by artist" << std::endl;
+                ml.sortBy(ml.getSongs(), Song::compareByArtist);
                 break;
             case 3:
                 clearScreen();
                 std::cout << "Sort by genre" << std::endl;
+                ml.sortBy(ml.getSongs(), Song::compareByGenre);
                 break;
             case 4:
                 clearScreen();
                 std::cout << "Sort by duration" << std::endl;
+                ml.sortBy(ml.getSongs(), Song::compareByDuration);
+                break;
+            case 5:
+                clearScreen();
+                std::cout << "Back" << std::endl;
+                return;
+            default:
+                clearScreen();
+                std::cout << "Invalid choice" << std::endl;
+                break;
+        }
+    }
+}
+
+void UserInterface::sortPlaylistMenu(MusicLibrary &ml) {
+    while(true){
+        printSortPlaylistMenu();
+        int ch;
+        std::cin >> ch;
+        switch (ch) {
+            case 1:
+                clearScreen();
+                std::cout << "Sort by name" << std::endl;
+                ml.sortBy(ml.getPlaylists(), Playlist::compareByTitle);
+                break;
+            case 2:
+                clearScreen();
+                std::cout << "Sort by duration" << std::endl;
+                ml.sortBy(ml.getPlaylists(), Playlist::compareByDuration);
+                break;
+            case 3:
+                clearScreen();
+                std::cout << "Sort by creator" << std::endl;
+                ml.sortBy(ml.getPlaylists(), Playlist::compareByCreator);
+                break;
+            case 4:
+                clearScreen();
+                std::cout << "Sort by year" << std::endl;
+                ml.sortBy(ml.getPlaylists(), Playlist::compareByYear);
                 break;
             case 5:
                 clearScreen();

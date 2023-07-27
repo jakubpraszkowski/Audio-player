@@ -1,19 +1,25 @@
 #include "Playlist.h"
 
-Playlist::Playlist(std::string title) {
-    this->title = title;
-}
+#include <utility>
 
 Playlist Playlist::createPlaylist() {
     std::cout << "Enter the title of the playlist: ";
     std::cin >> title;
-    Playlist p1(title);
+    Playlist p1(title, artist, playlistSongs);
     return p1;
 }
 
-Playlist::Playlist(std::string title, std::string artist) {
-    this->title = title;
-    this->artist = artist;
+Playlist::Playlist(std::string title, const std::string& artist, std::vector<Song> playlistSongs) {
+    this->title = std::move(title);
+
+    char* envUsername = std::getenv("USERNAME");
+    if(envUsername != nullptr) {
+        this->artist = envUsername;
+    } else {
+        this->artist = "Unknown";
+    }
+
+    this->playlistSongs = std::move(playlistSongs);
 }
 
 bool Playlist::compareByDuration(const Playlist &p1, const Playlist &p2) {
@@ -24,7 +30,7 @@ bool Playlist::compareByTitle(const Playlist &p1, const Playlist &p2) {
     return p1.title < p2.title;
 }
 
-bool Playlist::compareByArtist(const Playlist &p1, const Playlist &p2) {
+bool Playlist::compareByCreator(const Playlist &p1, const Playlist &p2) {
     return p1.artist < p2.artist;
 }
 
