@@ -33,6 +33,8 @@ public:
 
     void createSong();
     friend std::ostream& operator<<(std::ostream& os, const Song& song);
+
+    bool operator<(const Song& s1) const;
 };
 
 

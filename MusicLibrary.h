@@ -6,36 +6,40 @@
 #include <type_traits>
 #include "Playlist.h"
 
-template <typename T>
 class MusicLibrary {
     std::vector<Playlist> playlists;
     std::vector<Song> songs;
+    enum sortCriteria {
+        DURATION,
+        TITLE,
+    };
+
+    sortCriteria criteria;
 
 public:
     MusicLibrary() = default;
     void addSong(const Song& song);
     void addPlaylist(const Playlist& playlist);
+    void print();
+
+    template <typename T>
     void removeItem(const std::string &itemTitle);
 
-    void print();
+    template <typename T>
     bool isEmpty(std::vector<T> &vector);
 
-    double calculateDurationPlaylist();
+    //double calculateDurationPlaylist();
 
-    static bool compareByName(const T& t1, const T& t2);
-    static bool compareByCreator(const T& t1, const T& t2);
-    static bool compareByGenre(const Song& s1, const Song& s2);
-    static bool compareByYear(const T& t1, const T& t2);
-    static bool compareByDuration(const T& t1, const T& t2);
-    static bool compareByAlbum(const Song& s1, const Song& s2);
+    template <typename T>
+    void sortItem(std::vector<T>& vector, sortCriteria sortCriteria);
 
-    void sortByCreator();
-    void sortByName();
-    void sortByGenre();
-    void sortByYear();
-    void sortByDuration();
+    std::vector<Playlist> getPlaylistVector();
+    std::vector<Song> getSongVector();
+
+    sortCriteria getSortCriteria() const;
+
+
     void sortByAlbum();
 };
-
 
 #endif //MUSICLIBRARY_MUSICLIBRARY_H

@@ -15,3 +15,7 @@ Playlist::Playlist(std::string title, std::string artist) {
     this->title = title;
     this->artist = artist;
 }
+
+bool Playlist::operator<(const Playlist &p1) const {
+    return title < p1.title;
+}

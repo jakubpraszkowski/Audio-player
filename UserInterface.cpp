@@ -30,8 +30,7 @@ void UserInterface::mainMenu() {
 
     Song s1;
     Playlist p1;
-    MusicLibrary<Song> mlS;
-    MusicLibrary<Playlist> mlP;
+    MusicLibrary ml;
 
     while (true) {
         printMenu();
@@ -42,7 +41,7 @@ void UserInterface::mainMenu() {
                 clearScreen();
                 std::cout << "Add song" << std::endl;
                 s1.createSong();
-                mlS.addSong(s1);
+                ml.addSong(s1);
                 break;
             case 2:
                 clearScreen();
@@ -52,12 +51,12 @@ void UserInterface::mainMenu() {
             case 3:
                 clearScreen();
                 std::cout << "Remove song" << std::endl;
-                mlS.removeItem(whichSong2Remove());
+
                 break;
             case 4:
                 clearScreen();
                 std::cout << "Remove playlist" << std::endl;
-                mlP.removeItem(whichPlaylist2Remove());
+
                 break;
             case 5:
                 clearScreen();
@@ -71,7 +70,7 @@ void UserInterface::mainMenu() {
             case 7:
                 clearScreen();
                 std::cout << "Show songs" << std::endl;
-                mlS.print();
+                ml.print();
                 break;
             case 9:
                 clearScreen();
@@ -112,66 +111,39 @@ std::string UserInterface::whichPlaylist2Remove() {
     return playlistToRemove;
 }
 
-void UserInterface::sortPlaylistMenu(MusicLibrary<Playlist> &ml) {
-    printSortPlaylistMenu();
-    int choice;
-    std::cin >> choice;
-    switch (choice) {
-        case 1:
-            clearScreen();
-            std::cout << "Sort by name" << std::endl;
-            ml.sortByName();
-            break;
-        case 2:
-            clearScreen();
-            std::cout << "Sort by duration" << std::endl;
-            ml.sortByDuration();
-            break;
-        case 3:
-            clearScreen();
-            std::cout << "Back" << std::endl;
-            return;
-        default:
-            clearScreen();
-            std::cout << "Invalid choice" << std::endl;
-            printSortPlaylistMenu();
-            break;
-    }
-}
-
-void UserInterface::sortSongMenu(MusicLibrary<Song> &ml) {
+void UserInterface::sortSongMenu(MusicLibrary ml) {
+    std::vector<Song> songVector = ml.getSongVector();
     printSortSongMenu();
     int choice;
     std::cin >> choice;
     switch (choice) {
         case 1:
             clearScreen();
+
             std::cout << "Sort by name" << std::endl;
-            ml.sortByName();
+            ml.sortItem(songVector, ml.getSortCriteria());
             break;
         case 2:
             clearScreen();
             std::cout << "Sort by artist" << std::endl;
-            ml.sortByCreator();
             break;
         case 3:
             clearScreen();
             std::cout << "Sort by genre" << std::endl;
-            ml.sortByGenre();
             break;
         case 4:
             clearScreen();
             std::cout << "Sort by duration" << std::endl;
-            ml.sortByDuration();
             break;
         case 5:
             clearScreen();
             std::cout << "Back" << std::endl;
-            return;
+            break;
         default:
             clearScreen();
             std::cout << "Invalid choice" << std::endl;
             printSortSongMenu();
             break;
     }
+
 }

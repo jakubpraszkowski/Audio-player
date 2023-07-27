@@ -13,6 +13,12 @@ public:
     Playlist(std::string title);
     Playlist(std::string title, std::string artist);
     Playlist createPlaylist();
+
+    bool operator<(const Playlist& p1) const;
+
+    void addSongToPlaylist(const Song& song);
+    void removeSongFromPlaylist(const std::string& songTitle);
+
 };
 
 

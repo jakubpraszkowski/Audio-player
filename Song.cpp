@@ -72,3 +72,13 @@ void Song::createSong() {
     std::cout << "Enter the duration of the song: ";
     std::cin >> duration;
 }
+
+bool Song::operator<(const Song& s1) const{
+    return year < s1.year;
+    return duration < s1.duration;
+    return title < s1.title;
+    return artist < s1.artist;
+    return album < s1.album;
+    return genre < s1.genre;
+}
+

@@ -12,8 +12,8 @@ public:
     static void printSortPlaylistMenu();
     static void welcomeMessage();
     static void clearScreen();
-    void sortPlaylistMenu(MusicLibrary<Playlist> &ml);
-    void sortSongMenu(MusicLibrary<Song> &ml);
+    void sortPlaylistMenu();
+    void sortSongMenu(MusicLibrary ml);
 
     std::string whichSong2Remove();
     std::string whichPlaylist2Remove();
