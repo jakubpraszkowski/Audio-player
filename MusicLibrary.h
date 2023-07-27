@@ -3,18 +3,13 @@
 
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include <type_traits>
 #include "Playlist.h"
 
 class MusicLibrary {
     std::vector<Playlist> playlists;
     std::vector<Song> songs;
-    enum sortCriteria {
-        DURATION,
-        TITLE,
-    };
-
-    sortCriteria criteria;
 
 public:
     MusicLibrary() = default;
@@ -28,18 +23,13 @@ public:
     template <typename T>
     bool isEmpty(std::vector<T> &vector);
 
-    //double calculateDurationPlaylist();
-
     template <typename T>
-    void sortItem(std::vector<T>& vector, sortCriteria sortCriteria);
+    void sortBy(std::vector<T>& vector, bool(*compare)(const T&, const T&)) {
+        std::sort(vector.begin(), vector.end(), compare);
+    }
 
-    std::vector<Playlist> getPlaylistVector();
-    std::vector<Song> getSongVector();
-
-    sortCriteria getSortCriteria() const;
-
-
-    void sortByAlbum();
+    std::vector<Playlist>& getPlaylists();
+    std::vector<Song>& getSongs();
 };
 
 #endif //MUSICLIBRARY_MUSICLIBRARY_H

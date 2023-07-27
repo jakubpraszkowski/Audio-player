@@ -61,7 +61,7 @@ void UserInterface::mainMenu() {
             case 5:
                 clearScreen();
                 std::cout << "Sort songs" << std::endl;
-                printSortSongMenu();
+                sortSongMenu(ml);
                 break;
             case 6:
                 clearScreen();
@@ -111,39 +111,37 @@ std::string UserInterface::whichPlaylist2Remove() {
     return playlistToRemove;
 }
 
-void UserInterface::sortSongMenu(MusicLibrary ml) {
-    std::vector<Song> songVector = ml.getSongVector();
-    printSortSongMenu();
-    int choice;
-    std::cin >> choice;
-    switch (choice) {
-        case 1:
-            clearScreen();
-
-            std::cout << "Sort by name" << std::endl;
-            ml.sortItem(songVector, ml.getSortCriteria());
-            break;
-        case 2:
-            clearScreen();
-            std::cout << "Sort by artist" << std::endl;
-            break;
-        case 3:
-            clearScreen();
-            std::cout << "Sort by genre" << std::endl;
-            break;
-        case 4:
-            clearScreen();
-            std::cout << "Sort by duration" << std::endl;
-            break;
-        case 5:
-            clearScreen();
-            std::cout << "Back" << std::endl;
-            break;
-        default:
-            clearScreen();
-            std::cout << "Invalid choice" << std::endl;
-            printSortSongMenu();
-            break;
+void UserInterface::sortSongMenu(MusicLibrary &ml) {
+    while(true){
+        printSortSongMenu();
+        int ch;
+        std::cin >> ch;
+        switch (ch) {
+            case 1:
+                clearScreen();
+                std::cout << "Sort by name" << std::endl;
+                ml.sortBy(ml.getSongs(), Song::compareByTitle);
+                break;
+            case 2:
+                clearScreen();
+                std::cout << "Sort by artist" << std::endl;
+                break;
+            case 3:
+                clearScreen();
+                std::cout << "Sort by genre" << std::endl;
+                break;
+            case 4:
+                clearScreen();
+                std::cout << "Sort by duration" << std::endl;
+                break;
+            case 5:
+                clearScreen();
+                std::cout << "Back" << std::endl;
+                return;
+            default:
+                clearScreen();
+                std::cout << "Invalid choice" << std::endl;
+                break;
+        }
     }
-
 }

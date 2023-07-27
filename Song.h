@@ -34,7 +34,13 @@ public:
     void createSong();
     friend std::ostream& operator<<(std::ostream& os, const Song& song);
 
-    bool operator<(const Song& s1) const;
+    static bool compareByDuration(const Song& s1, const Song& s2);
+    static bool compareByTitle(const Song& s1, const Song& s2);
+    static bool compareByArtist(const Song& s1, const Song& s2);
+    static bool compareByAlbum(const Song& s1, const Song& s2);
+    static bool compareByGenre(const Song& s1, const Song& s2);
+    static bool compareByYear(const Song& s1, const Song& s2);
+
 };
 
 

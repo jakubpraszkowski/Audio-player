@@ -40,17 +40,18 @@ void MusicLibrary::print() {
     }
 }
 
-std::vector<Song> MusicLibrary::getSongVector() {
-    return songs;
-}
-
-std::vector<Playlist> MusicLibrary::getPlaylistVector() {
+std::vector<Playlist> &MusicLibrary::getPlaylists() {
     return playlists;
 }
 
-MusicLibrary::sortCriteria MusicLibrary::getSortCriteria() const {
-    return criteria;
+std::vector<Song> &MusicLibrary::getSongs() {
+    return songs;
 }
+
+//template<typename T>
+//void MusicLibrary::sortBy(std::vector<T> &vector, bool (*compareFunction)(const T&, const T&)) {
+//    std::sort(vector.begin(), vector.end(), compareFunction);
+//}
 
 template<typename T>
 bool MusicLibrary::isEmpty(std::vector<T> &vector) {
@@ -59,31 +60,3 @@ bool MusicLibrary::isEmpty(std::vector<T> &vector) {
     }
     return false;
 }
-
-
-//double MusicLibrary::calculateDurationPlaylist() {
-//    double duration = 0;
-//    for (const auto& item : songs) {
-//        duration += item.getDuration();
-//    }
-//    return duration;
-//}
-
-template<typename T>
-void MusicLibrary::sortItem(std::vector<T> &vector, sortCriteria sortCriteria) {
-    switch(sortCriteria){
-        case sortCriteria::DURATION:
-            std::sort(vector.begin(), vector.end(), [](const T& a, const T& b) {
-                return a.getDuration() < b.getDuration;
-            });
-            break;
-
-        case sortCriteria::TITLE:
-            std::sort(vector.begin(), vector.end(), [](const T& a, const T& b) {
-                return a.getTitle() < b.getTitle();
-            });
-            break;
-    }
-}
-
-

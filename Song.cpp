@@ -73,12 +73,26 @@ void Song::createSong() {
     std::cin >> duration;
 }
 
-bool Song::operator<(const Song& s1) const{
-    return year < s1.year;
-    return duration < s1.duration;
-    return title < s1.title;
-    return artist < s1.artist;
-    return album < s1.album;
-    return genre < s1.genre;
+bool Song::compareByDuration(const Song &s1, const Song &s2) {
+    return s1.duration < s2.duration;
 }
 
+bool Song::compareByTitle(const Song &s1, const Song &s2) {
+    return s1.title < s2.title;
+}
+
+bool Song::compareByArtist(const Song &s1, const Song &s2) {
+    return s1.artist < s2.artist;
+}
+
+bool Song::compareByAlbum(const Song &s1, const Song &s2) {
+    return s1.album < s2.album;
+}
+
+bool Song::compareByGenre(const Song &s1, const Song &s2) {
+    return s1.genre < s2.genre;
+}
+
+bool Song::compareByYear(const Song &s1, const Song &s2) {
+    return s1.year < s2.year;
+}

@@ -13,7 +13,7 @@ public:
     static void welcomeMessage();
     static void clearScreen();
     void sortPlaylistMenu();
-    void sortSongMenu(MusicLibrary ml);
+    void sortSongMenu(MusicLibrary &ml);
 
     std::string whichSong2Remove();
     std::string whichPlaylist2Remove();

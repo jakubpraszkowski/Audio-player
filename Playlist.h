@@ -14,7 +14,10 @@ public:
     Playlist(std::string title, std::string artist);
     Playlist createPlaylist();
 
-    bool operator<(const Playlist& p1) const;
+    static bool compareByDuration(const Playlist& p1, const Playlist& p2);
+    static bool compareByTitle(const Playlist& p1, const Playlist& p2);
+    static bool compareByArtist(const Playlist& p1, const Playlist& p2);
+    static bool compareByYear(const Playlist& p1, const Playlist& p2);
 
     void addSongToPlaylist(const Song& song);
     void removeSongFromPlaylist(const std::string& songTitle);
