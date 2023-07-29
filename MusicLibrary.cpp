@@ -48,11 +48,6 @@ std::vector<Song> &MusicLibrary::getSongs() {
     return songs;
 }
 
-//template<typename T>
-//void MusicLibrary::sortBy(std::vector<T> &vector, bool (*compareFunction)(const T&, const T&)) {
-//    std::sort(vector.begin(), vector.end(), compareFunction);
-//}
-
 template<typename T>
 bool MusicLibrary::isEmpty(std::vector<T> &vector) {
     if (vector.empty()) {

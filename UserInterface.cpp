@@ -47,6 +47,7 @@ void UserInterface::mainMenu() {
                 clearScreen();
                 std::cout << "Add playlist" << std::endl;
                 p1.createPlaylist();
+                ml.addPlaylist(p1);
                 break;
             case 3:
                 clearScreen();

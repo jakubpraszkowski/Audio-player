@@ -1,8 +1,14 @@
 #include "Song.h"
 
 Song::Song(std::string title, std::string artist, std::string album, std::string genre,
-           int year, int duration) : title(title), artist(artist), album(album), genre(genre), year(year),
-                                     duration(duration) {}
+           int year, int duration) {
+    this->title = std::move(title);
+    this->artist = std::move(artist);
+    this->album = std::move(album);
+    this->genre = std::move(genre);
+    this->year = year;
+    this->duration = duration;
+}
 
 const std::string &Song::getTitle() const{
     return title;
@@ -58,7 +64,7 @@ os << "Title: " << song.title << " Artist: " << song.artist << " Album: " << son
     return os;
 }
 
-void Song::createSong() {
+Song Song::createSong() {
     std::cout << "Enter the title of the song: ";
     std::cin >> title;
     std::cout << "Enter the artist of the song: ";
@@ -71,6 +77,8 @@ void Song::createSong() {
     std::cin >> year;
     std::cout << "Enter the duration of the song: ";
     std::cin >> duration;
+    Song s1(title, artist, album, genre, year, duration);
+    return s1;
 }
 
 bool Song::compareByDuration(const Song &s1, const Song &s2) {

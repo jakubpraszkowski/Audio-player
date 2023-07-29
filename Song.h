@@ -10,13 +10,14 @@ protected:
     std::string artist;
     std::string album;
     std::string genre;
-    int year;
-    int duration;
+    int year = 0;
+    int duration = 0;
 
 public:
     Song() = default;
     Song(std::string title, std::string artist, std::string album, std::string genre,
          int year, int duration);
+    Song createSong();
 
     const std::string &getTitle() const;
     void setTitle(const std::string &title);
@@ -31,7 +32,6 @@ public:
     int getDuration() const;
     void setDuration(int duration);
 
-    void createSong();
     friend std::ostream& operator<<(std::ostream& os, const Song& song);
 
     static bool compareByDuration(const Song& s1, const Song& s2);
