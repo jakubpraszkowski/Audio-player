@@ -41,3 +41,12 @@ void Playlist::addSongToPlaylist(const Song &song, std::string playlistTitle, st
     playlistSongs.push_back(song);
     std::cout << "Song " << song.getTitle() << " added to playlist " << playlistTitle << std::endl;
 }
+
+void Playlist::removeSongFromPlaylist(const std::string &songTitle) {
+    for (auto & playlistSong : playlistSongs) {
+        if (playlistSong->getTitle() == songTitle) {
+            playlistSongs.erase(playlistSongs.begin());
+            std::cout << "Song " << songTitle << " removed from playlist " << title << std::endl;
+        }
+    }
+}
