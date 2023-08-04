@@ -1,5 +1,4 @@
 #include "UserInterface.h"
-#include <taglib/tag.h>
 
 void UserInterface::printMenu() {
     std::cout << "1. Add song" << std::endl;
@@ -53,12 +52,12 @@ void UserInterface::mainMenu() {
             case 3:
                 clearScreen();
                 std::cout << "Remove song" << std::endl;
-                ml.removeItem<Song>(whichSong2Remove());
+                //ml.removeItem<Song>(whichSong2Remove());
                 break;
             case 4:
                 clearScreen();
                 std::cout << "Remove playlist" << std::endl;
-                ml.removeItem<Playlist>(whichPlaylist2Remove());
+                //ml.removeItem<Playlist>(whichPlaylist2Remove());
                 break;
             case 5:
                 clearScreen();

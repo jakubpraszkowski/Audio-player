@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+//#include <fileref.h>
 
 class Song {
 protected:
@@ -10,13 +11,13 @@ protected:
     std::string artist;
     std::string album;
     std::string genre;
-    int year = 0;
+    u_int year = 0;
     int duration = 0;
 
 public:
     Song() = default;
     Song(std::string title, std::string artist, std::string album, std::string genre,
-         int year, int duration);
+         u_int year, int duration);
     Song createSong();
 
     const std::string &getTitle() const;
@@ -33,6 +34,8 @@ public:
     void setDuration(int duration);
 
     friend std::ostream& operator<<(std::ostream& os, const Song& song);
+
+    static Song readAudioFileTag(const std::string& filePath);
 
     static bool compareByDuration(const Song& s1, const Song& s2);
     static bool compareByTitle(const Song& s1, const Song& s2);

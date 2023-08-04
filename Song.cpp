@@ -1,7 +1,7 @@
 #include "Song.h"
 
 Song::Song(std::string title, std::string artist, std::string album, std::string genre,
-           int year, int duration) {
+           u_int year, int duration) {
     this->title = std::move(title);
     this->artist = std::move(artist);
     this->album = std::move(album);
@@ -104,3 +104,20 @@ bool Song::compareByGenre(const Song &s1, const Song &s2) {
 bool Song::compareByYear(const Song &s1, const Song &s2) {
     return s1.year < s2.year;
 }
+
+//Song Song::readAudioFileTag(const std::string &filePath) {
+//    TagLib::FileRef file(filePath.c_str());
+//    if (!file.isNull() && file.tag()) {
+//        TagLib::Tag* tag = file.tag();
+//        std::string title = tag->title().toCString(true);
+//        std::string artist = tag->artist().toCString(true);
+//        std::string album = tag->album().toCString(true);
+//        std::string genre = tag->genre().toCString(true);
+//        u_int year = tag->year();
+//        int duration = file.audioProperties()->length();
+//
+//        return Song(title, artist, album, genre, year, duration);
+//    } else {
+//        return Song();
+//    }
+//}

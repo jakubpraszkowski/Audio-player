@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <filesystem>
+#include "Song.h"
 
 namespace fs = std::filesystem;
 
@@ -11,7 +12,6 @@ class AudioPlayer {
 
 public:
     AudioPlayer();
-    void processAudioFile(const fs::path& path);
     void searchForAudioFiles(const fs::path& dr);
 };
 
