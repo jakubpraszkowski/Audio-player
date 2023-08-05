@@ -6,30 +6,39 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
+#include <algorithm>
 #include "Song.h"
 
 class Tag : public Song {
     std::string filePath;
     size_t fileSize;
-
 public:
+//    static std::string &getFilePath();
+//
+//    static void setFilePath(const std::string &path);
+//
+//    static size_t getFileSize();
+//
+//    static void setFileSize(size_t fileSize);
+
     struct VorbisComment {
         std::string title;
         std::string artist;
         std::string album;
         char oggHeader[4];
+        unsigned char oggCommLength[4];
+        std::map<std::string, std::string> commentHeader;
+
+        void readVorbisComment(Tag &t1);
     };
 
     Tag(std::string filePath);
 
-    std::unique_ptr<VorbisComment> readVorbisComment();
-    //static size_t getFileSize();
+    template<typename T, size_t N>
+    static void reverseTab(T (&arr)[N]);
 
-    size_t getFileSize() const;
-
-    std::string getFilePath() const;
-
-    static size_t readFileSize();
+    static size_t readFileSize(Tag &t1);
 };
 
 

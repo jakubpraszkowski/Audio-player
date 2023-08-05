@@ -10,7 +10,7 @@ Song::Song(std::string title, std::string artist, std::string album, std::string
     this->duration = duration;
 }
 
-const std::string &Song::getTitle() const{
+const std::string &Song::getTitle() const {
     return title;
 }
 
@@ -59,7 +59,7 @@ void Song::setDuration(int duration) {
 }
 
 std::ostream &operator<<(std::ostream &os, const Song &song) {
-os << "Title: " << song.title << " Artist: " << song.artist << " Album: " << song.album << " Genre: " << song.genre
+    os << "Title: " << song.title << " Artist: " << song.artist << " Album: " << song.album << " Genre: " << song.genre
        << " Year: " << song.year << " Duration: " << song.duration;
     return os;
 }
@@ -104,20 +104,3 @@ bool Song::compareByGenre(const Song &s1, const Song &s2) {
 bool Song::compareByYear(const Song &s1, const Song &s2) {
     return s1.year < s2.year;
 }
-
-//Song Song::readAudioFileTag(const std::string &filePath) {
-//    TagLib::FileRef file(filePath.c_str());
-//    if (!file.isNull() && file.tag()) {
-//        TagLib::Tag* tag = file.tag();
-//        std::string title = tag->title().toCString(true);
-//        std::string artist = tag->artist().toCString(true);
-//        std::string album = tag->album().toCString(true);
-//        std::string genre = tag->genre().toCString(true);
-//        u_int year = tag->year();
-//        int duration = file.audioProperties()->length();
-//
-//        return Song(title, artist, album, genre, year, duration);
-//    } else {
-//        return Song();
-//    }
-//}

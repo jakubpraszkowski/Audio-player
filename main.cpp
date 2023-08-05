@@ -1,4 +1,5 @@
 #include "UserInterface.h"
+#include "Tag.h"
 
 int main() {
     UserInterface ui;
