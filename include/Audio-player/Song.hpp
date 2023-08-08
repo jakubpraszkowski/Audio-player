@@ -3,20 +3,12 @@
 
 #include <string>
 #include <iostream>
+#include "MusicItem.hpp"
 
-
-#ifdef _WIN32
-#include <_bsd_types.h>
-#endif
-
-class Song {
-protected:
-    std::string title;
-    std::string artist;
+class Song : public MusicItem{
     std::string album;
     std::string genre;
     u_int year = 0;
-    int duration = 0;
 
 public:
     Song() = default;
@@ -42,9 +34,9 @@ public:
 
     void setGenre(const std::string &genre);
 
-    int getYear() const;
+    u_int getYear() const;
 
-    void setYear(int year);
+    void setYear(u_int year);
 
     int getDuration() const;
 

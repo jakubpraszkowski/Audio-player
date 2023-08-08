@@ -6,7 +6,7 @@
 #include <memory>
 #include "Song.hpp"
 
-class Playlist : public Song{
+class Playlist : public MusicItem {
     std::vector<std::shared_ptr<Song>> playlistSongs;
 
 public:

@@ -3,19 +3,19 @@
 
 Playlist Playlist::createPlaylist() {
     std::cout << "Enter the title of the playlist: ";
-    std::cin >> title;
-    Playlist p1(title, artist, playlistSongs);
+    std::cin >> creator;
+    Playlist p1(name, creator, playlistSongs);
     return p1;
 }
 
-Playlist::Playlist(std::string title, const std::string& artist, const std::vector<std::shared_ptr<Song>>& playlistSongs) {
-    this->title = std::move(title);
+Playlist::Playlist(std::string name, const std::string& creator, const std::vector<std::shared_ptr<Song>>& playlistSongs) {
+    this->name = name;
 
     char* envUsername = std::getenv("USERNAME");
     if(envUsername != nullptr) {
-        this->artist = envUsername;
+        this->creator = envUsername;
     } else {
-        this->artist = "Unknown";
+        this->creator = "Unknown";
     }
 
     this->playlistSongs = playlistSongs;
@@ -26,11 +26,11 @@ bool Playlist::compareByDuration(const Playlist &p1, const Playlist &p2) {
 }
 
 bool Playlist::compareByTitle(const Playlist &p1, const Playlist &p2) {
-    return p1.title < p2.title;
+    return p1.name < p2.name;
 }
 
 bool Playlist::compareByCreator(const Playlist &p1, const Playlist &p2) {
-    return p1.artist < p2.artist;
+    return p1.creator < p2.creator;
 }
 
 bool Playlist::compareByYear(const Playlist &p1, const Playlist &p2) {
@@ -46,7 +46,7 @@ void Playlist::removeSongFromPlaylist(const std::string &songTitle) {
     for (auto & playlistSong : playlistSongs) {
         if (playlistSong->getTitle() == songTitle) {
             playlistSongs.erase(playlistSongs.begin());
-            std::cout << "Song " << songTitle << " removed from playlist " << title << std::endl;
+            std::cout << "Song " << songTitle << " removed from playlist " << name << std::endl;
         }
     }
 }

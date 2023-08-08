@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <type_traits>
 #include "Playlist.hpp"
+#include "Song.hpp"
+#include "Album.hpp"
 
 class MusicLibrary {
     std::vector<Playlist> playlists;
@@ -17,8 +19,8 @@ public:
     void addPlaylist(const Playlist& playlist);
     void print();
 
-    template <typename T>
-    void removeItem(const std::string &itemTitle);
+//    template <typename T>
+//    void removeItem(const std::string &itemTitle);
 
     template <typename T>
     bool isEmpty(std::vector<T> &vector);

@@ -9,30 +9,30 @@ void MusicLibrary::addPlaylist(const Playlist& playlist) {
     playlists.push_back(playlist);
 }
 
-template <typename T>
-void MusicLibrary::removeItem(const std::string &itemTitle) {
-    if (std::is_same<T, Song>::value) {
-        for (auto it = songs.begin(); it != songs.end(); ++it) {
-            if (it->getTitle() == itemTitle) {
-                songs.erase(it);
-                std::cout << "Song '" << itemTitle << "' removed from the library." << std::endl;
-                return;
-            }
-        }
-        std::cout << "Song '" << itemTitle << "' not found in the library." << std::endl;
-    } else if (std::is_same<T, Playlist>::value) {
-        for (auto it = playlists.begin(); it != playlists.end(); ++it) {
-            if (it->getTitle() == itemTitle) {
-                playlists.erase(it);
-                std::cout << "Playlist '" << itemTitle << "' removed from the library." << std::endl;
-                return;
-            }
-        }
-        std::cout << "Playlist '" << itemTitle << "' not found in the library." << std::endl;
-    } else {
-        std::cout << "Error: Invalid type." << std::endl;
-    }
-}
+//template <typename T>
+//void MusicLibrary::removeItem(const std::string &itemTitle) {
+//    if (std::is_same<T, Song>::value) {
+//        for (auto it = songs.begin(); it != songs.end(); ++it) {
+//            if (it->getTitle() == itemTitle) {
+//                songs.erase(it);
+//                std::cout << "Song '" << itemTitle << "' removed from the library." << std::endl;
+//                return;
+//            }
+//        }
+//        std::cout << "Song '" << itemTitle << "' not found in the library." << std::endl;
+//    } else if (std::is_same<T, Playlist>::value) {
+//        for (auto it = playlists.begin(); it != playlists.end(); ++it) {
+//            if (it->getTitle() == itemTitle) {
+//                playlists.erase(it);
+//                std::cout << "Playlist '" << itemTitle << "' removed from the library." << std::endl;
+//                return;
+//            }
+//        }
+//        std::cout << "Playlist '" << itemTitle << "' not found in the library." << std::endl;
+//    } else {
+//        std::cout << "Error: Invalid type." << std::endl;
+//    }
+//}
 
 void MusicLibrary::print() {
     for (const auto& item : songs) {
