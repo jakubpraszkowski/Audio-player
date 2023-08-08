@@ -1,4 +1,4 @@
-#include "Song.hpp"
+#include "../include/Audio-player/Song.hpp"
 
 Song::Song(std::string title, std::string artist, std::string album, std::string genre,
            u_int year, int duration) {

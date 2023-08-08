@@ -1,4 +1,4 @@
-#include "AudioPlayer.hpp"
+#include "../include/Audio-player/AudioPlayer.hpp"
 
 #define AUDIO_EXTENSION ".ogg"
 
