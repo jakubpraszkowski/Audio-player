@@ -1,9 +1,9 @@
-#ifndef MUSICLIBRARY_AUDIOPLAYER_H
-#define MUSICLIBRARY_AUDIOPLAYER_H
+#ifndef MUSICLIBRARY_AUDIOPLAYER_HPP
+#define MUSICLIBRARY_AUDIOPLAYER_HPP
 
 #include <iostream>
 #include <filesystem>
-#include "Song.h"
+#include "Song.hpp"
 
 namespace fs = std::filesystem;
 
@@ -16,4 +16,4 @@ public:
 };
 
 
-#endif //MUSICLIBRARY_AUDIOPLAYER_H
+#endif //MUSICLIBRARY_AUDIOPLAYER_HPP

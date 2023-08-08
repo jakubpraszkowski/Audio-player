@@ -1,9 +1,9 @@
-#ifndef MUSICLIBRARY_USERINTERFACE_H
-#define MUSICLIBRARY_USERINTERFACE_H
+#ifndef MUSICLIBRARY_USERINTERFACE_HPP
+#define MUSICLIBRARY_USERINTERFACE_HPP
 
 #include <iostream>
-#include "MusicLibrary.h"
-#include "Song.h"
+#include "MusicLibrary.hpp"
+#include "Song.hpp"
 
 class UserInterface {
 public:
@@ -21,4 +21,4 @@ public:
     void mainMenu();
 };
 
-#endif //MUSICLIBRARY_USERINTERFACE_H
+#endif //MUSICLIBRARY_USERINTERFACE_HPP

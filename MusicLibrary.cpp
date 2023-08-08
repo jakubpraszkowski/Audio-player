@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "MusicLibrary.h"
+#include "MusicLibrary.hpp"
 
 void MusicLibrary::addSong(const Song& song) {
     songs.push_back(song);

@@ -1,8 +1,13 @@
-#ifndef MUSICLIBRARY_SONG_H
-#define MUSICLIBRARY_SONG_H
+#ifndef MUSICLIBRARY_SONG_HPP
+#define MUSICLIBRARY_SONG_HPP
 
 #include <string>
 #include <iostream>
+
+
+#ifdef _WIN32
+#include <_bsd_types.h>
+#endif
 
 class Song {
 protected:
@@ -62,4 +67,4 @@ public:
 };
 
 
-#endif //MUSICLIBRARY_SONG_H
+#endif //MUSICLIBRARY_SONG_HPP

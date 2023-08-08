@@ -1,4 +1,4 @@
-#include "AudioPlayer.h"
+#include "AudioPlayer.hpp"
 
 #define AUDIO_EXTENSION ".ogg"
 

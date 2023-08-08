@@ -1,4 +1,4 @@
-#include "UserInterface.h"
+#include "UserInterface.hpp"
 
 void UserInterface::printMenu() {
     std::cout << "1. Add song" << std::endl;

@@ -1,10 +1,10 @@
-#ifndef MUSICLIBRARY_PLAYLIST_H
-#define MUSICLIBRARY_PLAYLIST_H
+#ifndef MUSICLIBRARY_PLAYLIST_HPP
+#define MUSICLIBRARY_PLAYLIST_HPP
 
 #include <string>
 #include <vector>
 #include <memory>
-#include "Song.h"
+#include "Song.hpp"
 
 class Playlist : public Song{
     std::vector<std::shared_ptr<Song>> playlistSongs;
@@ -25,4 +25,4 @@ public:
 };
 
 
-#endif //MUSICLIBRARY_PLAYLIST_H
+#endif //MUSICLIBRARY_PLAYLIST_HPP

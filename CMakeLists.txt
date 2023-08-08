@@ -22,4 +22,6 @@ set(CMAKE_CXX_STANDARD 17)
 #        ~/Projekty/Biblioteki_zew/taglib/taglib/xm
 #)
 
-add_executable(MusicLibrary main.cpp Song.cpp Song.h MusicLibrary.cpp MusicLibrary.h UserInterface.cpp UserInterface.h AudioPlayer.cpp AudioPlayer.h Playlist.cpp Playlist.h Tag.cpp Tag.h Tag.h)
+add_executable(MusicLibrary main.cpp Song.cpp Song.hpp MusicLibrary.cpp MusicLibrary.hpp UserInterface.cpp UserInterface.hpp AudioPlayer.cpp AudioPlayer.hpp Playlist.cpp Playlist.hpp Tag.cpp Tag.hpp Tag.hpp
+        VorbisFormat.cpp
+        VorbisFormat.hpp)

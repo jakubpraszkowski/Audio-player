@@ -1,11 +1,11 @@
-#ifndef MUSICLIBRARY_MUSICLIBRARY_H
-#define MUSICLIBRARY_MUSICLIBRARY_H
+#ifndef MUSICLIBRARY_MUSICLIBRARY_HPP
+#define MUSICLIBRARY_MUSICLIBRARY_HPP
 
 #include <vector>
 #include <iostream>
 #include <algorithm>
 #include <type_traits>
-#include "Playlist.h"
+#include "Playlist.hpp"
 
 class MusicLibrary {
     std::vector<Playlist> playlists;
@@ -32,4 +32,4 @@ public:
     std::vector<Song>& getSongs();
 };
 
-#endif //MUSICLIBRARY_MUSICLIBRARY_H
+#endif //MUSICLIBRARY_MUSICLIBRARY_HPP
