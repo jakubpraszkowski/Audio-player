@@ -11,11 +11,10 @@ class MusicItem {
 protected:
     std::string name;
     std::string creator;
-    u_int year;
     u_int size;
     u_int duration;
 public:
+    virtual u_int calculateDuration() = 0;
 };
-
 
 #endif //MUSICLIBRARY_MUSICITEM_HPP

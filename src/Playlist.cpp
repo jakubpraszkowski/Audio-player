@@ -1,14 +1,13 @@
 #include "../include/Audio-player/Playlist.hpp"
-#include <utility>
 
 Playlist Playlist::createPlaylist() {
     std::cout << "Enter the title of the playlist: ";
-    std::cin >> creator;
-    Playlist p1(name, creator, playlistSongs);
+    std::cin >> name;
+    Playlist p1(name, creator, playlistSongs, year);
     return p1;
 }
 
-Playlist::Playlist(std::string name, const std::string& creator, const std::vector<std::shared_ptr<Song>>& playlistSongs) {
+Playlist::Playlist(std::string name, const std::string& creator, const std::vector<std::shared_ptr<Song>>& playlistSongs, std::tm year) {
     this->name = name;
 
     char* envUsername = std::getenv("USERNAME");
@@ -19,6 +18,12 @@ Playlist::Playlist(std::string name, const std::string& creator, const std::vect
     }
 
     this->playlistSongs = playlistSongs;
+
+    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+    year = *std::localtime(&now_time);
+    this->year = year;
+
 }
 
 bool Playlist::compareByDuration(const Playlist &p1, const Playlist &p2) {
@@ -34,7 +39,16 @@ bool Playlist::compareByCreator(const Playlist &p1, const Playlist &p2) {
 }
 
 bool Playlist::compareByYear(const Playlist &p1, const Playlist &p2) {
-    return p1.year < p2.year;
+    std::tm tm1 = p1.year;
+    std::tm tm2 = p2.year;
+
+    if (tm1.tm_year != tm2.tm_year) {
+        return tm1.tm_year < tm2.tm_year;
+    } else if (tm1.tm_mon != tm2.tm_mon) {
+        return tm1.tm_mon < tm2.tm_mon;
+    } else {
+        return tm1.tm_mday < tm2.tm_mday;
+    }
 }
 
 void Playlist::addSongToPlaylist(const Song &song, std::string playlistTitle, std::vector<Song> playlistSongs) {
@@ -49,4 +63,12 @@ void Playlist::removeSongFromPlaylist(const std::string &songTitle) {
             std::cout << "Song " << songTitle << " removed from playlist " << name << std::endl;
         }
     }
+}
+
+u_int Playlist::calculateDuration() {
+    u_int duration = 0;
+    for(const auto& song : playlistSongs) {
+        duration += song->getDuration();
+    }
+    return duration;
 }

@@ -16,6 +16,10 @@ public:
     Song(std::string title, std::string artist, std::string album, std::string genre,
          u_int year, int duration);
 
+    u_int calculateDuration() override;
+
+    u_int getYear();
+
     Song createSong();
 
     const std::string &getTitle() const;
