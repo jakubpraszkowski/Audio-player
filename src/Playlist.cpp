@@ -72,3 +72,8 @@ u_int Playlist::calculateDuration() {
     }
     return duration;
 }
+
+std::ostream &operator<<(std::ostream &os, const Playlist &pl){
+    os << "Title: " << pl.name << " Artist: " << pl.creator << " Year: " << std::put_time(&pl.year, "%Y-%m-%d %H:%M:%S") << " Duration: " << pl.duration;
+    return os;
+}

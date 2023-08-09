@@ -1,18 +1,18 @@
 #ifndef MUSICLIBRARY_PLAYLIST_HPP
 #define MUSICLIBRARY_PLAYLIST_HPP
 
-#pragma once
 #include <string>
 #include <vector>
 #include <memory>
 #include <ctime>
 #include <chrono>
 #include <utility>
+#include <iomanip>
 #include "Song.hpp"
 
 class Playlist : public MusicItem {
     std::vector<std::shared_ptr<Song>> playlistSongs;
-    std::tm year;
+    std::tm year{};
 
 public:
     Playlist() = default;
@@ -27,6 +27,8 @@ public:
 
     void addSongToPlaylist(const Song& song, std::string playlistTitle, std::vector<Song> playlistSongs);
     void removeSongFromPlaylist(const std::string& songTitle);
+
+    friend std::ostream &operator<<(std::ostream &os, const Playlist &pl);
 };
 
 
