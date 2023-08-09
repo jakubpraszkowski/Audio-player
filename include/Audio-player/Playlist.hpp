@@ -25,7 +25,7 @@ public:
     static bool compareByCreator(const Playlist& p1, const Playlist& p2);
     static bool compareByYear(const Playlist& p1, const Playlist& p2);
 
-    void addSongToPlaylist(const Song& song, std::string playlistTitle, std::vector<Song> playlistSongs);
+    void addSongToPlaylist(const std::shared_ptr<Song>& song, const std::string& playlistTitle, std::vector<Song>& playlistSongs);
     void removeSongFromPlaylist(const std::string& songTitle);
 
     friend std::ostream &operator<<(std::ostream &os, const Playlist &pl);

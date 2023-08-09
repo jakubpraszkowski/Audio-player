@@ -51,9 +51,9 @@ bool Playlist::compareByYear(const Playlist &p1, const Playlist &p2) {
     }
 }
 
-void Playlist::addSongToPlaylist(const Song &song, std::string playlistTitle, std::vector<Song> playlistSongs) {
+void Playlist::addSongToPlaylist(const std::shared_ptr<Song>& song, const std::string &playlistTitle, std::vector<Song> &_playlistSongs) {
     playlistSongs.push_back(song);
-    std::cout << "Song " << song.getTitle() << " added to playlist " << playlistTitle << std::endl;
+    std::cout << "Song " << song->getTitle() << " added to playlist " << playlistTitle << std::endl;
 }
 
 void Playlist::removeSongFromPlaylist(const std::string &songTitle) {

@@ -48,6 +48,14 @@ std::vector<Song> &MusicLibrary::getSongs() {
     return songs;
 }
 
+void MusicLibrary::findOggFiles(const fs::path &_directory, std::vector<std::string> &oggFiles) {
+    for (fs::recursive_directory_iterator it(_directory), end; it != end; ++it) {
+        if (fs::is_regular_file(*it) && it->path().extension() == ".ogg") {
+            oggFiles.push_back(it->path().filename().string());
+        }
+    }
+}
+
 template<typename T>
 bool MusicLibrary::isEmpty(std::vector<T> &vector) {
     if (vector.empty()) {
