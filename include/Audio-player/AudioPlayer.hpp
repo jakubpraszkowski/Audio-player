@@ -3,15 +3,19 @@
 
 #include <iostream>
 #include <filesystem>
+#include "SFML/Audio.hpp"
+#include "Song.hpp"
 
 namespace fs = std::filesystem;
 
 class AudioPlayer {
     fs::path path, directory;
+    sf::Music music;
 
 public:
-    AudioPlayer();
-    void searchForAudioFiles(const fs::path& dr);
+    AudioPlayer() = default;
+    void loadSound2Buffer(const Song &song);
+    void
 };
 
 
