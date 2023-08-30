@@ -13,4 +13,6 @@ add_executable(MusicLibrary src/main.cpp src/Song.cpp include/Audio-player/Song.
 
 find_package(SFML REQUIRED audio)
 set(Taglib_DIR "/usr/local/bin/taglib-config.cmake")
-target_link_libraries(MusicLibrary PRIVATE sfml-system sfml-audio sfml-window sfml-graphics sfml-network tag)
+find_package(Curses REQUIRED)
+include_directories(${CURSES_INCLUDE_DIR})
+target_link_libraries(MusicLibrary PRIVATE sfml-system sfml-audio sfml-window sfml-graphics sfml-network tag ${CURSES_LIBRARY})

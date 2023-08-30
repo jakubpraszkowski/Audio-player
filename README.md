@@ -11,6 +11,13 @@ The Music Library project is written in C++17 and allows users to manage their c
 
 * Sorting Songs and Playlists: The program allows users to sort songs and playlists based on various criteria such as title, duration, artist, and genre. Users can choose their preferred sorting method, making it easy to organize their music.
 
+# Dependencies
+
+Project depends on external libraries that I recomend installing using your package manager. Due to a bug with current version of Taglib in Fedora 38 repository it's not possible to link it with find_package() in CMake. The easiest way is look for the binaries yourself and hardcode it.
+* taglib & taglib-devel
+* ncurses & ncurses-devel
+* SFML & SFML-devel
+
 # Implementation
 
 The project is implemented using classes like "Song," "Playlist," and "MusicLibrary," which are responsible for storing and managing data about songs and playlists. The program utilizes smart pointers like std::shared_ptr for memory management of songs, ensuring safe and efficient handling of objects.
