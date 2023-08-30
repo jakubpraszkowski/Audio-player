@@ -14,22 +14,25 @@
 namespace fs = std::filesystem;
 
 class MusicLibrary {
-    std::vector<Playlist> playlists;
-    std::vector<Song> songs;
-    std::vector<Album> albums;
+    std::vector<Playlist> *playlists = nullptr;
+    std::vector<Song> *songs = nullptr;
+    std::vector<Album> *albums = nullptr;
+    std::vector<std::string> *oggFiles = nullptr;
     fs::path directory;
 
 public:
     MusicLibrary() = default;
+    MusicLibrary(fs::path _directory);
     void addSong(const Song& song);
     void addPlaylist(const Playlist& playlist);
     void print();
 
-    void findOggFiles(const fs::path &_directory, std::vector<std::string>& oggFiles);
-
+    void findOggFiles(const fs::path &_directory);
 
 //    template <typename T>
 //    void removeItem(const std::string &itemTitle);
+    template <typename T>
+    void initializeVector(std::vector<T> &vector);
 
     template <typename T>
     bool isEmpty(std::vector<T> &vector);

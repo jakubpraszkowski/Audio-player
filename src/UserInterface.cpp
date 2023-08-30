@@ -191,4 +191,10 @@ void UserInterface::sortPlaylistMenu(MusicLibrary &ml) {
                 break;
         }
     }
+
+}
+
+void UserInterface::changeDir(fs::path *nDirectory) {
+    std::cout << "Where to look for songs? Please provide the full path: ";
+    std::cin >> *nDirectory;
 }

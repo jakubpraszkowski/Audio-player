@@ -14,6 +14,7 @@ public:
     static void clearScreen();
     static void sortPlaylistMenu(MusicLibrary &ml);
     static void sortSongMenu(MusicLibrary &ml);
+    static void changeDir(fs::path *nDirectory);
 
     std::string whichSong2Remove();
     std::string whichPlaylist2Remove();

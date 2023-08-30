@@ -15,7 +15,6 @@ class AudioPlayer {
 public:
     AudioPlayer() = default;
     void loadSound2Buffer(const Song &song);
-    void
 };
 
 
