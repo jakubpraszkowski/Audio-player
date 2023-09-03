@@ -6,11 +6,11 @@ MusicLibrary::MusicLibrary(fs::path _directory){
 }
 
 void MusicLibrary::addSong(const Song& song) {
-    songs->push_back(song);
+    songs.push_back(song);
 }
 
 void MusicLibrary::addPlaylist(const Playlist& playlist) {
-    playlists->push_back(playlist);
+    playlists.push_back(playlist);
 }
 
 //template <typename T>
@@ -38,24 +38,32 @@ void MusicLibrary::addPlaylist(const Playlist& playlist) {
 //    }
 //}
 
-void MusicLibrary::print() {
-    for (const auto& item : *songs) {
+template <typename T>
+void MusicLibrary::printVector(const std::vector<T> &vec) {
+    for (const auto& item : *vec) {
         std::cout << item << std::endl;
     }
 }
 
-std::vector<Playlist> &MusicLibrary::getPlaylists() {
-    return *playlists;
-}
-
-std::vector<Song> &MusicLibrary::getSongs() {
-    return *songs;
+template <typename T>
+std::vector<T> &MusicLibrary::getVector(){
+     if constexpr (std::is_same_v<T, Playlist>) {
+        return playlists;
+    } else if constexpr (std::is_same_v<T, Song>) {
+        return songs;
+    } else if constexpr (std::is_same_v<T, Album>) {
+        return albums;
+    } else if constexpr (std::is_same_v<T, std::string>) {
+        return oggFiles;
+    } else {
+        throw std::runtime_error("Unsupported vector type");
+    }
 }
 
 void MusicLibrary::findOggFiles(const fs::path &_directory) {
     for (fs::recursive_directory_iterator it(_directory), end; it != end; ++it) {
         if (fs::is_regular_file(*it) && it->path().extension() == ".ogg") {
-            oggFiles->push_back(it->path().filename().string());
+            oggFiles.push_back(it->path().filename().string());
         }
     }
 }
@@ -66,9 +74,4 @@ bool MusicLibrary::isEmpty(std::vector<T> &vector) {
         return true;
     }
     return false;
-}
-
-template<typename T>
-void MusicLibrary::initializeVector(std::vector<T> &vector) {
-    vector = new std::vector<T>();
 }

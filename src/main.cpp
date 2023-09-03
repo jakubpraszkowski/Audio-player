@@ -4,16 +4,12 @@
 
 int main() {
 
-    std::vector<std::string> ogg;
+
     fs::path dir = "/home/kubuski/Music";
     std::cout << dir << std::endl;
 
     MusicLibrary ml;
-    ml.findOggFiles(dir, ogg);
-    
-    for (auto &file : ogg) {
-        std::cout << file << std::endl;
-    }
+    ml.findOggFiles(dir);
 
     return 0;
     // UserInterface ui;
