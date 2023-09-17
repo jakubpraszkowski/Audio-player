@@ -17,7 +17,6 @@ class MusicLibrary {
     std::vector<Playlist> playlists;
     std::vector<Song> songs;
     std::vector<Album> albums;
-    std::vector<std::string> oggFiles;
     fs::path directory;
 
 public:
@@ -28,8 +27,6 @@ public:
 
     template <typename T>
     void printVector(const std::vector<T> &vec);
-
-    void findOggFiles(const fs::path &_directory);
 
 //    template <typename T>
 //    void removeItem(const std::string &itemTitle);

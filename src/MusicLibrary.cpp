@@ -53,18 +53,8 @@ std::vector<T> &MusicLibrary::getVector(){
         return songs;
     } else if constexpr (std::is_same_v<T, Album>) {
         return albums;
-    } else if constexpr (std::is_same_v<T, std::string>) {
-        return oggFiles;
     } else {
         throw std::runtime_error("Unsupported vector type");
-    }
-}
-
-void MusicLibrary::findOggFiles(const fs::path &_directory) {
-    for (fs::recursive_directory_iterator it(_directory), end; it != end; ++it) {
-        if (fs::is_regular_file(*it) && it->path().extension() == ".ogg") {
-            oggFiles.push_back(it->path().filename().string());
-        }
     }
 }
 

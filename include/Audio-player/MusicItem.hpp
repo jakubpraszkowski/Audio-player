@@ -3,10 +3,6 @@
 
 #include <string>
 
-#ifdef _WIN32
-#include <_bsd_types.h>
-#endif
-
 class MusicItem {
 protected:
     std::string name;
