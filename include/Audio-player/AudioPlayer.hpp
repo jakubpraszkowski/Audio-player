@@ -5,7 +5,8 @@
 #include "SFML/Audio.hpp"
 #include "Song.hpp"
 
-class AudioPlayer {
+class AudioPlayer
+{
     sf::Music music;
 
 public:
@@ -13,5 +14,4 @@ public:
     void loadSound2Buffer(const Song &song);
 };
 
-
-#endif //MUSICLIBRARY_AUDIOPLAYER_HPP
+#endif // MUSICLIBRARY_AUDIOPLAYER_HPP

@@ -5,7 +5,8 @@
 #include "MusicLibrary.hpp"
 #include "Song.hpp"
 
-class UserInterface {
+class UserInterface
+{
 public:
     static void printMenu();
     static void printSortSongMenu();
@@ -22,4 +23,4 @@ public:
     void mainMenu();
 };
 
-#endif //MUSICLIBRARY_USERINTERFACE_HPP
+#endif // MUSICLIBRARY_USERINTERFACE_HPP

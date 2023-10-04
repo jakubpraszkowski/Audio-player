@@ -13,9 +13,10 @@
 #include <taglib/tag.h>
 #include <filesystem>
 
-class Tag {
+class Tag
+{
 public:
     void getOggTag(std::filesystem::path &file);
 };
 
-#endif //MUSICLIBRARY_TAG_HPP
+#endif // MUSICLIBRARY_TAG_HPP

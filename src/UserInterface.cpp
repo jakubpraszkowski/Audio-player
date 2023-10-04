@@ -1,6 +1,7 @@
 #include "../include/Audio-player/UserInterface.hpp"
 
-void UserInterface::printMenu() {
+void UserInterface::printMenu()
+{
     std::cout << "1. Add song" << std::endl;
     std::cout << "2. Add playlist" << std::endl;
     std::cout << "3. Remove song" << std::endl;
@@ -11,7 +12,8 @@ void UserInterface::printMenu() {
     std::cout << "9. Exit" << std::endl;
 }
 
-void UserInterface::printSortSongMenu() {
+void UserInterface::printSortSongMenu()
+{
     std::cout << "1. Sort by name" << std::endl;
     std::cout << "2. Sort by artist" << std::endl;
     std::cout << "3. Sort by genre" << std::endl;
@@ -19,106 +21,116 @@ void UserInterface::printSortSongMenu() {
     std::cout << "5. Back" << std::endl;
 }
 
-void UserInterface::printSortPlaylistMenu() {
+void UserInterface::printSortPlaylistMenu()
+{
     std::cout << "1. Sort by name" << std::endl;
     std::cout << "2. Sort by duration" << std::endl;
     std::cout << "3. Back" << std::endl;
 }
 
-void UserInterface::mainMenu() {
+void UserInterface::mainMenu()
+{
     welcomeMessage();
 
     Song s1;
     Playlist p1;
     MusicLibrary ml;
 
-    while (true) {
+    while (true)
+    {
         printMenu();
         int choice;
         std::cin >> choice;
-        switch (choice) {
-            case 1:
-                clearScreen();
-                std::cout << "Add song" << std::endl;
-                s1.createSong();
-                ml.addSong(s1);
-                break;
-            case 2:
-                clearScreen();
-                std::cout << "Add playlist" << std::endl;
-                p1.createPlaylist();
-                ml.addPlaylist(p1);
-                break;
-            case 3:
-                clearScreen();
-                std::cout << "Remove song" << std::endl;
-                //ml.removeItem<Song>(whichSong2Remove());
-                break;
-            case 4:
-                clearScreen();
-                std::cout << "Remove playlist" << std::endl;
-                //ml.removeItem<Playlist>(whichPlaylist2Remove());
-                break;
-            case 5:
-                clearScreen();
-                std::cout << "Sort songs" << std::endl;
-                sortSongMenu(ml);
-                break;
-            case 6:
-                clearScreen();
-                std::cout << "Sort playlists" << std::endl;
-                sortPlaylistMenu(ml);
-                break;
-            case 7:
-                clearScreen();
-                std::cout << "Show songs" << std::endl;
-                //ml.printVector();
-                break;
-            case 8:
-                clearScreen();
-                std::cout << "Show playlists" << std::endl;
-                break;
-            case 9:
-                clearScreen();
-                std::cout << "Exit" << std::endl;
-                return;
-            default:
-                clearScreen();
-                std::cout << "Invalid choice" << std::endl;
-                printMenu();
-                break;
+        switch (choice)
+        {
+        case 1:
+            clearScreen();
+            std::cout << "Add song" << std::endl;
+            s1.createSong();
+            ml.addSong(s1);
+            break;
+        case 2:
+            clearScreen();
+            std::cout << "Add playlist" << std::endl;
+            p1.createPlaylist();
+            ml.addPlaylist(p1);
+            break;
+        case 3:
+            clearScreen();
+            std::cout << "Remove song" << std::endl;
+            // ml.removeItem<Song>(whichSong2Remove());
+            break;
+        case 4:
+            clearScreen();
+            std::cout << "Remove playlist" << std::endl;
+            // ml.removeItem<Playlist>(whichPlaylist2Remove());
+            break;
+        case 5:
+            clearScreen();
+            std::cout << "Sort songs" << std::endl;
+            sortSongMenu(ml);
+            break;
+        case 6:
+            clearScreen();
+            std::cout << "Sort playlists" << std::endl;
+            sortPlaylistMenu(ml);
+            break;
+        case 7:
+            clearScreen();
+            std::cout << "Show songs" << std::endl;
+            // ml.printVector();
+            break;
+        case 8:
+            clearScreen();
+            std::cout << "Show playlists" << std::endl;
+            break;
+        case 9:
+            clearScreen();
+            std::cout << "Exit" << std::endl;
+            return;
+        default:
+            clearScreen();
+            std::cout << "Invalid choice" << std::endl;
+            printMenu();
+            break;
         }
     }
 }
 
-void UserInterface::welcomeMessage() {
+void UserInterface::welcomeMessage()
+{
     std::cout << "Welcome to the Music Library!" << std::endl;
 }
 
-void UserInterface::clearScreen() {
-    #ifdef WINDOWS
-        std::system("cls");
-    #else
-        std::system ("clear");
-    #endif
+void UserInterface::clearScreen()
+{
+#ifdef WINDOWS
+    std::system("cls");
+#else
+    std::system("clear");
+#endif
 }
 
-std::string UserInterface::whichSong2Remove() {
+std::string UserInterface::whichSong2Remove()
+{
     std::string songToRemove;
     std::cout << "Enter the title of the song you want to remove: ";
     std::cin >> songToRemove;
     return songToRemove;
 }
 
-std::string UserInterface::whichPlaylist2Remove() {
+std::string UserInterface::whichPlaylist2Remove()
+{
     std::string playlistToRemove;
     std::cout << "Enter the title of the playlist you want to remove: ";
     std::cin >> playlistToRemove;
     return playlistToRemove;
 }
 
-void UserInterface::sortSongMenu(MusicLibrary &ml) {
-    while(true){
+void UserInterface::sortSongMenu(MusicLibrary &ml)
+{
+    while (true)
+    {
         printSortSongMenu();
         int ch;
         std::cin >> ch;
@@ -155,8 +167,10 @@ void UserInterface::sortSongMenu(MusicLibrary &ml) {
     }
 }
 
-void UserInterface::sortPlaylistMenu(MusicLibrary &ml) {
-    while(true){
+void UserInterface::sortPlaylistMenu(MusicLibrary &ml)
+{
+    while (true)
+    {
         printSortPlaylistMenu();
         int ch;
         std::cin >> ch;
@@ -191,10 +205,10 @@ void UserInterface::sortPlaylistMenu(MusicLibrary &ml) {
         //         break;
         // }
     }
-
 }
 
-void UserInterface::changeDir(fs::path *nDirectory) {
+void UserInterface::changeDir(fs::path *nDirectory)
+{
     std::cout << "Where to look for songs? Please provide the full path: ";
     std::cin >> *nDirectory;
 }

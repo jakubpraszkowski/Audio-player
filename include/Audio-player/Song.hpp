@@ -5,7 +5,8 @@
 #include <iostream>
 #include "MusicItem.hpp"
 
-class Song : public MusicItem{
+class Song : public MusicItem
+{
     std::string album;
     std::string genre;
     u_int year = 0;
@@ -15,6 +16,8 @@ public:
 
     Song(std::string title, std::string artist, std::string album, std::string genre,
          u_int year, int duration);
+
+    Song(std::string title, int duration);
 
     u_int calculateDuration() override;
 
@@ -59,8 +62,6 @@ public:
     static bool compareByGenre(const Song &s1, const Song &s2);
 
     static bool compareByYear(const Song &s1, const Song &s2);
-
 };
 
-
-#endif //MUSICLIBRARY_SONG_HPP
+#endif // MUSICLIBRARY_SONG_HPP

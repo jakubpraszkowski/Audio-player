@@ -59,6 +59,9 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "filesystem": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "bitset": "cpp",
+        "regex": "cpp",
+        "cinttypes": "cpp"
     }
 }
