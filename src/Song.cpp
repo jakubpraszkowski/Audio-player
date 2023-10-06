@@ -1,7 +1,7 @@
 #include "../include/Audio-player/Song.hpp"
 
 Song::Song(std::string name, std::string creator, std::string album, std::string genre,
-           u_int year, int duration)
+           u_int year, int duration, std::string path)
 {
     this->name = name;
     this->creator = creator;
@@ -9,6 +9,7 @@ Song::Song(std::string name, std::string creator, std::string album, std::string
     this->genre = genre;
     this->year = year;
     this->duration = duration;
+    this->path = path;
 }
 
 Song::Song(std::string name, int duration)
@@ -77,29 +78,21 @@ void Song::setDuration(int duration)
     Song::duration = duration;
 }
 
+void Song::setPath(const std::string &path)
+{
+    Song::path = path;
+}
+
+const std::string &Song::getPath() const
+{
+    return path;
+}
+
 std::ostream &operator<<(std::ostream &os, const Song &song)
 {
     os << "Title: " << song.name << " Artist: " << song.creator << " Album: " << song.album << " Genre: " << song.genre
        << " Year: " << song.year << " Duration: " << song.duration;
     return os;
-}
-
-Song Song::createSong()
-{
-    std::cout << "Enter the title of the song: ";
-    std::cin >> name;
-    std::cout << "Enter the artist of the song: ";
-    std::cin >> creator;
-    std::cout << "Enter the album of the song: ";
-    std::cin >> album;
-    std::cout << "Enter the genre of the song: ";
-    std::cin >> genre;
-    std::cout << "Enter the year of the song: ";
-    std::cin >> year;
-    std::cout << "Enter the duration of the song: ";
-    std::cin >> duration;
-    Song s1(name, creator, album, genre, year, duration);
-    return s1;
 }
 
 bool Song::compareByDuration(const Song &s1, const Song &s2)

@@ -83,38 +83,25 @@ bool MusicLibrary::isEmpty(std::vector<T> &vector)
 
 void MusicLibrary::updateSongs(FileManager &fm)
 {
-    std::regex pattern(".*/([^/]+)\\.ogg");
     for (const auto &path : fm.getOggFilePaths())
     {
         TagLib::FileRef f(path.c_str());
         if (!f.isNull() && f.tag())
         {
             TagLib::Tag *tag = f.tag();
-            // std::cout << "title:" << tag->title() << std::endl;
-            // std::cout << "artist:" << tag->artist() << std::endl;
-            // std::cout << "album:" << tag->album() << std::endl;
-            // std::cout << "genre:" << tag->genre() << std::endl;
-            // std::cout << "year:" << tag->year() << std::endl;
-            // std::cout << "duration:" << f.audioProperties()->lengthInSeconds() << std::endl;
-            // std::cout << "path:" << path << std::endl;
-            // std::cout << "---------------------" << std::endl;
-            std::smatch matches;
-            if (!(std::regex_search(path, matches, pattern) && matches.size() == 2))
-            {
-                std::cout << "Regex: No match found." << std::endl;
-            }
-
-            std::string title = matches[1].str();
+            std::string title = tag->title().toCString();
+            std::string artist = tag->artist().toCString();
+            std::string album = tag->album().toCString();
+            std::string genre = tag->genre().toCString();
+            u_int year = tag->year();
             int duration = f.audioProperties()->lengthInSeconds();
-
-            Song song(title, duration);
-            // Song song(title, artist, album, genre, year, duration);
+            Song song(title, artist, album, genre, year, duration, path);
             songs.push_back(song);
         }
     }
 }
 
-Song &MusicLibrary::getSong(const std::string &songTitle)
+Song MusicLibrary::getSong(const std::string &songTitle)
 {
     for (auto &song : songs)
     {
@@ -128,7 +115,6 @@ Song &MusicLibrary::getSong(const std::string &songTitle)
 
 void MusicLibrary::printSongs()
 {
-    std::cout << "dupa" << std::endl;
     for (const auto &song : songs)
     {
 

@@ -11,6 +11,5 @@ int main()
     AudioPlayer ap;
     MusicLibrary ml;
     ml.updateSongs(fm);
-    // ml.printSongs();
-    ap.loadSound2Buffer(ml.getSong("Fukaj, charlie moncler - ALOHA"));
+    ap.loadSound2Buffer(ml.getSong("ALOHA"));
 }

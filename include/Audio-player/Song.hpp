@@ -10,20 +10,19 @@ class Song : public MusicItem
     std::string album;
     std::string genre;
     u_int year = 0;
+    std::string path;
 
 public:
     Song() = default;
 
     Song(std::string title, std::string artist, std::string album, std::string genre,
-         u_int year, int duration);
+         u_int year, int duration, std::string path);
 
     Song(std::string title, int duration);
 
     u_int calculateDuration() override;
 
     u_int getYear();
-
-    Song createSong();
 
     const std::string &getTitle() const;
 
@@ -48,6 +47,10 @@ public:
     int getDuration() const;
 
     void setDuration(int duration);
+
+    void setPath(const std::string &path);
+
+    const std::string &getPath() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Song &song);
 

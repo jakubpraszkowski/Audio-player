@@ -38,7 +38,7 @@ public:
 
     void printSongs();
 
-    Song &getSong(const std::string &songTitle);
+    Song getSong(const std::string &songTitle);
 
     template <typename T>
     bool isEmpty(std::vector<T> &vector);

@@ -7,7 +7,6 @@
 #include <taglib/tag.h>
 #include <taglib/fileref.h>
 #include <taglib/tpropertymap.h>
-#include <regex>
 
 namespace fs = std::filesystem;
 

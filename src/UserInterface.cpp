@@ -46,7 +46,7 @@ void UserInterface::mainMenu()
         case 1:
             clearScreen();
             std::cout << "Add song" << std::endl;
-            s1.createSong();
+            // s1.createSong();
             ml.addSong(s1);
             break;
         case 2:
