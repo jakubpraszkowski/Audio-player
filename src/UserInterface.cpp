@@ -1,210 +1,128 @@
 #include "../include/Audio-player/UserInterface.hpp"
 
-void UserInterface::printMenu()
+void UserInterface::createWindow()
 {
-    std::cout << "1. Add song" << std::endl;
-    std::cout << "2. Add playlist" << std::endl;
-    std::cout << "3. Remove song" << std::endl;
-    std::cout << "4. Remove playlist" << std::endl;
-    std::cout << "5. Sort songs" << std::endl;
-    std::cout << "6. Sort playlists" << std::endl;
-    std::cout << "7. Show songs" << std::endl;
-    std::cout << "9. Exit" << std::endl;
+    WIN win, win2, win3;
+    int ch;
+
+    initscr();            /* Start curses mode 		*/
+    start_color();        /* Start the color functionality */
+    cbreak();             /* Line buffering disabled, Pass on
+                           * everty thing to me 		*/
+    keypad(stdscr, TRUE); /* I need that nifty F1 	*/
+    noecho();
+    init_pair(1, COLOR_CYAN, COLOR_BLACK);
+
+    /* Initialize the window parameters */
+    init_win_params(&win);
+    win.height = LINES - 1;
+    win.width = COLS / 3 - 15;
+    print_win_params(&win);
+    init_win_params(&win2);
+    win2.height = LINES / 5 - 1;
+    win2.width = COLS - 3;
+    win2.startx = COLS / 3 - 14;
+    // print_win_params(&win2);
+    // init_win_params(&win3);
+    // win3.height = LINES - 2;
+    // win3.width = COLS / 3 - 2;
+    // win3.startx = 2 * COLS / 3;
+    // print_win_params(&win3);
+
+    attron(COLOR_PAIR(1));
+    printw("Press F1 to exit");
+    refresh();
+    attroff(COLOR_PAIR(1));
+
+    create_boxes(&win, &win2, &win3);
+    while ((ch = getch()) != KEY_F(1))
+        ;
+    endwin(); /* End curses mode		  */
 }
 
-void UserInterface::printSortSongMenu()
+void UserInterface::print_win_params(WIN *p_win)
 {
-    std::cout << "1. Sort by name" << std::endl;
-    std::cout << "2. Sort by artist" << std::endl;
-    std::cout << "3. Sort by genre" << std::endl;
-    std::cout << "4. Sort by duration" << std::endl;
-    std::cout << "5. Back" << std::endl;
-}
-
-void UserInterface::printSortPlaylistMenu()
-{
-    std::cout << "1. Sort by name" << std::endl;
-    std::cout << "2. Sort by duration" << std::endl;
-    std::cout << "3. Back" << std::endl;
-}
-
-void UserInterface::mainMenu()
-{
-    welcomeMessage();
-
-    Song s1;
-    Playlist p1;
-    MusicLibrary ml;
-
-    while (true)
-    {
-        printMenu();
-        int choice;
-        std::cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            clearScreen();
-            std::cout << "Add song" << std::endl;
-            // s1.createSong();
-            ml.addSong(s1);
-            break;
-        case 2:
-            clearScreen();
-            std::cout << "Add playlist" << std::endl;
-            p1.createPlaylist();
-            ml.addPlaylist(p1);
-            break;
-        case 3:
-            clearScreen();
-            std::cout << "Remove song" << std::endl;
-            // ml.removeItem<Song>(whichSong2Remove());
-            break;
-        case 4:
-            clearScreen();
-            std::cout << "Remove playlist" << std::endl;
-            // ml.removeItem<Playlist>(whichPlaylist2Remove());
-            break;
-        case 5:
-            clearScreen();
-            std::cout << "Sort songs" << std::endl;
-            sortSongMenu(ml);
-            break;
-        case 6:
-            clearScreen();
-            std::cout << "Sort playlists" << std::endl;
-            sortPlaylistMenu(ml);
-            break;
-        case 7:
-            clearScreen();
-            std::cout << "Show songs" << std::endl;
-            // ml.printVector();
-            break;
-        case 8:
-            clearScreen();
-            std::cout << "Show playlists" << std::endl;
-            break;
-        case 9:
-            clearScreen();
-            std::cout << "Exit" << std::endl;
-            return;
-        default:
-            clearScreen();
-            std::cout << "Invalid choice" << std::endl;
-            printMenu();
-            break;
-        }
-    }
-}
-
-void UserInterface::welcomeMessage()
-{
-    std::cout << "Welcome to the Music Library!" << std::endl;
-}
-
-void UserInterface::clearScreen()
-{
-#ifdef WINDOWS
-    std::system("cls");
-#else
-    std::system("clear");
+#ifdef _DEBUG
+    mvprintw(25, 0, "%d %d %d %d", p_win->startx, p_win->starty,
+             p_win->width, p_win->height);
+    refresh();
 #endif
 }
 
-std::string UserInterface::whichSong2Remove()
+void UserInterface::init_win_params(WIN *p_win)
 {
-    std::string songToRemove;
-    std::cout << "Enter the title of the song you want to remove: ";
-    std::cin >> songToRemove;
-    return songToRemove;
+    p_win->height = LINES;
+    p_win->width = COLS / 3;
+    p_win->starty = 0;
+    p_win->startx = 0;
+
+    p_win->border.ls = '|';
+    p_win->border.rs = '|';
+    p_win->border.ts = '-';
+    p_win->border.bs = '-';
+    p_win->border.tl = '+';
+    p_win->border.tr = '+';
+    p_win->border.bl = '+';
+    p_win->border.br = '+';
 }
 
-std::string UserInterface::whichPlaylist2Remove()
+void UserInterface::create_boxes(WIN *box1, WIN *box2, WIN *box3)
 {
-    std::string playlistToRemove;
-    std::cout << "Enter the title of the playlist you want to remove: ";
-    std::cin >> playlistToRemove;
-    return playlistToRemove;
-}
+    int i, j;
 
-void UserInterface::sortSongMenu(MusicLibrary &ml)
-{
-    while (true)
+    // Create box 1
+    for (j = box1->starty; j < box1->starty + box1->height; ++j)
     {
-        printSortSongMenu();
-        int ch;
-        std::cin >> ch;
-        // switch (ch) {
-        //     case 1:
-        //         clearScreen();
-        //         std::cout << "Sort by name" << std::endl;
-        //         ml.sortBy(ml.getSongs(), Song::compareByTitle);
-        //         break;
-        //     case 2:
-        //         clearScreen();
-        //         std::cout << "Sort by artist" << std::endl;
-        //         ml.sortBy(ml.getSongs(), Song::compareByArtist);
-        //         break;
-        //     case 3:
-        //         clearScreen();
-        //         std::cout << "Sort by genre" << std::endl;
-        //         ml.sortBy(ml.getSongs(), Song::compareByGenre);
-        //         break;
-        //     case 4:
-        //         clearScreen();
-        //         std::cout << "Sort by duration" << std::endl;
-        //         ml.sortBy(ml.getSongs(), Song::compareByDuration);
-        //         break;
-        //     case 5:
-        //         clearScreen();
-        //         std::cout << "Back" << std::endl;
-        //         return;
-        //     default:
-        //         clearScreen();
-        //         std::cout << "Invalid choice" << std::endl;
-        //         break;
-        // }
+        for (i = box1->startx; i < box1->startx + box1->width; ++i)
+        {
+            mvaddch(j, i, ' ');
+        }
     }
-}
+    // Draw borders
+    mvaddch(box1->starty, box1->startx, box1->border.tl);
+    mvaddch(box1->starty, box1->startx + box1->width, box1->border.tr);
+    mvaddch(box1->starty + box1->height, box1->startx, box1->border.bl);
+    mvaddch(box1->starty + box1->height, box1->startx + box1->width, box1->border.br);
+    mvhline(box1->starty, box1->startx + 1, box1->border.ts, box1->width - 1);
+    mvhline(box1->starty + box1->height, box1->startx + 1, box1->border.bs, box1->width - 1);
+    mvvline(box1->starty + 1, box1->startx, box1->border.ls, box1->height - 1);
+    mvvline(box1->starty + 1, box1->startx + box1->width, box1->border.rs, box1->height - 1);
 
-void UserInterface::sortPlaylistMenu(MusicLibrary &ml)
-{
-    while (true)
+    // Create box 2
+    for (j = box2->starty; j < box2->starty + box2->height; ++j)
     {
-        printSortPlaylistMenu();
-        int ch;
-        std::cin >> ch;
-        // switch (ch) {
-        //     case 1:
-        //         clearScreen();
-        //         std::cout << "Sort by name" << std::endl;
-        //         ml.sortBy(ml.getPlaylists(), Playlist::compareByTitle);
-        //         break;
-        //     case 2:
-        //         clearScreen();
-        //         std::cout << "Sort by duration" << std::endl;
-        //         ml.sortBy(ml.getPlaylists(), Playlist::compareByDuration);
-        //         break;
-        //     case 3:
-        //         clearScreen();
-        //         std::cout << "Sort by creator" << std::endl;
-        //         ml.sortBy(ml.getPlaylists(), Playlist::compareByCreator);
-        //         break;
-        //     case 4:
-        //         clearScreen();
-        //         std::cout << "Sort by year" << std::endl;
-        //         ml.sortBy(ml.getPlaylists(), Playlist::compareByYear);
-        //         break;
-        //     case 5:
-        //         clearScreen();
-        //         std::cout << "Back" << std::endl;
-        //         return;
-        //     default:
-        //         clearScreen();
-        //         std::cout << "Invalid choice" << std::endl;
-        //         break;
-        // }
+        for (i = box2->startx; i < box2->startx + box2->width; ++i)
+        {
+            mvaddch(j, i, ' ');
+        }
     }
+    // Draw borders
+    mvaddch(box2->starty, box2->startx, box2->border.tl);
+    mvaddch(box2->starty, box2->startx + box2->width, box2->border.tr);
+    mvaddch(box2->starty + box2->height, box2->startx, box2->border.bl);
+    mvaddch(box2->starty + box2->height, box2->startx + box2->width, box2->border.br);
+    mvhline(box2->starty, box2->startx + 1, box2->border.ts, box2->width - 1);
+    mvhline(box2->starty + box2->height, box2->startx + 1, box2->border.bs, box2->width - 1);
+    mvvline(box2->starty + 1, box2->startx, box2->border.ls, box2->height - 1);
+    mvvline(box2->starty + 1, box2->startx + box2->width, box2->border.rs, box2->height - 1);
+
+    // Create box 3
+    for (j = box3->starty; j < box3->starty + box3->height; ++j)
+    {
+        for (i = box3->startx; i < box3->startx + box3->width; ++i)
+        {
+            mvaddch(j, i, ' ');
+        }
+    }
+    // Draw borders
+    mvaddch(box3->starty, box3->startx, box3->border.tl);
+    mvaddch(box3->starty, box3->startx + box3->width, box3->border.tr);
+    mvaddch(box3->starty + box3->height, box3->startx, box3->border.bl);
+    mvaddch(box3->starty + box3->height, box3->startx + box3->width, box3->border.br);
+    mvhline(box3->starty, box3->startx + 1, box3->border.ts, box3->width - 1);
+    mvhline(box3->starty + box3->height, box3->startx + 1, box3->border.bs, box3->width - 1);
+    mvvline(box3->starty + 1, box3->startx, box3->border.ls, box3->height - 1);
+    mvvline(box3->starty + 1, box3->startx + box3->width, box3->border.rs, box3->height - 1);
 }
 
 void UserInterface::changeDir(fs::path *nDirectory)
