@@ -28,11 +28,15 @@ public: // static void printSortSongMenu();
     // static void sortPlaylistMenu(MusicLibrary &ml);
     // static void sortSongMenu(MusicLibrary &ml);
     static void changeDir(fs::path *nDirectory);
-    void createWindow();
+    void createWindow(MusicLibrary &ml);
 
-    void init_win_params(WIN *p_win);
-    void print_win_params(WIN *p_win);
-    void create_boxes(WIN *box1, WIN *box2, WIN *box3);
+    void initWinParams(WIN *p_win);
+    void printWinParams(WIN *p_win);
+    void createBoxes(WIN *box1, WIN *box2, WIN *box3);
+    void drawBorders(WIN &box);
+
+    template <typename T>
+    void printVectorInsideBox(std::vector<T> &vec, int startY, int startX, int height, int width);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP

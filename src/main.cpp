@@ -7,14 +7,14 @@
 
 int main()
 {
-
+    FileManager fm;
+    fm.scanDirectory();
+    MusicLibrary ml;
+    ml.updateSongs(fm);
     UserInterface ui;
-    ui.createWindow();
-    // FileManager fm;
-    // fm.scanDirectory();
+    ui.createWindow(ml);
     // AudioPlayer ap;
-    // MusicLibrary ml;
-    // ml.updateSongs(fm);
+
     // ap.loadSound2Buffer(ml.getSong("ALOHA"));
     return 0;
 }

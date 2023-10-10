@@ -63,5 +63,6 @@
         "bitset": "cpp",
         "regex": "cpp",
         "cinttypes": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

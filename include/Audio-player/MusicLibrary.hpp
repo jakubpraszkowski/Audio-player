@@ -30,13 +30,9 @@ public:
     template <typename T>
     void printVector(const std::vector<T> &vec);
 
-    //    template <typename T>
-    //    void removeItem(const std::string &itemTitle);
-
-    template <typename T>
-    std::vector<T> &getVector();
-
-    void printSongs();
+    std::vector<Song> &getSongs() { return songs; }
+    std::vector<Album> &getAlbums() { return albums; }
+    std::vector<Playlist> &getPlaylists() { return playlists; }
 
     Song getSong(const std::string &songTitle);
 
