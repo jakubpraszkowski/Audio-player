@@ -35,8 +35,7 @@ public: // static void printSortSongMenu();
     void createBoxes(WIN *box1, WIN *box2, WIN *box3);
     void drawBorders(WIN &box);
 
-    template <typename T>
-    void printVectorInsideBox(std::vector<T> &vec, int startY, int startX, int height, int width);
+    void printSongsInsideBox(MusicLibrary &ml, int startY, int startX, int height, int width);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP

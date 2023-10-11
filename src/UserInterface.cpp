@@ -36,7 +36,8 @@ void UserInterface::createWindow(MusicLibrary &ml)
     createBoxes(&win, &win2, &win3);
 
     attron(COLOR_PAIR(1));
-    mvprintw(win3.starty + 1, win3.startx + 1, printVectorInsideBox(const std::vector<T> &vec, int startY, int startX, int height, int width));
+
+    printSongsInsideBox(ml, win3.starty, win3.startx, win3.height, win3.width);
     attroff(COLOR_PAIR(1));
     while ((ch = getch()) != KEY_F(1))
         ;
@@ -104,14 +105,12 @@ void UserInterface::drawBorders(WIN &box)
     mvvline(box.starty + 1, box.startx + box.width, box.border.rs, box.height - 1);
 }
 
-template <typename T>
-void UserInterface::printVectorInsideBox(std::vector<T> &vec, int startY, int startX, int height, int width)
+void UserInterface::printSongsInsideBox(MusicLibrary &ml, int startY, int startX, int height, int width)
 {
-    auto vec = ml.getVector<T>();
-
-    int maxLines = std::min(static_cast<int>(vec.size()), height - 2);
+    std::vector<Song> vec = ml.getSongs();
+    int maxLines = std::min(int(vec.size()), height - 2);
     for (int i = 0; i < maxLines; ++i)
     {
-        mvprintw(startY + i + 1, startX + 1, "%s", vec[i].c_str());
+        mvprintw(startY + i + 1, startX + 1, "%s", vec[i].getTitle().c_str());
     }
 }

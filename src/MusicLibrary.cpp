@@ -49,6 +49,7 @@ void MusicLibrary::updateSongs(FileManager &fm)
             std::string genre = tag->genre().toCString();
             u_int year = tag->year();
             int duration = f.audioProperties()->lengthInSeconds();
+            std::cout << title << std::endl;
             Song song(title, artist, album, genre, year, duration, path);
             songs.push_back(song);
         }
