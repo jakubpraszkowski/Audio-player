@@ -21,11 +21,19 @@ class UserInterface
         WIN_BORDER border;
     } WIN;
 
-    int currentLine;
+    typedef struct _win_current_struct
+    {
+        int currentLine1stBox;
+        int currentLine3rdBox;
+        int currentBox;
+    } WIN_BOX;
+
+
     static const std::string defaultMenu[];
+    bool turnOnAttr = false;
 
 public:
-    UserInterface(int currentLine = 0) : currentLine(currentLine) {};
+    UserInterface() = default;
     static void changeDir(fs::path *nDirectory);
     void createWindow(MusicLibrary &ml);
 
@@ -34,18 +42,18 @@ public:
     void createBoxes(WIN *box1, WIN *box2, WIN *box3);
     void drawBorders(WIN &box);
 
-    void printSongsInsideBox(MusicLibrary &ml, int startY, int startX, int height, int width);
-    void moveKeysScreen(MusicLibrary &ml, int &startY, int &startX, int &height, int &width, int &ch);
+    void printSongsInsideBox(MusicLibrary &ml, int startY, int startX, int height, int width, int &currentLine);
+    void moveKeysScreen(MusicLibrary &ml, WIN *win1, WIN *win2, WIN *win3, int &ch, WIN_BOX &winBox);
 
     template <typename T>
-    void moveUpVector(std::vector<T> &vec);
+    void moveUpVector(std::vector<T> &vec, int &currentLine);
 
     template <typename T>
-    void moveDownVector(std::vector<T> &vec);
+    void moveDownVector(std::vector<T> &vec, int &currentLine);
 
-    void printMenu();
-    void moveDownMenu();
-    void moveUpMenu();
+    void printMenu(int &currentLine);
+    void moveDown(int &currentLine);
+    void moveUp(int &currentLine);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP

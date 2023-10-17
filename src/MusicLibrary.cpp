@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <locale>
+#include <codecvt>
 #include "../include/Audio-player/MusicLibrary.hpp"
 
 MusicLibrary::MusicLibrary(fs::path _directory)
@@ -37,6 +39,7 @@ bool MusicLibrary::isEmpty(std::vector<T> &vector)
 
 void MusicLibrary::updateSongs(FileManager &fm)
 {
+    setlocale(LC_ALL, "pl_PL.UTF-8");
     for (const auto &path : fm.getOggFilePaths())
     {
         TagLib::FileRef f(path.c_str());

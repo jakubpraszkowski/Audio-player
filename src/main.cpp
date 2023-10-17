@@ -7,7 +7,6 @@
 
 int main()
 {
-     setlocale(LC_ALL, "pl_PL.UTF-8");
     FileManager fm;
     fm.scanDirectory();
     MusicLibrary ml;
@@ -15,7 +14,6 @@ int main()
     UserInterface ui;
     ui.createWindow(ml);
     // AudioPlayer ap;
-
     // ap.loadSound2Buffer(ml.getSong("ALOHA"));
     return 0;
 }

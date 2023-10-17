@@ -27,16 +27,12 @@ void UserInterface::createWindow(MusicLibrary &ml)
     win3.width = COLS - 10;
     win3.startx = COLS / 3 - 14;
     printWinParams(&win3);
-
-    attron(COLOR_PAIR(1));
-    createBoxes(&win, &win2, &win3);
-    attroff(COLOR_PAIR(1));
-
+    WIN_BOX winBox = {0, 0, 1};
     do
     {
         clear();
         createBoxes(&win, &win2, &win3);
-        moveKeysScreen(ml, win3.starty, win3.startx, win3.height, win3.width, ch);
+        moveKeysScreen(ml, &win, &win2, &win3, ch, winBox);
         refresh();
     }while ((ch = getch()) != KEY_F(1));
 
@@ -104,7 +100,7 @@ void UserInterface::drawBorders(WIN &box)
     mvvline(box.starty + 1, box.startx + box.width, box.border.rs, box.height - 1);
 }
 
-void UserInterface::printSongsInsideBox(MusicLibrary &ml, int startY, int startX, int height, int width)
+void UserInterface::printSongsInsideBox(MusicLibrary &ml, int startY, int startX, int height, int width, int &currentLine)
 {
     std::vector<Song> vec = ml.getSongs();
 
@@ -133,43 +129,47 @@ void UserInterface::printSongsInsideBox(MusicLibrary &ml, int startY, int startX
     }
 }
 
-void UserInterface::moveKeysScreen(MusicLibrary &ml, int &startY, int &startX, int &height, int &width, int &ch)
+void UserInterface::moveKeysScreen(MusicLibrary &ml, WIN *win1, WIN *win2, WIN *win3, int &ch, WIN_BOX &winBox)
 {
-    int currentBox = 1;
-
         switch (ch)
         {
             case '\t':
-                currentBox = (currentBox % 2) + 1;
+                winBox.currentBox = (winBox.currentBox % 2) + 1;
                 break;
             case KEY_UP:
-                if (currentBox == 1)
+                if (winBox.currentBox == 1)
                 {
-                    moveUpVector(ml.getSongs());
+                    moveUpVector(ml.getSongs(), winBox.currentLine3rdBox);
+                }
+                else if (winBox.currentBox == 2)
+                {
+                    moveUp(winBox.currentLine1stBox);
                 }
                 break;
             case KEY_DOWN:
-                if (currentBox == 1)
+                if (winBox.currentBox == 1)
                 {
-                    moveDownVector(ml.getSongs());
+                    moveDownVector(ml.getSongs(), winBox.currentLine3rdBox);
+                }
+                else if (winBox.currentBox == 2)
+                {
+                    moveDown(winBox.currentLine1stBox);
                 }
                 break;
         }
 
-        printSongsInsideBox(ml, startY, startX, height, width);
+        printSongsInsideBox(ml, win3->starty, win3->startx, win3->height, win3->width, winBox.currentLine3rdBox);
+        printMenu(winBox.currentLine1stBox);
 }
 
 template <typename T>
-void UserInterface::moveUpVector(std::vector<T> &vec)
+void UserInterface::moveUpVector(std::vector<T> &vec, int &currentLine)
 {
-    if (currentLine > 0)
-    {
-        --currentLine;
-    }
+    moveUp(currentLine);
 }
 
 template <typename T>
-void UserInterface::moveDownVector(std::vector<T> &vec)
+void UserInterface::moveDownVector(std::vector<T> &vec, int &currentLine)
 {
     if (currentLine < vec.size() - 1)
     {
@@ -177,9 +177,34 @@ void UserInterface::moveDownVector(std::vector<T> &vec)
     }
 }
 
-void UserInterface::printMenu()
+void UserInterface::moveUp(int &currentLine)
 {
+    if (currentLine > 0)
+    {
+        --currentLine;
+    }
+}
 
+void UserInterface::moveDown(int &currentLine)
+{
+    ++currentLine;
+}
+
+void UserInterface::printMenu(int &currentLine)
+{
+    for (int i = 0; i < 7; ++i)
+    {
+        if (i == currentLine)
+        {
+            attron(A_REVERSE);
+            mvprintw(1 + i, 1, "%s", defaultMenu[i].c_str());
+            attroff(A_REVERSE);
+        }
+        else
+        {
+            mvprintw(1 + i, 1, "%s", defaultMenu[i].c_str());
+        }
+    }
 }
 
 const std::string UserInterface::defaultMenu[] = {"Play", "Pause", "Stop", "Next", "Previous", "Volume", "Exit"};

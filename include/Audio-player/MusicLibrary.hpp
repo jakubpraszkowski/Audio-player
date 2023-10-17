@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <type_traits>
 #include <filesystem>
+#include <string>
 
 #include "FileManager.hpp"
 #include "Playlist.hpp"
