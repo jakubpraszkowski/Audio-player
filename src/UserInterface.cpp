@@ -29,18 +29,15 @@ void UserInterface::createWindow(MusicLibrary &ml)
     printWinParams(&win3);
 
     attron(COLOR_PAIR(1));
-    printw("Press F1 to exit");
-    refresh();
-    attroff(COLOR_PAIR(1));
-
     createBoxes(&win, &win2, &win3);
-
-    attron(COLOR_PAIR(1));
-
-    printSongsInsideBox(ml, win3.starty, win3.startx, win3.height, win3.width);
     attroff(COLOR_PAIR(1));
-    while ((ch = getch()) != KEY_F(1))
-        ;
+
+    do
+    {
+        moveKeysScreen(ml, win3.starty, win3.startx, win3.height, win3.width, ch);
+        refresh();
+    }while ((ch = getch()) != KEY_F(1));
+
     endwin();
 }
 
@@ -111,6 +108,59 @@ void UserInterface::printSongsInsideBox(MusicLibrary &ml, int startY, int startX
     int maxLines = std::min(int(vec.size()), height - 2);
     for (int i = 0; i < maxLines; ++i)
     {
-        mvprintw(startY + i + 1, startX + 1, "%s", vec[i].getTitle().c_str());
+        if (i == currentLine)
+        {
+            attron(A_REVERSE);
+            mvprintw(startY + i + 1, startX + 1, "%s", vec[i].getTitle().c_str());
+            attroff(A_REVERSE);
+        }
+        else
+        {
+            mvprintw(startY + i + 1, startX + 1, "%s", vec[i].getTitle().c_str());
+        }
+    }
+}
+
+void UserInterface::moveKeysScreen(MusicLibrary &ml, int &startY, int &startX, int &height, int &width, int &ch)
+{
+    int currentBox = 1;
+
+        switch (ch)
+        {
+            case '\t':
+                currentBox = (currentBox % 2) + 1;
+                break;
+            case KEY_UP:
+                if (currentBox == 1)
+                {
+                    moveUpVector(ml.getSongs());
+                }
+                break;
+            case KEY_DOWN:
+                if (currentBox == 1)
+                {
+                    moveDownVector(ml.getSongs());
+                }
+                break;
+        }
+
+        printSongsInsideBox(ml, startY, startX, height, width);
+}
+
+template <typename T>
+void UserInterface::moveUpVector(std::vector<T> &vec)
+{
+    if (currentLine > 0)
+    {
+        --currentLine;
+    }
+}
+
+template <typename T>
+void UserInterface::moveDownVector(std::vector<T> &vec)
+{
+    if (currentLine < vec.size() - 1)
+    {
+        ++currentLine;
     }
 }

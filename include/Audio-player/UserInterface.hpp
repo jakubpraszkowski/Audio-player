@@ -21,12 +21,15 @@ class UserInterface
         WIN_BORDER border;
     } WIN;
 
+    int currentLine;
+
 public: // static void printSortSongMenu();
     // static void printSortPlaylistMenu();
     // static void welcomeMessage();
     // static void clearScreen();
     // static void sortPlaylistMenu(MusicLibrary &ml);
     // static void sortSongMenu(MusicLibrary &ml);
+    UserInterface() : currentLine(0) {}
     static void changeDir(fs::path *nDirectory);
     void createWindow(MusicLibrary &ml);
 
@@ -36,6 +39,13 @@ public: // static void printSortSongMenu();
     void drawBorders(WIN &box);
 
     void printSongsInsideBox(MusicLibrary &ml, int startY, int startX, int height, int width);
+    void moveKeysScreen(MusicLibrary &ml, int &startY, int &startX, int &height, int &width, int &ch);
+
+    template <typename T>
+    void moveUpVector(std::vector<T> &vec);
+
+    template <typename T>
+    void moveDownVector(std::vector<T> &vec);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP
