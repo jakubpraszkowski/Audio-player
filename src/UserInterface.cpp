@@ -34,6 +34,8 @@ void UserInterface::createWindow(MusicLibrary &ml)
 
     do
     {
+        clear();
+        createBoxes(&win, &win2, &win3);
         moveKeysScreen(ml, win3.starty, win3.startx, win3.height, win3.width, ch);
         refresh();
     }while ((ch = getch()) != KEY_F(1));
@@ -105,18 +107,28 @@ void UserInterface::drawBorders(WIN &box)
 void UserInterface::printSongsInsideBox(MusicLibrary &ml, int startY, int startX, int height, int width)
 {
     std::vector<Song> vec = ml.getSongs();
-    int maxLines = std::min(int(vec.size()), height - 2);
-    for (int i = 0; i < maxLines; ++i)
+
+    int maxLines = height - 2;
+
+    if (currentLine < 0)
+        currentLine = 0;
+    if (currentLine >= vec.size())
+        currentLine = vec.size() - 1;
+
+    int startIdx = currentLine;
+    int endIdx = std::min(currentLine + maxLines, static_cast<int>(vec.size()) - 1);
+
+    for (int i = startIdx; i <= endIdx; ++i)
     {
         if (i == currentLine)
         {
             attron(A_REVERSE);
-            mvprintw(startY + i + 1, startX + 1, "%s", vec[i].getTitle().c_str());
+            mvprintw(startY + i - currentLine + 1, startX + 1, "%s", vec[i].getTitle().c_str());
             attroff(A_REVERSE);
         }
         else
         {
-            mvprintw(startY + i + 1, startX + 1, "%s", vec[i].getTitle().c_str());
+            mvprintw(startY + i - currentLine + 1, startX + 1, "%s", vec[i].getTitle().c_str());
         }
     }
 }
@@ -164,3 +176,10 @@ void UserInterface::moveDownVector(std::vector<T> &vec)
         ++currentLine;
     }
 }
+
+void UserInterface::printMenu()
+{
+
+}
+
+const std::string UserInterface::defaultMenu[] = {"Play", "Pause", "Stop", "Next", "Previous", "Volume", "Exit"};

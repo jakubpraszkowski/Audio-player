@@ -49,7 +49,6 @@ void MusicLibrary::updateSongs(FileManager &fm)
             std::string genre = tag->genre().toCString();
             u_int year = tag->year();
             int duration = f.audioProperties()->lengthInSeconds();
-            // std::cout << title << std::endl;
             Song song(title, artist, album, genre, year, duration, path);
             songs.push_back(song);
         }
@@ -67,12 +66,3 @@ Song MusicLibrary::getSong(const std::string &songTitle)
     }
     throw std::runtime_error("Song not found");
 }
-
-// void MusicLibrary::printSongs()
-// {
-//     for (const auto &song : songs)
-//     {
-
-//         std::cout << song.getTitle() << std::endl;
-//     }
-// }

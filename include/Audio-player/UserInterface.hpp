@@ -22,14 +22,10 @@ class UserInterface
     } WIN;
 
     int currentLine;
+    static const std::string defaultMenu[];
 
-public: // static void printSortSongMenu();
-    // static void printSortPlaylistMenu();
-    // static void welcomeMessage();
-    // static void clearScreen();
-    // static void sortPlaylistMenu(MusicLibrary &ml);
-    // static void sortSongMenu(MusicLibrary &ml);
-    UserInterface() : currentLine(0) {}
+public:
+    UserInterface(int currentLine = 0) : currentLine(currentLine) {};
     static void changeDir(fs::path *nDirectory);
     void createWindow(MusicLibrary &ml);
 
@@ -46,6 +42,10 @@ public: // static void printSortSongMenu();
 
     template <typename T>
     void moveDownVector(std::vector<T> &vec);
+
+    void printMenu();
+    void moveDownMenu();
+    void moveUpMenu();
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP

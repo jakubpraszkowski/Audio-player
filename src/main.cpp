@@ -7,6 +7,7 @@
 
 int main()
 {
+     setlocale(LC_ALL, "pl_PL.UTF-8");
     FileManager fm;
     fm.scanDirectory();
     MusicLibrary ml;
