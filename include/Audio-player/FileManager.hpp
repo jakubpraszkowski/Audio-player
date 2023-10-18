@@ -2,20 +2,19 @@
 #define MUSICLIBRARY_FILEMANAGER_HPP
 
 #include <filesystem>
-#include <vector>
 #include <iostream>
-#include <taglib/tag.h>
 #include <taglib/fileref.h>
+#include <taglib/tag.h>
 #include <taglib/tpropertymap.h>
+#include <vector>
 
 namespace fs = std::filesystem;
 
-class FileManager
-{
+class FileManager {
     fs::path directory;
     std::vector<std::string> oggFilePaths;
 
-public:
+  public:
     FileManager();
     void scanDirectory();
     void changeScanningDirectory(fs::path &newDirectory);

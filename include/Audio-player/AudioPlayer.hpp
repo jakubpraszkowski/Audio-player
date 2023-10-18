@@ -1,15 +1,14 @@
 #ifndef MUSICLIBRARY_AUDIOPLAYER_HPP
 #define MUSICLIBRARY_AUDIOPLAYER_HPP
 
-#include <iostream>
 #include "SFML/Audio.hpp"
 #include "Song.hpp"
+#include <iostream>
 
-class AudioPlayer
-{
+class AudioPlayer {
     sf::Music music;
 
-public:
+  public:
     AudioPlayer() = default;
     void loadSound2Buffer(const Song &song);
 };

@@ -3,8 +3,6 @@
 
 #include "MusicItem.hpp"
 
-class Album : public MusicItem {
+class Album : public MusicItem {};
 
-};
-
-#endif //MUSICLIBRARY_ALBUM_HPP
+#endif // MUSICLIBRARY_ALBUM_HPP

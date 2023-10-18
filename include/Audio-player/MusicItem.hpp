@@ -4,13 +4,14 @@
 #include <string>
 
 class MusicItem {
-protected:
+  protected:
     std::string name;
     std::string creator;
     u_int size;
     u_int duration;
-public:
+
+  public:
     virtual u_int calculateDuration() = 0;
 };
 
-#endif //MUSICLIBRARY_MUSICITEM_HPP
+#endif // MUSICLIBRARY_MUSICITEM_HPP
