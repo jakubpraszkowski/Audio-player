@@ -10,8 +10,6 @@ add_executable(MusicLibrary
         include/Audio-player/MusicItem.hpp
         include/Audio-player/FileManager.hpp
         src/FileManager.cpp
-        src/Player.cpp
-        include/Audio-player/Player.hpp
 )
 
 find_package(SFML REQUIRED audio)

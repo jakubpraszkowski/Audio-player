@@ -12,27 +12,26 @@ void UserInterface::createWindow(MusicLibrary &ml) {
     noecho();
     init_pair(1, COLOR_RED, COLOR_BLACK);
 
-    initWinParams(&win);
-    win.height = LINES - 1;
-    win.width = COLS / 3 - 15;
-    printWinParams(&win);
-
-    initWinParams(&win2);
-    win2.height = LINES / 5 - 1;
-    win2.width = COLS - 12;
-    win2.startx = COLS / 3 - 14;
-    printWinParams(&win2);
-
-    initWinParams(&win3);
-    win3.starty = LINES / 5 - 1;
-    win3.height = LINES - win3.starty - 1;
-    win3.width = COLS - 12;
-    win3.startx = COLS / 3 - 14;
-    printWinParams(&win3);
-
     WIN_BOX winBox = {0, 0, 1};
 
     do {
+        initWinParams(&win);
+        win.height = LINES - 1;
+        win.width = COLS / 3 - 15;
+        printWinParams(&win);
+
+        initWinParams(&win2);
+        win2.height = LINES / 5 - 1;
+        win2.width = COLS - 12;
+        win2.startx = COLS / 3 - 14;
+        printWinParams(&win2);
+
+        initWinParams(&win3);
+        win3.starty = LINES / 5 - 1;
+        win3.height = LINES - win3.starty - 1;
+        win3.width = COLS - 12;
+        win3.startx = COLS / 3 - 14;
+        printWinParams(&win3);
         clear();
         createBoxes(&win, &win2, &win3);
         moveKeysScreen(ml, &win, &win2, &win3, ch, winBox);
@@ -139,7 +138,7 @@ void UserInterface::moveKeysScreen(
         break;
     case KEY_UP:
         if (winBox.currentBox == 1) {
-            moveUpVector(ml.getSongs(), winBox.currentLine3rdBox);
+            moveUp(winBox.currentLine3rdBox);
         } else if (winBox.currentBox == 2) {
             moveUp(winBox.currentLine1stBox);
         }
@@ -160,11 +159,6 @@ void UserInterface::moveKeysScreen(
 }
 
 template <typename T>
-void UserInterface::moveUpVector(std::vector<T> &vec, int &currentLine) {
-    moveUp(currentLine);
-}
-
-template <typename T>
 void UserInterface::moveDownVector(std::vector<T> &vec, int &currentLine) {
     if (currentLine < vec.size() - 1) {
         ++currentLine;
@@ -177,7 +171,11 @@ void UserInterface::moveUp(int &currentLine) {
     }
 }
 
-void UserInterface::moveDown(int &currentLine) { ++currentLine; }
+void UserInterface::moveDown(int &currentLine) {
+    if (currentLine < defaultMenu.size() - 1) {
+        ++currentLine;
+    }
+}
 
 void UserInterface::printMenu(int &currentLine) {
     for (int i = 0; i < 7; ++i) {
@@ -190,6 +188,3 @@ void UserInterface::printMenu(int &currentLine) {
         }
     }
 }
-
-const std::string UserInterface::defaultMenu[] = {
-    "Play", "Pause", "Stop", "Next", "Previous", "Volume", "Exit"};

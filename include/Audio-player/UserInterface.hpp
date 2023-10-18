@@ -3,7 +3,7 @@
 
 #include "MusicLibrary.hpp"
 #include "Song.hpp"
-#include <csignal>
+#include <array>
 #include <iostream>
 #include <ncurses/ncurses.h>
 
@@ -24,7 +24,8 @@ class UserInterface {
         int currentBox;
     } WIN_BOX;
 
-    static const std::string defaultMenu[];
+    const std::array<std::string, 7> defaultMenu = {
+        "Play", "Pause", "Stop", "Next", "Previous", "Shuffle", "Exit"};
 
   public:
     static void changeDir(fs::path *nDirectory);
@@ -41,9 +42,6 @@ class UserInterface {
     void moveKeysScreen(
         MusicLibrary &ml, WIN *win1, WIN *win2, WIN *win3, int &ch,
         WIN_BOX &winBox);
-
-    template <typename T>
-    void moveUpVector(std::vector<T> &vec, int &currentLine);
 
     template <typename T>
     void moveDownVector(std::vector<T> &vec, int &currentLine);
