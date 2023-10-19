@@ -1,6 +1,7 @@
 #include "../include/Audio-player/UserInterface.hpp"
+#include <unistd.h>
 
-void UserInterface::createWindow(MusicLibrary &ml) {
+void UserInterface::createWindow(MusicLibrary &ml, AudioPlayer &ap) {
     WIN win, win2, win3;
     int ch;
 
@@ -13,6 +14,7 @@ void UserInterface::createWindow(MusicLibrary &ml) {
     init_pair(1, COLOR_RED, COLOR_BLACK);
 
     WIN_BOX winBox = {0, 0, 1};
+    std::thread playbackThread;
 
     do {
         initWinParams(&win);
@@ -34,9 +36,13 @@ void UserInterface::createWindow(MusicLibrary &ml) {
         printWinParams(&win3);
         clear();
         createBoxes(&win, &win2, &win3);
-        moveKeysScreen(ml, &win, &win2, &win3, ch, winBox);
+        moveKeysScreen(ml, ap, &win, &win2, &win3, ch, winBox, playbackThread);
         refresh();
+
     } while ((ch = getch()) != KEY_F(1));
+
+    if (playbackThread.joinable())
+        playbackThread.join();
 
     endwin();
 }
@@ -130,8 +136,8 @@ void UserInterface::printSongsInsideBox(
 }
 
 void UserInterface::moveKeysScreen(
-    MusicLibrary &ml, WIN *win1, WIN *win2, WIN *win3, int &ch,
-    WIN_BOX &winBox) {
+    MusicLibrary &ml, AudioPlayer &ap, WIN *win1, WIN *win2, WIN *win3, int &ch,
+    WIN_BOX &winBox, std::thread &playbackThread) {
     switch (ch) {
     case '\t':
         winBox.currentBox = (winBox.currentBox % 2) + 1;
@@ -148,6 +154,14 @@ void UserInterface::moveKeysScreen(
             moveDownVector(ml.getSongs(), winBox.currentLine3rdBox);
         } else if (winBox.currentBox == 2) {
             moveDown(winBox.currentLine1stBox);
+        }
+        break;
+    case KEY_F(4):
+        if (winBox.currentBox == 1) {
+            ap.loadSound2Queue(winBox.currentLine3rdBox, ml.getSongs());
+        } else if (winBox.currentBox == 2 && winBox.currentLine1stBox == 0) {
+            if (!playbackThread.joinable())
+                playbackThread = std::thread([&ap]() { ap.playQueue(); });
         }
         break;
     }

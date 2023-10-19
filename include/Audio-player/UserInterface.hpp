@@ -1,11 +1,13 @@
 #ifndef MUSICLIBRARY_USERINTERFACE_HPP
 #define MUSICLIBRARY_USERINTERFACE_HPP
 
+#include "AudioPlayer.hpp"
 #include "MusicLibrary.hpp"
 #include "Song.hpp"
 #include <array>
 #include <iostream>
 #include <ncurses/ncurses.h>
+#include <thread>
 
 class UserInterface {
     typedef struct _win_border_struct {
@@ -29,7 +31,7 @@ class UserInterface {
 
   public:
     static void changeDir(fs::path *nDirectory);
-    void createWindow(MusicLibrary &ml);
+    void createWindow(MusicLibrary &ml, AudioPlayer &ap);
 
     void initWinParams(WIN *p_win);
     void printWinParams(WIN *p_win);
@@ -40,8 +42,8 @@ class UserInterface {
         MusicLibrary &ml, int startY, int startX, int height, int width,
         int &currentLine);
     void moveKeysScreen(
-        MusicLibrary &ml, WIN *win1, WIN *win2, WIN *win3, int &ch,
-        WIN_BOX &winBox);
+        MusicLibrary &ml, AudioPlayer &ap, WIN *win1, WIN *win2, WIN *win3,
+        int &ch, WIN_BOX &winBox, std::thread &playbackThread);
 
     template <typename T>
     void moveDownVector(std::vector<T> &vec, int &currentLine);

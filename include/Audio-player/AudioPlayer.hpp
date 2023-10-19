@@ -1,22 +1,23 @@
 #ifndef MUSICLIBRARY_AUDIOPLAYER_HPP
 #define MUSICLIBRARY_AUDIOPLAYER_HPP
 
+#include "MusicLibrary.hpp"
 #include "Song.hpp"
 #include <SFML/Audio.hpp>
+#include <deque>
 #include <iostream>
-#include <queue>
 
 class AudioPlayer {
     sf::Music music;
-    std::queue<Song> songQueue;
+    std::deque<Song> songQueue;
 
   public:
     AudioPlayer() = default;
 
-    template <typename T>
-    void loadSound2Queue(const T sound, const std::vector<T> &vec);
+    // template <typename T>
+    void loadSound2Queue(int &whichItem, std::vector<Song> &vec);
 
-    // template <typename T> void loadVector2Buffer(const std::vector<T> &vec);
+    void playQueue();
 };
 
 #endif // MUSICLIBRARY_AUDIOPLAYER_HPP

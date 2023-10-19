@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <future>
 #include <iostream>
 #include <string>
 #include <type_traits>

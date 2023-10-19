@@ -11,8 +11,7 @@ int main() {
     MusicLibrary ml;
     ml.updateSongs(fm);
     UserInterface ui;
-    ui.createWindow(ml);
-    // AudioPlayer ap;
-    // ap.loadSound2Buffer(ml.getSong("ALOHA"));
+    AudioPlayer ap;
+    ui.createWindow(ml, ap);
     return 0;
 }

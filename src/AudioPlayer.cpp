@@ -1,23 +1,15 @@
 #include "../include/Audio-player/AudioPlayer.hpp"
 
-template <typename T>
-void AudioPlayer::loadSound2Queue(const T sound, const std::vector<T> &vec) {
-    for (auto &i : vec) {
-        if (!sound.openFromFile(i.getPath())) {
-            std::cerr << "Error: Loading file to stream";
-            EXIT_FAILURE;
-        }
-        songQueue.push(i);
-    }
+// template <typename T>
+void AudioPlayer::loadSound2Queue(int &whichItem, std::vector<Song> &vec) {
+    songQueue.push_back(vec[whichItem]);
 }
 
-// void AudioPlayer::loadSound2Buffer(const Song &song) {
-//     if (!music.openFromFile(song.getPath())) {
-//         std::cerr << "Error: Loading file to stream";
-//         EXIT_FAILURE;
-//     }
-//     music.play();
-//     sf::sleep(sf::seconds(song.getDuration()));
-// }
-
-// template <typename T> void AudioPlayer::loadVector2Buffer() {}
+void AudioPlayer::playQueue() {
+    if (!songQueue.empty()) {
+        music.openFromFile(songQueue.front().getPath());
+        music.play();
+        sf::sleep(sf::seconds(songQueue.front().getDuration()));
+        songQueue.pop_front();
+    }
+}
