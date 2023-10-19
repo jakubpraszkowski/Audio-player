@@ -6,7 +6,7 @@ void AudioPlayer::loadSound2Queue(int &whichItem, std::vector<Song> &vec) {
 }
 
 void AudioPlayer::playQueue() {
-    if (!songQueue.empty()) {
+    while (!songQueue.empty()) {
         music.openFromFile(songQueue.front().getPath());
         music.play();
         sf::sleep(sf::seconds(songQueue.front().getDuration()));

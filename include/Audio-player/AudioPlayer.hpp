@@ -4,6 +4,7 @@
 #include "MusicLibrary.hpp"
 #include "Song.hpp"
 #include <SFML/Audio.hpp>
+#include <atomic>
 #include <deque>
 #include <iostream>
 
@@ -13,10 +14,7 @@ class AudioPlayer {
 
   public:
     AudioPlayer() = default;
-
-    // template <typename T>
     void loadSound2Queue(int &whichItem, std::vector<Song> &vec);
-
     void playQueue();
 };
 
