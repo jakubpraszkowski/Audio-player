@@ -9,6 +9,8 @@
 #include <ncurses/ncurses.h>
 #include <thread>
 
+// #define
+
 class UserInterface {
     typedef struct _win_border_struct {
         chtype ls, rs, ts, bs, tl, tr, bl, br;
@@ -28,6 +30,9 @@ class UserInterface {
 
     const std::array<std::string, 7> defaultMenu = {
         "Play", "Pause", "Stop", "Next", "Previous", "Shuffle", "Exit"};
+
+    const std::array<std::string, 3> musicStatus = {
+        "Playing", "Paused", "Empty queue"};
 
   public:
     static void changeDir(fs::path *nDirectory);
@@ -51,6 +56,7 @@ class UserInterface {
     void printMenu(int &currentLine);
     void moveDown(int &currentLine);
     void moveUp(int &currentLine);
+    void printStatus(AudioPlayer &ap);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP

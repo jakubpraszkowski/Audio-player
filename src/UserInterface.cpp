@@ -164,6 +164,21 @@ void UserInterface::moveKeysScreen(
                 playbackThread = std::thread([&ap]() { ap.playQueue(); });
         }
         break;
+    case KEY_RIGHT:
+        if (ap.checkMusicPlaying()) {
+            ap.getCurrentMusic().setPlayingOffset(sf::seconds(2.f));
+        }
+        break;
+    case KEY_LEFT:
+        if (ap.checkMusicPlaying()) {
+            ap.getCurrentMusic().setPlayingOffset(sf::seconds(-2.f));
+        }
+        break;
+    case char('p'):
+        if (ap.checkMusicPlaying()) {
+            ap.getCurrentMusic().pause();
+        }
+        break;
     }
 
     printSongsInsideBox(
@@ -200,5 +215,15 @@ void UserInterface::printMenu(int &currentLine) {
         } else {
             mvprintw(1 + i, 1, "%s", defaultMenu[i].c_str());
         }
+    }
+}
+
+void UserInterface::printStatus(AudioPlayer &ap) {
+    if (ap.isDequeEmpty()) {
+        mvprintw(1, 1, "%s", musicStatus[2].c_str());
+    } else if (ap.checkMusicPlaying()) {
+        mvprintw(1, 1, "%s", musicStatus[0].c_str());
+    } else {
+        mvprintw(1, 1, "%s", musicStatus[1].c_str());
     }
 }

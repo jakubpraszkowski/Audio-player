@@ -15,7 +15,10 @@ class AudioPlayer {
   public:
     AudioPlayer() = default;
     void loadSound2Queue(int &whichItem, std::vector<Song> &vec);
+    bool isDequeEmpty();
     void playQueue();
+    sf::Music &getCurrentMusic();
+    bool checkMusicPlaying();
 };
 
 #endif // MUSICLIBRARY_AUDIOPLAYER_HPP

@@ -13,3 +13,21 @@ void AudioPlayer::playQueue() {
         songQueue.pop_front();
     }
 }
+
+bool AudioPlayer::isDequeEmpty() {
+    if (songQueue.empty()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+sf::Music &AudioPlayer::getCurrentMusic() { return music; }
+
+bool AudioPlayer::checkMusicPlaying() {
+    if (music.getStatus() == sf::Music::Playing) {
+        return true;
+    } else {
+        return false;
+    }
+}
