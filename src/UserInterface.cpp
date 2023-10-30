@@ -166,12 +166,12 @@ void UserInterface::moveKeysScreen(
         break;
     case KEY_RIGHT:
         if (ap.checkMusicPlaying()) {
-            ap.getCurrentMusic().setPlayingOffset(sf::seconds(2.f));
+            // ap.getCurrentMusic().setPlayingOffset(sf::seconds(2.f));
         }
         break;
     case KEY_LEFT:
         if (ap.checkMusicPlaying()) {
-            ap.getCurrentMusic().setPlayingOffset(sf::seconds(-2.f));
+            // ap.getCurrentMusic().setPlayingOffset(sf::seconds(-2.f));
         }
         break;
     case char('p'):
