@@ -9,8 +9,6 @@
 #include <ncurses/ncurses.h>
 #include <thread>
 
-// #define
-
 class UserInterface {
     typedef struct _win_border_struct {
         chtype ls, rs, ts, bs, tl, tr, bl, br;

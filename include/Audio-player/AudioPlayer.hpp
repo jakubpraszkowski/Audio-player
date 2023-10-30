@@ -11,6 +11,7 @@
 class AudioPlayer {
     sf::Music music;
     std::deque<Song> songQueue;
+    std::mutex musicMutex;
 
   public:
     AudioPlayer() = default;
@@ -19,6 +20,7 @@ class AudioPlayer {
     void playQueue();
     sf::Music &getCurrentMusic();
     bool checkMusicPlaying();
+    void pauseOrResumeMusic(sf::Music &music);
 };
 
 #endif // MUSICLIBRARY_AUDIOPLAYER_HPP

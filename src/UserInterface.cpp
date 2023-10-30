@@ -175,10 +175,7 @@ void UserInterface::moveKeysScreen(
         }
         break;
     case char('p'):
-        if (ap.checkMusicPlaying()) {
-            ap.getCurrentMusic().pause();
-        }
-        break;
+        ap.pauseOrResumeMusic(ap.getCurrentMusic());
     }
 
     printSongsInsideBox(

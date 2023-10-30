@@ -1,6 +1,5 @@
 #include "../include/Audio-player/AudioPlayer.hpp"
 
-// template <typename T>
 void AudioPlayer::loadSound2Queue(int &whichItem, std::vector<Song> &vec) {
     songQueue.push_back(vec[whichItem]);
 }
@@ -29,5 +28,14 @@ bool AudioPlayer::checkMusicPlaying() {
         return true;
     } else {
         return false;
+    }
+}
+
+void AudioPlayer::pauseOrResumeMusic(sf::Music &music) {
+    std::unique_lock<std::mutex> lock(musicMutex);
+    if (music.getStatus() == sf::Music::Playing) {
+        music.pause();
+    } else {
+        music.play();
     }
 }
