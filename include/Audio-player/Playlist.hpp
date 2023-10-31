@@ -10,7 +10,7 @@
 #include <utility>
 #include <vector>
 
-class Playlist : public MusicItem {
+class Playlist : public Song {
     std::vector<std::shared_ptr<Song>> playlistSongs;
     std::tm year{};
 
@@ -20,7 +20,8 @@ class Playlist : public MusicItem {
         std::string title, const std::string &artist,
         const std::vector<std::shared_ptr<Song>> &playlistSongs, std::tm year);
     Playlist createPlaylist();
-    u_int calculateDuration() override;
+
+    u_int calculateDuration();
 
     static bool compareByDuration(const Playlist &p1, const Playlist &p2);
     static bool compareByTitle(const Playlist &p1, const Playlist &p2);

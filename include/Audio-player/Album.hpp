@@ -1,8 +1,11 @@
 #ifndef MUSICLIBRARY_ALBUM_HPP
 #define MUSICLIBRARY_ALBUM_HPP
 
-#include "MusicItem.hpp"
+#include "Song.hpp"
 
-class Album : public MusicItem {};
+class Album : Song {
+  public:
+    u_int calculateDuration();
+};
 
 #endif // MUSICLIBRARY_ALBUM_HPP

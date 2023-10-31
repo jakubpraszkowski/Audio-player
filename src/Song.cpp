@@ -76,6 +76,4 @@ bool Song::compareByYear(const Song &s1, const Song &s2) {
     return s1.year < s2.year;
 }
 
-u_int Song::calculateDuration() { return 0; }
-
 u_int Song::getYear() { return 0; }

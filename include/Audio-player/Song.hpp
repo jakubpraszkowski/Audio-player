@@ -5,11 +5,17 @@
 #include <iostream>
 #include <string>
 
-class Song : public MusicItem {
+class Song {
     std::string album;
     std::string genre;
     u_int year = 0;
     std::string path;
+
+  protected:
+    std::string name;
+    std::string creator;
+    u_int size;
+    u_int duration;
 
   public:
     Song() = default;
@@ -19,8 +25,6 @@ class Song : public MusicItem {
         std::string genre, u_int year, int duration, std::string path);
 
     Song(std::string title, int duration);
-
-    u_int calculateDuration() override;
 
     u_int getYear();
 
