@@ -1,7 +1,6 @@
 #ifndef MUSICLIBRARY_SONG_HPP
 #define MUSICLIBRARY_SONG_HPP
 
-#include "MusicItem.hpp"
 #include <iostream>
 #include <string>
 

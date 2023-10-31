@@ -6,8 +6,6 @@ add_executable(MusicLibrary
         src/main.cpp src/Song.cpp include/Audio-player/Song.hpp src/MusicLibrary.cpp include/Audio-player/MusicLibrary.hpp src/UserInterface.cpp include/Audio-player/UserInterface.hpp src/AudioPlayer.cpp include/Audio-player/AudioPlayer.hpp src/Playlist.cpp include/Audio-player/Playlist.hpp src/Tag.cpp include/Audio-player/Tag.hpp include/Audio-player/Tag.hpp
         include/Audio-player/Album.hpp
         src/Album.cpp
-        src/MusicItem.cpp
-        include/Audio-player/MusicItem.hpp
         include/Audio-player/FileManager.hpp
         src/FileManager.cpp
 )
