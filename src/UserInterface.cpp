@@ -166,14 +166,16 @@ void UserInterface::moveKeysScreen(
         break;
     case KEY_RIGHT:
         if (ap.checkMusicPlaying()) {
-            // ap.getCurrentMusic().setPlayingOffset(sf::seconds(2.f));
+            ap.advanceForwardMusic(ap.getCurrentMusic());
         }
         break;
     case KEY_LEFT:
         if (ap.checkMusicPlaying()) {
-            // ap.getCurrentMusic().setPlayingOffset(sf::seconds(-2.f));
+            ap.advanceBackwardMusic(ap.getCurrentMusic());
         }
         break;
+    case char('s'):
+
     case char('p'):
         ap.pauseOrResumeMusic(ap.getCurrentMusic());
     }

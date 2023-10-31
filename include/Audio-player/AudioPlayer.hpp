@@ -4,6 +4,7 @@
 #include "MusicLibrary.hpp"
 #include "Song.hpp"
 #include <SFML/Audio.hpp>
+#include <SFML/System/Time.hpp>
 #include <atomic>
 #include <deque>
 #include <iostream>
@@ -19,6 +20,9 @@ class AudioPlayer {
     bool isDequeEmpty();
     void playQueue();
     sf::Music &getCurrentMusic();
+    void advanceForwardMusic(sf::Music &music);
+    void advanceBackwardMusic(sf::Music &music);
+    void stopMusic(sf::Music &music);
     bool checkMusicPlaying();
     void pauseOrResumeMusic(sf::Music &music);
 };

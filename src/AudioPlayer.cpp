@@ -43,3 +43,21 @@ void AudioPlayer::pauseOrResumeMusic(sf::Music &music) {
         music.play();
     }
 }
+
+void AudioPlayer::advanceForwardMusic(sf::Music &music) {
+    std::unique_lock<std::mutex> lock(musicMutex);
+    sf::Time time = music.getPlayingOffset();
+    music.setPlayingOffset(time + sf::seconds(5.f));
+}
+
+void AudioPlayer::advanceBackwardMusic(sf::Music &music) {
+    std::unique_lock<std::mutex> lock(musicMutex);
+    sf::Time time = music.getPlayingOffset();
+    music.setPlayingOffset(time - sf::seconds(5.f));
+}
+
+void AudioPlayer::stopMusic(sf::Music &music) {
+    std::unique_lock<std::mutex> lock(musicMutex);
+    music.stop();
+    songQueue.clear();
+}
