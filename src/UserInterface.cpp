@@ -175,7 +175,9 @@ void UserInterface::moveKeysScreen(
         }
         break;
     case char('s'):
-
+        if (ap.checkMusicPlaying()) {
+            ap.stopMusic(ap.getCurrentMusic());
+        }
     case char('p'):
         ap.pauseOrResumeMusic(ap.getCurrentMusic());
     }
