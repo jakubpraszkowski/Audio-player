@@ -11,6 +11,7 @@ void AudioPlayer::playQueue() {
         } else {
             music.openFromFile(songQueue.front().getPath());
             music.play();
+            currentTime = music.getPlayingOffset();
             sf::sleep(sf::seconds(songQueue.front().getDuration()));
             songQueue.pop_front();
         }
@@ -60,4 +61,13 @@ void AudioPlayer::stopMusic(sf::Music &music) {
     std::unique_lock<std::mutex> lock(musicMutex);
     music.stop();
     songQueue.clear();
+}
+
+sf::Time &AudioPlayer::getCurrentTime() { return currentTime; }
+
+float AudioPlayer::calculateSongProgressBar(sf::Music &music) {
+    std::unique_lock<std::mutex> lock(musicMutex);
+    sf::Time time = music.getPlayingOffset();
+    sf::Time duration = music.getDuration();
+    return time.asSeconds() / duration.asSeconds();
 }

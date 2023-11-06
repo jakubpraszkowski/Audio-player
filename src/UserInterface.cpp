@@ -12,6 +12,7 @@ void UserInterface::createWindow(MusicLibrary &ml, AudioPlayer &ap) {
     keypad(stdscr, TRUE);
     noecho();
     init_pair(1, COLOR_RED, COLOR_BLACK);
+    nodelay(stdscr, true);
 
     WIN_BOX winBox = {0, 0, 1};
     std::thread playbackThread;
@@ -36,6 +37,7 @@ void UserInterface::createWindow(MusicLibrary &ml, AudioPlayer &ap) {
         printWinParams(&win3);
         clear();
         createBoxes(&win, &win2, &win3);
+        // printProgressBar(ap, &win2);
         moveKeysScreen(ml, ap, &win, &win2, &win3, ch, winBox, playbackThread);
         refresh();
 
@@ -160,8 +162,9 @@ void UserInterface::moveKeysScreen(
         if (winBox.currentBox == 1) {
             ap.loadSound2Queue(winBox.currentLine3rdBox, ml.getSongs());
         } else if (winBox.currentBox == 2 && winBox.currentLine1stBox == 0) {
-            if (!playbackThread.joinable())
+            if (!playbackThread.joinable()) {
                 playbackThread = std::thread([&ap]() { ap.playQueue(); });
+            }
         }
         break;
     case KEY_RIGHT:
@@ -226,5 +229,15 @@ void UserInterface::printStatus(AudioPlayer &ap) {
         mvprintw(1, 1, "%s", musicStatus[0].c_str());
     } else {
         mvprintw(1, 1, "%s", musicStatus[1].c_str());
+    }
+}
+
+void UserInterface::printProgressBar(AudioPlayer &ap, WIN *win2) {
+    if (ap.checkMusicPlaying()) {
+        float progressBar = ap.calculateSongProgressBar(ap.getCurrentMusic());
+        std::ostringstream ss;
+        ss << std::fixed << std::setprecision(2) << progressBar;
+        std::string progressBarStr = ss.str();
+        mvprintw(win2->starty, win2->startx, progressBarStr.c_str());
     }
 }

@@ -5,7 +5,6 @@
 #include <string>
 
 class Song {
-    std::string album;
     std::string genre;
     u_int year = 0;
     std::string path;
@@ -15,6 +14,7 @@ class Song {
     std::string creator;
     u_int size;
     u_int duration;
+    std::string album;
 
   public:
     Song() = default;

@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <future>
 #include <iostream>
+#include <map>
 #include <string>
 #include <type_traits>
 #include <vector>
@@ -17,9 +18,9 @@
 namespace fs = std::filesystem;
 
 class MusicLibrary {
-    std::vector<Playlist> playlists;
-    std::vector<Song> songs;
-    std::vector<Album> albums;
+    std::vector<Playlist> allPlaylists;
+    std::vector<Song> allSongs;
+    std::vector<Album> allAlbums;
     fs::path directory;
 
   public:
@@ -30,9 +31,9 @@ class MusicLibrary {
 
     template <typename T> void printVector(const std::vector<T> &vec);
 
-    std::vector<Song> &getSongs() { return songs; }
-    std::vector<Album> &getAlbums() { return albums; }
-    std::vector<Playlist> &getPlaylists() { return playlists; }
+    std::vector<Song> &getSongs() { return allSongs; }
+    std::vector<Album> &getAlbums() { return allAlbums; }
+    std::vector<Playlist> &getPlaylists() { return allPlaylists; }
 
     Song getSong(const std::string &songTitle);
 

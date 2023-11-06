@@ -5,10 +5,10 @@ MusicLibrary::MusicLibrary(fs::path _directory) {
     this->directory = "/home/${USER}/Music";
 }
 
-void MusicLibrary::addSong(const Song &song) { songs.push_back(song); }
+void MusicLibrary::addSong(const Song &song) { allSongs.push_back(song); }
 
 void MusicLibrary::addPlaylist(const Playlist &playlist) {
-    playlists.push_back(playlist);
+    allPlaylists.push_back(playlist);
 }
 
 template <typename T>
@@ -27,6 +27,7 @@ template <typename T> bool MusicLibrary::isEmpty(std::vector<T> &vector) {
 
 void MusicLibrary::updateSongs(FileManager &fm) {
     setlocale(LC_ALL, "pl_PL.UTF-8");
+    std::map<std::string, Album> albumMap;
     for (const auto &path : fm.getOggFilePaths()) {
         TagLib::FileRef f(path.c_str());
         if (!f.isNull() && f.tag()) {
@@ -38,13 +39,14 @@ void MusicLibrary::updateSongs(FileManager &fm) {
             u_int year = tag->year();
             int duration = f.audioProperties()->lengthInSeconds();
             Song song(title, artist, album, genre, year, duration, path);
-            songs.push_back(song);
+            allSongs.push_back(song);
+            albumMap[album].addSong(song);
         }
     }
 }
 
 Song MusicLibrary::getSong(const std::string &songTitle) {
-    for (auto &song : songs) {
+    for (auto &song : allSongs) {
         if (song.getTitle() == songTitle) {
             return song;
         }

@@ -13,6 +13,7 @@ class AudioPlayer {
     sf::Music music;
     std::deque<Song> songQueue;
     std::mutex musicMutex;
+    sf::Time currentTime;
 
   public:
     AudioPlayer() = default;
@@ -25,6 +26,8 @@ class AudioPlayer {
     void stopMusic(sf::Music &music);
     bool checkMusicPlaying();
     void pauseOrResumeMusic(sf::Music &music);
+    float calculateSongProgressBar(sf::Music &music);
+    sf::Time &getCurrentTime();
 };
 
 #endif // MUSICLIBRARY_AUDIOPLAYER_HPP

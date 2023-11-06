@@ -5,6 +5,7 @@
 #include "MusicLibrary.hpp"
 #include "Song.hpp"
 #include <array>
+#include <iomanip>
 #include <iostream>
 #include <ncurses/ncurses.h>
 #include <thread>
@@ -55,6 +56,7 @@ class UserInterface {
     void moveDown(int &currentLine);
     void moveUp(int &currentLine);
     void printStatus(AudioPlayer &ap);
+    void printProgressBar(AudioPlayer &ap, WIN *win3);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP
