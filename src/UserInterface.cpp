@@ -185,7 +185,10 @@ void UserInterface::moveKeysScreen(
         ap.pauseOrResumeMusic(ap.getCurrentMusic());
     }
 
-    printSongsInsideBox(
+    // printSongsInsideBox(
+    //     ml, win3->starty, win3->startx, win3->height, win3->width,
+    //     winBox.currentLine3rdBox);
+    printAlbumsInsideBox(
         ml, win3->starty, win3->startx, win3->height, win3->width,
         winBox.currentLine3rdBox);
     printMenu(winBox.currentLine1stBox);
@@ -239,5 +242,37 @@ void UserInterface::printProgressBar(AudioPlayer &ap, WIN *win2) {
         ss << std::fixed << std::setprecision(2) << progressBar;
         std::string progressBarStr = ss.str();
         mvprintw(win2->starty, win2->startx, progressBarStr.c_str());
+    }
+}
+
+void UserInterface::printAlbumsInsideBox(
+    MusicLibrary &ml, int startY, int startX, int height, int width,
+    int &currentLine) {
+
+    std::vector<Album> vec = ml.getAlbums();
+
+    int maxLines = height - 2;
+
+    if (currentLine < 0)
+        currentLine = 0;
+    if (currentLine >= vec.size())
+        currentLine = vec.size() - 1;
+
+    int startIdx = currentLine;
+    int endIdx =
+        std::min(currentLine + maxLines, static_cast<int>(vec.size()) - 1);
+
+    for (int i = startIdx; i <= endIdx; ++i) {
+        if (i == currentLine) {
+            attron(A_REVERSE);
+            mvprintw(
+                startY + i - currentLine + 1, startX + 1, "%s",
+                vec[i].getAlbumName().c_str());
+            attroff(A_REVERSE);
+        } else {
+            mvprintw(
+                startY + i - currentLine + 1, startX + 1, "%s",
+                vec[i].getAlbumName().c_str());
+        }
     }
 }

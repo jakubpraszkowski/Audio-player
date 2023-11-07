@@ -17,7 +17,7 @@ class Song {
     std::string album;
 
   public:
-    Song() = default;
+    Song(){};
 
     Song(
         std::string title, std::string artist, std::string album,

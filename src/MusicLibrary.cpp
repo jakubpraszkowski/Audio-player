@@ -39,8 +39,15 @@ void MusicLibrary::updateSongs(FileManager &fm) {
             u_int year = tag->year();
             int duration = f.audioProperties()->lengthInSeconds();
             Song song(title, artist, album, genre, year, duration, path);
+            if (albumMap.find(album) == albumMap.end()) {
+                Album newAlbum(album);
+                newAlbum.addSong(song);
+                albumMap[album] = newAlbum;
+                allAlbums.push_back(newAlbum);
+            } else {
+                albumMap[album].addSong(song);
+            }
             allSongs.push_back(song);
-            albumMap[album].addSong(song);
         }
     }
 }

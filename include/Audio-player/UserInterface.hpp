@@ -57,6 +57,9 @@ class UserInterface {
     void moveUp(int &currentLine);
     void printStatus(AudioPlayer &ap);
     void printProgressBar(AudioPlayer &ap, WIN *win3);
+    void printAlbumsInsideBox(
+        MusicLibrary &ml, int startY, int startX, int height, int width,
+        int &currentLine);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP
