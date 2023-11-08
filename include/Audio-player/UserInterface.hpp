@@ -11,43 +11,42 @@
 #include <thread>
 
 class UserInterface {
-    typedef struct _win_border_struct {
-        chtype ls, rs, ts, bs, tl, tr, bl, br;
-    } WIN_BORDER;
-
-    typedef struct _WIN_struct {
-        int startx, starty;
-        int height, width;
-        WIN_BORDER border;
-    } WIN;
-
     typedef struct _win_current_struct {
         int currentLine1stBox;
         int currentLine3rdBox;
         int currentBox;
     } WIN_BOX;
 
+    typedef struct _window_init_params {
+        int mainWinWidth, mainWinHeight;
+        int sidebarWinWidth, topWinHeight;
+        int mainWinX, mainWinY;
+        int sidebarWinX, sidebarWinY;
+        int topWinY;
+    } WINDOW_INIT;
+
+    enum MENU { PLAY, SONGS, ALBUMS }; // TODO implement
+
     const std::array<std::string, 7> defaultMenu = {
-        "Play", "Pause", "Stop", "Next", "Previous", "Shuffle", "Exit"};
+        "Play", "Songs", "Albums", "Next", "Previous", "Shuffle", "Exit"};
 
     const std::array<std::string, 3> musicStatus = {
         "Playing", "Paused", "Empty queue"};
+
+    bool isSongMenu = true, isAlbumMenu = false;
 
   public:
     static void changeDir(fs::path *nDirectory);
     void createWindow(MusicLibrary &ml, AudioPlayer &ap);
 
-    void initWinParams(WIN *p_win);
-    void printWinParams(WIN *p_win);
-    void createBoxes(WIN *box1, WIN *box2, WIN *box3);
-    void drawBorders(WIN &box);
+    template <typename T>
+    void printVectorInsideBox(
+        MusicLibrary &ml, WINDOW *win, int &currentLine, std::vector<T> &vec);
 
-    void printSongsInsideBox(
-        MusicLibrary &ml, int startY, int startX, int height, int width,
-        int &currentLine);
     void moveKeysScreen(
-        MusicLibrary &ml, AudioPlayer &ap, WIN *win1, WIN *win2, WIN *win3,
-        int &ch, WIN_BOX &winBox, std::thread &playbackThread);
+        MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &ch,
+        std::thread &playbackThread, WINDOW *win, WINDOW *topWin,
+        WINDOW *sidebarWin);
 
     template <typename T>
     void moveDownVector(std::vector<T> &vec, int &currentLine);
@@ -55,8 +54,8 @@ class UserInterface {
     void printMenu(int &currentLine);
     void moveDown(int &currentLine);
     void moveUp(int &currentLine);
-    void printStatus(AudioPlayer &ap);
-    void printProgressBar(AudioPlayer &ap, WIN *win3);
+    void printStatus(AudioPlayer &ap, WINDOW *topWin);
+    void printProgressBar(AudioPlayer &ap, WINDOW *topWin);
     void printAlbumsInsideBox(
         MusicLibrary &ml, int startY, int startX, int height, int width,
         int &currentLine);
