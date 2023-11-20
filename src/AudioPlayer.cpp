@@ -1,13 +1,8 @@
 #include "../include/Audio-player/AudioPlayer.hpp"
 
-void AudioPlayer::loadSound2Queue(int &whichItem, std::vector<Song> &vec) {
+void AudioPlayer::loadSound2Queue(
+    int &whichItem, std::vector<std::shared_ptr<Song>> &vec) {
     songQueue.push_back(vec[whichItem]);
-}
-
-void AudioPlayer::loadSound2Queue(std::vector<Song> &vec) {
-    for (auto &song : vec) {
-        songQueue.push_back(song);
-    }
 }
 
 void AudioPlayer::playQueue() {
@@ -15,10 +10,13 @@ void AudioPlayer::playQueue() {
         if (songQueue.empty()) {
             music.pause();
         } else {
-            music.openFromFile(songQueue.front().getPath());
+            std::shared_ptr<Song> song = songQueue.front();
+            Song &songRef = *song;
+
+            music.openFromFile(songRef.getPath());
             music.play();
             currentTime = music.getPlayingOffset();
-            sf::sleep(sf::seconds(songQueue.front().getDuration()));
+            sf::sleep(sf::seconds(songRef.getDuration()));
             songQueue.pop_front();
         }
     }

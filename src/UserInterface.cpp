@@ -117,29 +117,34 @@ void UserInterface::moveKeysScreen(
         break;
     }
 
+    MENU_BOOL menuBool{true, false, false};
+
     if (winBox.currentLine1stBox == MENU::SONGS) {
-        isSongMenu = true;
-        isAlbumMenu = false;
+        menuBool.isSongMenu = true;
+        menuBool.isAlbumMenu = false;
+        menuBool.isPlaylistMenu = false;
 
     } else if (winBox.currentLine1stBox == MENU::ALBUMS) {
-        isSongMenu = false;
-        isAlbumMenu = true;
+        menuBool.isSongMenu = false;
+        menuBool.isAlbumMenu = true;
+        menuBool.isPlaylistMenu = false;
     }
-    if (isSongMenu && !isAlbumMenu) {
+    if (menuBool.isSongMenu && !menuBool.isAlbumMenu &&
+        !menuBool.isPlaylistMenu) {
         printVectorInsideBox(
             ml, mainWin, winBox.currentLine3rdBox, ml.getSongs());
-
-    } else if (isAlbumMenu && !isSongMenu) {
-        printVectorInsideBox(
-            ml, mainWin, winBox.currentLine3rdBox, ml.getAlbumsName());
     }
+    // else if (isAlbumMenu && !isSongMenu) {
+    //     printVectorInsideBox(
+    //         ml, mainWin, winBox.currentLine3rdBox, ml.getAlbumsName());
+    // }
 
     printMenu(winBox.currentLine1stBox);
 }
 
-void UserInterface::changeDir(fs::path *nDirectory) {
+void UserInterface::changeDir(fs::path nDirectory) {
     std::cout << "Where to look for songs? Please provide the full path: ";
-    std::cin >> *nDirectory;
+    std::cin >> nDirectory;
 }
 
 template <typename T>
@@ -172,8 +177,44 @@ void UserInterface::printVectorInsideBox(
     }
 }
 
+void UserInterface::printVectorInsideBox(
+    MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
+    std::vector<std::shared_ptr<Song>> &vec) {
+    int maxLines = mainWin->_maxy - 2;
+
+    if (currentLine < 0)
+        currentLine = 0;
+    if (currentLine >= vec.size())
+        currentLine = vec.size() - 1;
+
+    int startIdx = currentLine;
+    int endIdx =
+        std::min(currentLine + maxLines, static_cast<int>(vec.size()) - 1);
+
+    for (int i = startIdx; i <= endIdx; ++i) {
+        if (i == currentLine) {
+            attron(A_REVERSE);
+            mvprintw(
+                mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
+                (*vec[i]).getTitle().c_str());
+            attroff(A_REVERSE);
+        } else {
+            mvprintw(
+                mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
+                (*vec[i]).getTitle().c_str());
+        }
+    }
+}
+
 template <typename T>
 void UserInterface::moveDownVector(std::vector<T> &vec, int &currentLine) {
+    if (currentLine < vec.size() - 1) {
+        ++currentLine;
+    }
+}
+
+void moveDownVector(
+    const std::vector<std::shared_ptr<Song>> &vec, int &currentLine) {
     if (currentLine < vec.size() - 1) {
         ++currentLine;
     }

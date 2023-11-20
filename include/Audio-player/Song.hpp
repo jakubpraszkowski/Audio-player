@@ -2,6 +2,7 @@
 #define MUSICLIBRARY_SONG_HPP
 
 #include <iostream>
+#include <memory>
 #include <string>
 
 class Song {
@@ -17,7 +18,7 @@ class Song {
     std::string album;
 
   public:
-    Song(){};
+    Song();
 
     Song(
         std::string title, std::string artist, std::string album,
@@ -29,29 +30,15 @@ class Song {
 
     const std::string &getTitle() const;
 
-    void setTitle(const std::string &title);
-
     const std::string &getArtist() const;
-
-    void setArtist(const std::string &artist);
 
     const std::string &getAlbum() const;
 
-    void setAlbum(const std::string &album);
-
     const std::string &getGenre() const;
-
-    void setGenre(const std::string &genre);
 
     u_int getYear() const;
 
-    void setYear(u_int year);
-
     int getDuration() const;
-
-    void setDuration(int duration);
-
-    void setPath(const std::string &path);
 
     const std::string &getPath() const;
 

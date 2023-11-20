@@ -25,7 +25,7 @@ class UserInterface {
         int topWinY;
     } WINDOW_INIT;
 
-    enum MENU { PLAY, SONGS, ALBUMS }; // TODO implement
+    typedef enum { PLAY, SONGS, ALBUMS } MENU;
 
     const std::array<std::string, 7> defaultMenu = {
         "Play", "Songs", "Albums", "Next", "Previous", "Shuffle", "Exit"};
@@ -33,15 +33,24 @@ class UserInterface {
     const std::array<std::string, 3> musicStatus = {
         "Playing", "Paused", "Empty queue"};
 
-    bool isSongMenu = true, isAlbumMenu = false;
+    typedef struct _menu_bool {
+        bool isSongMenu = true;
+        bool isAlbumMenu = false;
+        bool isPlaylistMenu = false;
+    } MENU_BOOL;
 
   public:
-    static void changeDir(fs::path *nDirectory);
+    static void changeDir(fs::path nDirectory);
+
     void createWindow(MusicLibrary &ml, AudioPlayer &ap);
 
     template <typename T>
     void printVectorInsideBox(
         MusicLibrary &ml, WINDOW *win, int &currentLine, std::vector<T> &vec);
+
+    void printVectorInsideBox(
+        MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
+        std::vector<std::shared_ptr<Song>> &vec);
 
     void moveKeysScreen(
         MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &ch,
@@ -51,11 +60,19 @@ class UserInterface {
     template <typename T>
     void moveDownVector(std::vector<T> &vec, int &currentLine);
 
+    void moveDownVector(
+        const std::vector<std::shared_ptr<Song>> &vec, int &currentLine);
+
     void printMenu(int &currentLine);
+
     void moveDown(int &currentLine);
+
     void moveUp(int &currentLine);
+
     void printStatus(AudioPlayer &ap, WINDOW *topWin);
+
     void printProgressBar(AudioPlayer &ap, WINDOW *topWin);
+
     void printAlbumsInsideBox(
         MusicLibrary &ml, int startY, int startX, int height, int width,
         int &currentLine);

@@ -5,8 +5,6 @@ MusicLibrary::MusicLibrary(fs::path _directory) {
     this->directory = "/home/${USER}/Music";
 }
 
-void MusicLibrary::addSong(const Song &song) { allSongs.push_back(song); }
-
 void MusicLibrary::addPlaylist(const Playlist &playlist) {
     allPlaylists.push_back(playlist);
 }
@@ -37,26 +35,27 @@ void MusicLibrary::updateSongs(FileManager &fm) {
             std::string genre = tag->genre().toCString();
             u_int year = tag->year();
             int duration = f.audioProperties()->lengthInSeconds();
-            Song song(title, artist, album, genre, year, duration, path);
-            albums[album].push_back(song);
+            std::shared_ptr<Song> song = std::make_shared<Song>(
+                title, artist, album, genre, year, duration, path);
+            // albums[album].push_back(song);
             allSongs.push_back(song);
         }
     }
 }
 
 Song MusicLibrary::getSong(const std::string &songTitle) {
-    for (auto &song : allSongs) {
-        if (song.getTitle() == songTitle) {
-            return song;
+    for (auto &songPtr : allSongs) {
+        if (songPtr->getTitle() == songTitle) {
+            return *songPtr;
         }
     }
     throw std::runtime_error("Song not found");
 }
 
-std::vector<std::string> MusicLibrary::getAlbumsName() {
-    std::vector<std::string> albumsName;
-    for (auto &album : albums) {
-        albumsName.push_back(album.first);
-    }
-    return albumsName;
-}
+// std::vector<std::string> MusicLibrary::getAlbumsName() {
+//     std::vector<std::string> albumsName;
+//     for (auto &album : albums) {
+//         albumsName.push_back(album.first);
+//     }
+//     return albumsName;
+// }

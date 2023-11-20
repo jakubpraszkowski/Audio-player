@@ -19,29 +19,15 @@ Song::Song(std::string name, int duration) {
 
 const std::string &Song::getTitle() const { return name; }
 
-void Song::setTitle(const std::string &title) { Song::name = title; }
-
 const std::string &Song::getArtist() const { return creator; }
-
-void Song::setArtist(const std::string &artist) { Song::creator = artist; }
 
 const std::string &Song::getAlbum() const { return album; }
 
-void Song::setAlbum(const std::string &album) { Song::album = album; }
-
 const std::string &Song::getGenre() const { return genre; }
-
-void Song::setGenre(const std::string &genre) { Song::genre = genre; }
 
 u_int Song::getYear() const { return year; }
 
-void Song::setYear(u_int year) { Song::year = year; }
-
 int Song::getDuration() const { return duration; }
-
-void Song::setDuration(int duration) { Song::duration = duration; }
-
-void Song::setPath(const std::string &path) { Song::path = path; }
 
 const std::string &Song::getPath() const { return path; }
 

@@ -18,24 +18,31 @@
 namespace fs = std::filesystem;
 
 class MusicLibrary {
+    typedef struct _audio_object {
+        Song song;
+        Playlist playlist;
+        Album album;
+    } AUDIO_OBJECT;
+
     std::vector<Playlist> allPlaylists;
-    std::vector<Song> allSongs;
-    std::vector<Album> allAlbums;
+    std::vector<std::shared_ptr<Song>> allSongs;
     std::map<std::string, std::vector<Song>> albums;
     fs::path directory;
 
   public:
     MusicLibrary() = default;
+
     MusicLibrary(fs::path _directory);
-    void addSong(const Song &song);
+
     void addPlaylist(const Playlist &playlist);
 
     template <typename T> void printVector(const std::vector<T> &vec);
 
-    std::vector<Song> &getSongs() { return allSongs; }
-    // std::vector<Album> &getAlbums() { return allAlbums; }
-    std::vector<std::string> getAlbumsName();
-    std::vector<Playlist> &getPlaylists() { return allPlaylists; }
+    std::vector<std::shared_ptr<Song>> &getSongs() { return allSongs; }
+
+    const std::vector<std::string> getAlbumsName();
+
+    const std::vector<Playlist> &getPlaylists() { return allPlaylists; }
 
     Song getSong(const std::string &songTitle);
 
