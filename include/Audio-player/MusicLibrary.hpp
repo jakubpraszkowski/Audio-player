@@ -38,22 +38,22 @@ class MusicLibrary {
 
     template <typename T> void printVector(const std::vector<T> &vec);
 
-    std::vector<std::shared_ptr<Song>> &getSongs() { return allSongs; }
+    template <typename T> bool isEmpty(std::vector<T> &vector);
 
-    const std::vector<std::string> getAlbumsName();
-
-    const std::vector<Playlist> &getPlaylists() { return allPlaylists; }
+    void updateSongs(FileManager &fm);
 
     Song getSong(const std::string &songTitle);
 
-    template <typename T> bool isEmpty(std::vector<T> &vector);
+    const std::vector<std::string> getAlbumsName();
+
+    std::vector<std::shared_ptr<Song>> &getSongs() { return allSongs; }
+
+    const std::vector<Playlist> &getPlaylists() { return allPlaylists; }
 
     template <typename T>
     void sortBy(std::vector<T> &vector, bool (*compare)(const T &, const T &)) {
         std::sort(vector.begin(), vector.end(), compare);
     }
-
-    void updateSongs(FileManager &fm);
 };
 
 #endif // MUSICLIBRARY_MUSICLIBRARY_HPP

@@ -44,6 +44,11 @@ class UserInterface {
 
     void createWindow(MusicLibrary &ml, AudioPlayer &ap);
 
+    void moveKeysScreen(
+        MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &ch,
+        std::thread &playbackThread, WINDOW *win, WINDOW *topWin,
+        WINDOW *sidebarWin);
+
     template <typename T>
     void printVectorInsideBox(
         MusicLibrary &ml, WINDOW *win, int &currentLine, std::vector<T> &vec);
@@ -52,30 +57,25 @@ class UserInterface {
         MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
         std::vector<std::shared_ptr<Song>> &vec);
 
-    void moveKeysScreen(
-        MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &ch,
-        std::thread &playbackThread, WINDOW *win, WINDOW *topWin,
-        WINDOW *sidebarWin);
-
     template <typename T>
     void moveDownVector(std::vector<T> &vec, int &currentLine);
 
     void moveDownVector(
         const std::vector<std::shared_ptr<Song>> &vec, int &currentLine);
 
-    void printMenu(int &currentLine);
-
     void moveDown(int &currentLine);
 
     void moveUp(int &currentLine);
+
+    void printMenu(int &currentLine);
 
     void printStatus(AudioPlayer &ap, WINDOW *topWin);
 
     void printProgressBar(AudioPlayer &ap, WINDOW *topWin);
 
-    void printAlbumsInsideBox(
-        MusicLibrary &ml, int startY, int startX, int height, int width,
-        int &currentLine);
+    // void printAlbumsInsideBox(
+    //     MusicLibrary &ml, int startY, int startX, int height, int width,
+    //     int &currentLine);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP

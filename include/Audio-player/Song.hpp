@@ -18,15 +18,13 @@ class Song {
     std::string album;
 
   public:
-    Song();
+    Song() = default;
 
     Song(
         std::string title, std::string artist, std::string album,
         std::string genre, u_int year, int duration, std::string path);
 
     Song(std::string title, int duration);
-
-    u_int getYear();
 
     const std::string &getTitle() const;
 

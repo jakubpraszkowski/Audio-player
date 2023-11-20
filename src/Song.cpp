@@ -61,5 +61,3 @@ bool Song::compareByGenre(const Song &s1, const Song &s2) {
 bool Song::compareByYear(const Song &s1, const Song &s2) {
     return s1.year < s2.year;
 }
-
-u_int Song::getYear() { return 0; }

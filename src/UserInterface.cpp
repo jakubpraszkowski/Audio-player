@@ -1,5 +1,9 @@
 #include "../include/Audio-player/UserInterface.hpp"
-#include <unistd.h>
+
+void UserInterface::changeDir(fs::path nDirectory) {
+    std::cout << "Where to look for songs? Please provide the full path: ";
+    std::cin >> nDirectory;
+}
 
 void UserInterface::createWindow(MusicLibrary &ml, AudioPlayer &ap) {
     int ch;
@@ -140,11 +144,6 @@ void UserInterface::moveKeysScreen(
     // }
 
     printMenu(winBox.currentLine1stBox);
-}
-
-void UserInterface::changeDir(fs::path nDirectory) {
-    std::cout << "Where to look for songs? Please provide the full path: ";
-    std::cin >> nDirectory;
 }
 
 template <typename T>

@@ -1,5 +1,4 @@
 #include "../include/Audio-player/MusicLibrary.hpp"
-#include <algorithm>
 
 MusicLibrary::MusicLibrary(fs::path _directory) {
     this->directory = "/home/${USER}/Music";

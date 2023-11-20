@@ -21,11 +21,15 @@ class AudioPlayer {
     void
     loadSound2Queue(int &whichItem, std::vector<std::shared_ptr<Song>> &vec);
 
-    bool isDequeEmpty();
-
     void playQueue();
 
+    bool isDequeEmpty();
+
     sf::Music &getCurrentMusic();
+
+    bool checkMusicPlaying();
+
+    void pauseOrResumeMusic(sf::Music &music);
 
     void advanceForwardMusic(sf::Music &music);
 
@@ -33,13 +37,9 @@ class AudioPlayer {
 
     void stopMusic(sf::Music &music);
 
-    bool checkMusicPlaying();
-
-    void pauseOrResumeMusic(sf::Music &music);
+    sf::Time &getCurrentTime();
 
     float calculateSongProgressBar(sf::Music &music);
-
-    sf::Time &getCurrentTime();
 };
 
 #endif // MUSICLIBRARY_AUDIOPLAYER_HPP

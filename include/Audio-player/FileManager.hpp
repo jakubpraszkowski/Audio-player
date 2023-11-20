@@ -16,8 +16,11 @@ class FileManager {
 
   public:
     FileManager();
+
     void scanDirectory();
+
     void changeScanningDirectory(fs::path &newDirectory);
+
     void printOggFilePaths();
 
     std::vector<std::string> &getOggFilePaths();

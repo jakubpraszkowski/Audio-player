@@ -1,12 +1,5 @@
 #include "../include/Audio-player/Playlist.hpp"
 
-Playlist Playlist::createPlaylist() {
-    std::cout << "Enter the title of the playlist: ";
-    std::cin >> name;
-    Playlist p1(name, creator, playlistSongs, year);
-    return p1;
-}
-
 Playlist::Playlist(
     std::string name, const std::string &creator,
     const std::vector<std::shared_ptr<Song>> &playlistSongs, std::tm year) {
@@ -26,6 +19,13 @@ Playlist::Playlist(
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
     year = *std::localtime(&now_time);
     this->year = year;
+}
+
+Playlist Playlist::createPlaylist() {
+    std::cout << "Enter the title of the playlist: ";
+    std::cin >> name;
+    Playlist p1(name, creator, playlistSongs, year);
+    return p1;
 }
 
 bool Playlist::compareByDuration(const Playlist &p1, const Playlist &p2) {

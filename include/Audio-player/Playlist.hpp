@@ -23,8 +23,6 @@ class Playlist : public Song {
 
     Playlist createPlaylist();
 
-    u_int calculateDuration();
-
     static bool compareByDuration(const Playlist &p1, const Playlist &p2);
 
     static bool compareByTitle(const Playlist &p1, const Playlist &p2);
@@ -38,6 +36,8 @@ class Playlist : public Song {
         std::vector<Song> &playlistSongs);
 
     void removeSongFromPlaylist(const std::string &songTitle);
+
+    u_int calculateDuration();
 
     friend std::ostream &operator<<(std::ostream &os, const Playlist &pl);
 };
