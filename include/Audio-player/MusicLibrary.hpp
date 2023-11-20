@@ -8,6 +8,7 @@
 #include <map>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 #include "Album.hpp"
@@ -26,7 +27,9 @@ class MusicLibrary {
 
     std::vector<Playlist> allPlaylists;
     std::vector<std::shared_ptr<Song>> allSongs;
-    std::map<std::string, std::vector<Song>> albums;
+    // std::map<std::string, std::vector<Song>> albums;
+    // std::unordered_map<std::string, Album> albumsMap;
+    std::unordered_map<std::string, std::shared_ptr<Album>> albumsMap;
     fs::path directory;
 
   public:
@@ -41,6 +44,11 @@ class MusicLibrary {
     template <typename T> bool isEmpty(std::vector<T> &vector);
 
     void updateSongs(FileManager &fm);
+
+    void addSongToAlbum(
+        const std::string &albumName, const std::shared_ptr<Song> &song);
+
+    void updateAlbums();
 
     Song getSong(const std::string &songTitle);
 
