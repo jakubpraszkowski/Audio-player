@@ -18,6 +18,7 @@ class AudioPlayer {
   public:
     AudioPlayer() = default;
     void loadSound2Queue(int &whichItem, std::vector<Song> &vec);
+    void loadSound2Queue(std::vector<Song> &vec);
     bool isDequeEmpty();
     void playQueue();
     sf::Music &getCurrentMusic();

@@ -116,7 +116,24 @@ void UserInterface::moveKeysScreen(
         ap.pauseOrResumeMusic(ap.getCurrentMusic());
         break;
     }
-    printVectorInsideBox(ml, mainWin, winBox.currentLine3rdBox, ml.getSongs());
+
+    if (winBox.currentLine1stBox == MENU::SONGS) {
+        isSongMenu = true;
+        isAlbumMenu = false;
+
+    } else if (winBox.currentLine1stBox == MENU::ALBUMS) {
+        isSongMenu = false;
+        isAlbumMenu = true;
+    }
+    if (isSongMenu && !isAlbumMenu) {
+        printVectorInsideBox(
+            ml, mainWin, winBox.currentLine3rdBox, ml.getSongs());
+
+    } else if (isAlbumMenu && !isSongMenu) {
+        printVectorInsideBox(
+            ml, mainWin, winBox.currentLine3rdBox, ml.getAlbumsName());
+    }
+
     printMenu(winBox.currentLine1stBox);
 }
 

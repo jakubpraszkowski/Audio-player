@@ -27,7 +27,6 @@ template <typename T> bool MusicLibrary::isEmpty(std::vector<T> &vector) {
 
 void MusicLibrary::updateSongs(FileManager &fm) {
     setlocale(LC_ALL, "pl_PL.UTF-8");
-    std::map<std::string, Album> albumMap;
     for (const auto &path : fm.getOggFilePaths()) {
         TagLib::FileRef f(path.c_str());
         if (!f.isNull() && f.tag()) {
@@ -39,14 +38,7 @@ void MusicLibrary::updateSongs(FileManager &fm) {
             u_int year = tag->year();
             int duration = f.audioProperties()->lengthInSeconds();
             Song song(title, artist, album, genre, year, duration, path);
-            if (albumMap.find(album) == albumMap.end()) {
-                Album newAlbum(album);
-                newAlbum.addSong(song);
-                albumMap[album] = newAlbum;
-                allAlbums.push_back(newAlbum);
-            } else {
-                albumMap[album].addSong(song);
-            }
+            albums[album].push_back(song);
             allSongs.push_back(song);
         }
     }
@@ -59,4 +51,12 @@ Song MusicLibrary::getSong(const std::string &songTitle) {
         }
     }
     throw std::runtime_error("Song not found");
+}
+
+std::vector<std::string> MusicLibrary::getAlbumsName() {
+    std::vector<std::string> albumsName;
+    for (auto &album : albums) {
+        albumsName.push_back(album.first);
+    }
+    return albumsName;
 }

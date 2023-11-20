@@ -4,6 +4,12 @@ void AudioPlayer::loadSound2Queue(int &whichItem, std::vector<Song> &vec) {
     songQueue.push_back(vec[whichItem]);
 }
 
+void AudioPlayer::loadSound2Queue(std::vector<Song> &vec) {
+    for (auto &song : vec) {
+        songQueue.push_back(song);
+    }
+}
+
 void AudioPlayer::playQueue() {
     while (true) {
         if (songQueue.empty()) {

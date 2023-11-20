@@ -21,6 +21,7 @@ class MusicLibrary {
     std::vector<Playlist> allPlaylists;
     std::vector<Song> allSongs;
     std::vector<Album> allAlbums;
+    std::map<std::string, std::vector<Song>> albums;
     fs::path directory;
 
   public:
@@ -32,7 +33,8 @@ class MusicLibrary {
     template <typename T> void printVector(const std::vector<T> &vec);
 
     std::vector<Song> &getSongs() { return allSongs; }
-    std::vector<Album> &getAlbums() { return allAlbums; }
+    // std::vector<Album> &getAlbums() { return allAlbums; }
+    std::vector<std::string> getAlbumsName();
     std::vector<Playlist> &getPlaylists() { return allPlaylists; }
 
     Song getSong(const std::string &songTitle);
