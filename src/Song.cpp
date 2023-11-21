@@ -25,9 +25,9 @@ const std::string &Song::getAlbum() const { return album; }
 
 const std::string &Song::getGenre() const { return genre; }
 
-u_int Song::getYear() const { return year; }
+const u_int Song::getYear() const { return year; }
 
-int Song::getDuration() const { return duration; }
+const int Song::getDuration() const { return duration; }
 
 const std::string &Song::getPath() const { return path; }
 

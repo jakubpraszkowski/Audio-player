@@ -58,6 +58,11 @@ class UserInterface {
         std::vector<std::shared_ptr<Song>> &vec);
 
     template <typename T>
+    void printMapInsideBox(
+        MusicLibrary &ml, WINDOW *win, int &currentLine,
+        const std::unordered_map<std::string, T> &map);
+
+    template <typename T>
     void moveDownVector(std::vector<T> &vec, int &currentLine);
 
     void moveDownVector(

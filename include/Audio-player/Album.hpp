@@ -13,5 +13,7 @@ class Album : Song {
 
     std::vector<std::shared_ptr<Song>> &getAlbumSongs();
 
+    const std::string &getAlbumName() const { return name; }
+
     void addSong(std::shared_ptr<Song> song);
 };

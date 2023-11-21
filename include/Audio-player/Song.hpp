@@ -34,9 +34,9 @@ class Song {
 
     const std::string &getGenre() const;
 
-    u_int getYear() const;
+    const u_int getYear() const;
 
-    int getDuration() const;
+    const int getDuration() const;
 
     const std::string &getPath() const;
 

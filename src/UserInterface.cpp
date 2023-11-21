@@ -137,11 +137,12 @@ void UserInterface::moveKeysScreen(
         !menuBool.isPlaylistMenu) {
         printVectorInsideBox(
             ml, mainWin, winBox.currentLine3rdBox, ml.getSongs());
+    } else if (
+        menuBool.isAlbumMenu && !menuBool.isSongMenu &&
+        !menuBool.isPlaylistMenu) {
+        printMapInsideBox(
+            ml, mainWin, winBox.currentLine3rdBox, ml.getAlbums());
     }
-    // else if (isAlbumMenu && !isSongMenu) {
-    //     printVectorInsideBox(
-    //         ml, mainWin, winBox.currentLine3rdBox, ml.getAlbumsName());
-    // }
 
     printMenu(winBox.currentLine1stBox);
 }
@@ -202,6 +203,34 @@ void UserInterface::printVectorInsideBox(
                 mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
                 (*vec[i]).getTitle().c_str());
         }
+    }
+}
+
+template <typename T>
+void UserInterface::printMapInsideBox(
+    MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
+    const std::unordered_map<std::string, T> &map) {
+
+    int maxLines = mainWin->_maxy - 2;
+    int index = 0;
+
+    for (auto it = map.begin(); it != map.end(); ++it) {
+        if (index >= currentLine && index < currentLine + maxLines) {
+            if (index == currentLine) {
+                attron(A_REVERSE);
+                mvprintw(
+                    mainWin->_begy + index - currentLine + 1,
+                    mainWin->_begx + 1, "%s",
+                    it->second.getAlbumName().c_str());
+                attroff(A_REVERSE);
+            } else {
+                mvprintw(
+                    mainWin->_begy + index - currentLine + 1,
+                    mainWin->_begx + 1, "%s",
+                    it->second.getAlbumName().c_str());
+            }
+        }
+        ++index;
     }
 }
 

@@ -19,17 +19,10 @@
 namespace fs = std::filesystem;
 
 class MusicLibrary {
-    typedef struct _audio_object {
-        Song song;
-        Playlist playlist;
-        Album album;
-    } AUDIO_OBJECT;
-
     std::vector<Playlist> allPlaylists;
     std::vector<std::shared_ptr<Song>> allSongs;
-    // std::map<std::string, std::vector<Song>> albums;
-    // std::unordered_map<std::string, Album> albumsMap;
-    std::unordered_map<std::string, std::shared_ptr<Album>> albumsMap;
+    std::unordered_map<std::string, Album> allAlbums;
+    // std::vector<Album> allAlbums;
     fs::path directory;
 
   public:
@@ -50,9 +43,13 @@ class MusicLibrary {
 
     void updateAlbums();
 
+    const std::unordered_map<std::string, Album> &getAlbums() const {
+        return allAlbums;
+    }
+
     Song getSong(const std::string &songTitle);
 
-    const std::vector<std::string> getAlbumsName();
+    // const std::vector<std::string> getAlbumsName() const;
 
     std::vector<std::shared_ptr<Song>> &getSongs() { return allSongs; }
 

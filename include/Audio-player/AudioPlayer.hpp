@@ -1,13 +1,16 @@
 #ifndef MUSICLIBRARY_AUDIOPLAYER_HPP
 #define MUSICLIBRARY_AUDIOPLAYER_HPP
 
+#include "Album.hpp"
 #include "MusicLibrary.hpp"
+#include "Playlist.hpp"
 #include "Song.hpp"
 #include <SFML/Audio.hpp>
 #include <SFML/System/Time.hpp>
 #include <atomic>
 #include <deque>
 #include <iostream>
+#include <variant>
 
 class AudioPlayer {
     sf::Music music;
