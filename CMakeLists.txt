@@ -7,6 +7,8 @@ add_executable(MusicLibrary
         src/Album.cpp 
         include/Audio-player/Album.hpp
         include/Audio-player/FileManager.hpp
+        include/Audio-player/KeyboardInteraction.hpp
+        src/KeyboardInteraction.cpp
         src/FileManager.cpp
 )
 

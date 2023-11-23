@@ -9,3 +9,9 @@ std::vector<std::shared_ptr<Song>> &Album::getAlbumSongs() {
 void Album::addSong(std::shared_ptr<Song> song) {
     songsInAlbum.push_back(song);
 }
+
+void Album::printAlbumSongs() {
+    for (const auto &song : songsInAlbum) {
+        std::cout << song->getTitle() << std::endl;
+    }
+}

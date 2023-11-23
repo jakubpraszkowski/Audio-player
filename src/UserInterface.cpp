@@ -32,7 +32,8 @@ void UserInterface::createWindow(MusicLibrary &ml, AudioPlayer &ap) {
 
     WIN_BOX winBox = {
         .currentLine1stBox = 0,
-        .currentLine3rdBox = 0,
+        .currentLineSongMenu = 0,
+        .currentLineAlbumMenu = 0,
         .currentBox = 1,
     };
 
@@ -74,28 +75,41 @@ void UserInterface::moveKeysScreen(
     MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &ch,
     std::thread &playbackThread, WINDOW *mainWin, WINDOW *topWin,
     WINDOW *sidebarWin) {
+    MENU_BOOL menuBool{true, false, false};
     switch (ch) {
     case '\t':
         winBox.currentBox = (winBox.currentBox % 2) + 1;
         break;
     case KEY_UP:
-        if (winBox.currentBox == 1) {
-            moveUp(winBox.currentLine3rdBox);
+        if (winBox.currentBox == 1 && menuBool.isSongMenu) {
+            moveUp(winBox.currentLineSongMenu);
+        } else if (winBox.currentBox == 1 && menuBool.isAlbumMenu) {
+            moveUp(winBox.currentLineAlbumMenu);
         } else if (winBox.currentBox == 2) {
             moveUp(winBox.currentLine1stBox);
         }
         break;
+
     case KEY_DOWN:
-        if (winBox.currentBox == 1) {
-            moveDownVector(ml.getSongs(), winBox.currentLine3rdBox);
+        if (winBox.currentBox == 1 && menuBool.isSongMenu) {
+            moveDownVector(ml.getSongs(), winBox.currentLineSongMenu);
+        } else if (winBox.currentBox == 1 && menuBool.isAlbumMenu) {
+            moveDownVector(ml.getAlbums(), winBox.currentLineAlbumMenu);
         } else if (winBox.currentBox == 2) {
             moveDown(winBox.currentLine1stBox);
         }
         break;
+
     case KEY_F(4):
         if (winBox.currentBox == 1) {
-            ap.loadSound2Queue(winBox.currentLine3rdBox, ml.getSongs());
-        } else if (winBox.currentBox == 2 && winBox.currentLine1stBox == 0) {
+            if (menuBool.isSongMenu) {
+                ap.loadSound2Queue(winBox.currentLineSongMenu, ml.getSongs());
+            } else if (menuBool.isAlbumMenu) {
+                ap.loadSound2Queue(winBox.currentLineAlbumMenu, ml.getAlbums());
+            }
+        }
+
+        if (winBox.currentBox == 2 && winBox.currentLine1stBox == 0) {
             if (!playbackThread.joinable()) {
                 playbackThread = std::thread([&ap]() { ap.playQueue(); });
             }
@@ -121,27 +135,29 @@ void UserInterface::moveKeysScreen(
         break;
     }
 
-    MENU_BOOL menuBool{true, false, false};
-
-    if (winBox.currentLine1stBox == MENU::SONGS) {
+    if (defaultMenu[winBox.currentLine1stBox] == "Songs") {
         menuBool.isSongMenu = true;
         menuBool.isAlbumMenu = false;
         menuBool.isPlaylistMenu = false;
-
-    } else if (winBox.currentLine1stBox == MENU::ALBUMS) {
+    } else if (defaultMenu[winBox.currentLine1stBox] == "Albums") {
         menuBool.isSongMenu = false;
         menuBool.isAlbumMenu = true;
         menuBool.isPlaylistMenu = false;
+    } else if (defaultMenu[winBox.currentLine1stBox] == "Playlists") {
+        menuBool.isSongMenu = false;
+        menuBool.isAlbumMenu = false;
+        menuBool.isPlaylistMenu = true;
     }
+
     if (menuBool.isSongMenu && !menuBool.isAlbumMenu &&
         !menuBool.isPlaylistMenu) {
         printVectorInsideBox(
-            ml, mainWin, winBox.currentLine3rdBox, ml.getSongs());
+            ml, mainWin, winBox.currentLineSongMenu, ml.getSongs());
     } else if (
         menuBool.isAlbumMenu && !menuBool.isSongMenu &&
         !menuBool.isPlaylistMenu) {
-        printMapInsideBox(
-            ml, mainWin, winBox.currentLine3rdBox, ml.getAlbums());
+        printVectorInsideBox(
+            ml, mainWin, winBox.currentLineAlbumMenu, ml.getAlbums());
     }
 
     printMenu(winBox.currentLine1stBox);
@@ -235,14 +251,8 @@ void UserInterface::printMapInsideBox(
 }
 
 template <typename T>
-void UserInterface::moveDownVector(std::vector<T> &vec, int &currentLine) {
-    if (currentLine < vec.size() - 1) {
-        ++currentLine;
-    }
-}
-
-void moveDownVector(
-    const std::vector<std::shared_ptr<Song>> &vec, int &currentLine) {
+void UserInterface::moveDownVector(
+    const std::vector<T> &vec, int &currentLine) {
     if (currentLine < vec.size() - 1) {
         ++currentLine;
     }

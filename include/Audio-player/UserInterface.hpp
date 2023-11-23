@@ -13,7 +13,8 @@
 class UserInterface {
     typedef struct _win_current_struct {
         int currentLine1stBox;
-        int currentLine3rdBox;
+        int currentLineSongMenu;
+        int currentLineAlbumMenu;
         int currentBox;
     } WIN_BOX;
 
@@ -40,7 +41,7 @@ class UserInterface {
     } MENU_BOOL;
 
   public:
-    static void changeDir(fs::path nDirectory);
+    static void changeDir(fs::path nDirectory); // Reimplement
 
     void createWindow(MusicLibrary &ml, AudioPlayer &ap);
 
@@ -63,10 +64,7 @@ class UserInterface {
         const std::unordered_map<std::string, T> &map);
 
     template <typename T>
-    void moveDownVector(std::vector<T> &vec, int &currentLine);
-
-    void moveDownVector(
-        const std::vector<std::shared_ptr<Song>> &vec, int &currentLine);
+    void moveDownVector(const std::vector<T> &vec, int &currentLine);
 
     void moveDown(int &currentLine);
 
@@ -77,10 +75,6 @@ class UserInterface {
     void printStatus(AudioPlayer &ap, WINDOW *topWin);
 
     void printProgressBar(AudioPlayer &ap, WINDOW *topWin);
-
-    // void printAlbumsInsideBox(
-    //     MusicLibrary &ml, int startY, int startX, int height, int width,
-    //     int &currentLine);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP

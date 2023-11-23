@@ -40,16 +40,25 @@ void MusicLibrary::updateSongs(FileManager &fm) {
             addSongToAlbum(albumName, song);
         }
     }
+
+    // for (auto &album : allAlbums) {
+    //     printf("Album: %s\n", album.getAlbumName().c_str());
+    // }
 }
 
 void MusicLibrary::addSongToAlbum(
     const std::string &albumName, const std::shared_ptr<Song> &song) {
-    if (allAlbums.find(albumName) == allAlbums.end()) {
+    if (allAlbumsMap.find(albumName) == allAlbumsMap.end()) {
         Album newAlbum(albumName);
         newAlbum.addSong(song);
-        allAlbums[albumName] = newAlbum;
+        allAlbumsMap[albumName] = newAlbum;
+        allAlbums.push_back(newAlbum);
+        // printf("Utworzono nowy album: %s\n", albumName.c_str());
     } else {
-        allAlbums[albumName].addSong(song);
+        allAlbumsMap[albumName].addSong(song);
+        // printf(
+        //     "Dodano utwór %s do albumu: %s\n", song->getTitle().c_str(),
+        //     albumName.c_str());
     }
 }
 
