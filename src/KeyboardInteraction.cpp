@@ -1,10 +1,11 @@
 #include "../include/Audio-player/KeyboardInteraction.hpp"
 
 void KeyboardInteraction::moveOnScreen(
-    MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &input) {
+    MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &input,
+    MENU_BOOL &menuBool) {
     switch (input) {
     case KEY_TAB:
-        winBox.currentBox = checkCurrentBox(winBox);
+        winBox.currentBox = changeCurrentBox(winBox);
         break;
 
     case KEY_UP:
@@ -12,88 +13,49 @@ void KeyboardInteraction::moveOnScreen(
         break;
 
     case KEY_DOWN:
-        processKeyDown(winBox, menuBool);
+        processKeyDown(ml, winBox, menuBool);
         break;
-    }
-}
 
-void KeyboardInteraction::usePlayer(
-    MusicLibrary &ml, AudioPlayer &ap, int &input,
-    std::thread &playbackThread) {
-    switch (input) {
     case KEY_ENTER:
-
+        if (winBox.currentBox == MUSIC_MENU) {
+            musicMenu(ml, ap, menuBool, winBox);
+        } else if (winBox.currentBox == LEFT_MENU) {
+            if (winBox.currentLine1stBox == 0) {
+                std::thread playbackThread;
+                playQueue(ap, playbackThread);
+            }
+        }
         break;
 
     case KEY_PAUSE:
+        ap.pauseOrResumeMusic(ap.getCurrentMusic());
+        break;
 
+    case KEY_LEFT:
+        ap.advanceForwardMusic(ap.getCurrentMusic());
+        break;
+
+    case KEY_RIGHT:
+        ap.advanceBackwardMusic(ap.getCurrentMusic());
         break;
     }
 }
 
-/*    case KEY_F(4):
-        if (winBox.currentBox == 1) {
-            if (menuBool.isSongMenu) {
-                ap.loadSound2Queue(winBox.currentLineSongMenu,
-ml.getSongs()); } else if (menuBool.isAlbumMenu) {
-                ap.loadSound2Queue(winBox.currentLineAlbumMenu,
-ml.getAlbums());
-            }
-        }
-
-        if (winBox.currentBox == 2 && winBox.currentLine1stBox == 0) {
-            if (!playbackThread.joinable()) {
-                playbackThread = std::thread([&ap]() { ap.playQueue(); });
-            }
-        }
-        break;
-    case KEY_RIGHT:
-        if (ap.checkMusicPlaying()) {
-            ap.advanceForwardMusic(ap.getCurrentMusic());
-        }
-        break;
-    case KEY_LEFT:
-        if (ap.checkMusicPlaying()) {
-            ap.advanceBackwardMusic(ap.getCurrentMusic());
-        }
-        break;
-    case char('s'):
-        if (ap.checkMusicPlaying()) {
-            ap.stopMusic(ap.getCurrentMusic());
-        }
-        break;
-    case char('p'):
-        ap.pauseOrResumeMusic(ap.getCurrentMusic());
-        break;
+void KeyboardInteraction::musicMenu(
+    MusicLibrary &ml, AudioPlayer &ap, MENU_BOOL &menuBool, WIN_BOX &winBox) {
+    if (menuBool.songMenu) {
+        ap.loadSound2Queue(winBox.currentLineSongMenu, ml.getSongs());
+    } else if (menuBool.albumMenu) {
+        ap.loadSound2Queue(winBox.currentLineAlbumMenu, ml.getAlbums());
     }
+}
 
-    if (defaultMenu[winBox.currentLine1stBox] == "Songs") {
-        menuBool.isSongMenu = true;
-        menuBool.isAlbumMenu = false;
-        menuBool.isPlaylistMenu = false;
-    } else if (defaultMenu[winBox.currentLine1stBox] == "Albums") {
-        menuBool.isSongMenu = false;
-        menuBool.isAlbumMenu = true;
-        menuBool.isPlaylistMenu = false;
-    } else if (defaultMenu[winBox.currentLine1stBox] == "Playlists") {
-        menuBool.isSongMenu = false;
-        menuBool.isAlbumMenu = false;
-        menuBool.isPlaylistMenu = true;
+void KeyboardInteraction::playQueue(
+    AudioPlayer &ap, std::thread &playbackThread) {
+    if (!playbackThread.joinable()) {
+        playbackThread = std::thread([&ap]() { ap.playQueue(); });
     }
-
-    if (menuBool.isSongMenu && !menuBool.isAlbumMenu &&
-        !menuBool.isPlaylistMenu) {
-        printVectorInsideBox(
-            ml, mainWin, winBox.currentLineSongMenu, ml.getSongs());
-    } else if (
-        menuBool.isAlbumMenu && !menuBool.isSongMenu &&
-        !menuBool.isPlaylistMenu) {
-        printVectorInsideBox(
-            ml, mainWin, winBox.currentLineAlbumMenu, ml.getAlbums());
-    }
-
-    printMenu(winBox.currentLine1stBox);
-}*/
+}
 
 void KeyboardInteraction::moveUp(int &currentLine) {
     if (currentLine > 0) {
@@ -102,8 +64,8 @@ void KeyboardInteraction::moveUp(int &currentLine) {
 }
 
 void KeyboardInteraction::moveDown(
-    const std::initializer_list<std::string> &list, int &currentLine) {
-    if (currentLine < list.size() - 1) {
+    const std::array<std::string, 4> &arrayMenu, int &currentLine) {
+    if (currentLine < 4 - 1) {
         ++currentLine;
     }
 }
@@ -116,28 +78,27 @@ void KeyboardInteraction::moveDown(
     }
 }
 
-WIN_BOX KeyboardInteraction::checkCurrentBox(WIN_BOX &winBox) {
+int KeyboardInteraction::changeCurrentBox(WIN_BOX &winBox) {
     return winBox.currentBox = (winBox.currentBox % 2) + 1;
 }
 
-void KeyboardInteraction::processKeyUp(
-    const WIN_BOX &winBox, const MENU_BOOL &menuBool) {
-    if (winBox.currentBox == 1 && menuBool.isSongMenu) {
+void KeyboardInteraction::processKeyUp(WIN_BOX &winBox, MENU_BOOL &menuBool) {
+    if (winBox.currentBox == MUSIC_MENU && menuBool.songMenu) {
         moveUp(winBox.currentLineSongMenu);
-    } else if (winBox.currentBox == 1 && menuBool.isAlbumMenu) {
+    } else if (winBox.currentBox == MUSIC_MENU && menuBool.albumMenu) {
         moveUp(winBox.currentLineAlbumMenu);
-    } else if (winBox.currentBox == 2) {
+    } else if (winBox.currentBox == LEFT_MENU) {
         moveUp(winBox.currentLine1stBox);
     }
 }
 
 void KeyboardInteraction::processKeyDown(
-    const WIN_BOX &winBox, const MENU_BOOL &menuBool) {
-    if (winBox.currentBox == 1 && menuBool.isSongMenu) {
+    MusicLibrary &ml, WIN_BOX &winBox, MENU_BOOL &menuBool) {
+    if (winBox.currentBox == MUSIC_MENU && menuBool.songMenu) {
         moveDown(ml.getSongs(), winBox.currentLineSongMenu);
-    } else if (winBox.currentBox == 1 && menuBool.isAlbumMenu) {
+    } else if (winBox.currentBox == MUSIC_MENU && menuBool.albumMenu) {
         moveDown(ml.getAlbums(), winBox.currentLineAlbumMenu);
-    } else if (winBox.currentBox == 2) {
-        moveDown(defaultMenu, winBox.currentLine1stBox);
+    } else if (winBox.currentBox == LEFT_MENU) {
+        moveDown(UserInterface().getOptionMenu(), winBox.currentLine1stBox);
     }
 }

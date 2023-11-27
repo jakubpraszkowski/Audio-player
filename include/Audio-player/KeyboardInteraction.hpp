@@ -1,16 +1,22 @@
-#pragma once
+#ifndef KEYBOARDINTERACTION_HPP
+#define KEYBOARDINTERACTION_HPP
+
 #include "AudioPlayer.hpp"
 #include "MusicLibrary.hpp"
+#include "UserInterface.hpp"
 #include <ncurses/ncurses.h>
 
 #define KEY_TAB '\t'
 #define KEY_PAUSE 'p'
+#define MUSIC_MENU 1
+#define LEFT_MENU 2
+
+// class UserInterface;
 
 class KeyboardInteraction {
 
   public:
-    KeyboardInteraction() = default;
-    ~KeyboardInteraction();
+    KeyboardInteraction(){};
 
     typedef struct _win_current_line {
         int currentLine1stBox = 0;
@@ -26,24 +32,28 @@ class KeyboardInteraction {
     } MENU_BOOL;
 
     void moveOnScreen(
-        MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &input);
+        MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &input,
+        MENU_BOOL &menuBool);
 
-    void usePlayer(
-        MusicLibrary &ml, AudioPlayer &ap, int &input,
-        std::thread &playbackThread);
+    void musicMenu(
+        MusicLibrary &ml, AudioPlayer &ap, MENU_BOOL &menuBool,
+        WIN_BOX &winBox);
+
+    void playQueue(AudioPlayer &ap, std::thread &playbackThread);
 
     void moveUp(int &currentLine);
 
     void
-    moveDown(const std::initializer_list<std::string> &list, int &currentLine);
+    moveDown(const std::array<std::string, 4> &arrayMenu, int &currentLine);
 
     template <typename T>
     void moveDown(const std::vector<T> &vec, int &currentLine);
 
-    WIN_BOX checkCurrentBox(WIN_BOX &winBox);
+    int changeCurrentBox(WIN_BOX &winBox);
 
-    void processKeyUp(const WIN_BOX &winBox, const MENU_BOOL &menuBool);
+    void processKeyUp(WIN_BOX &winBox, MENU_BOOL &menuBool);
 
-    void processKeyDown(const WIN_BOX &winBox, const MENU_BOOL &menuBool);
+    void processKeyDown(MusicLibrary &ml, WIN_BOX &winBox, MENU_BOOL &menuBool);
 
-}; // TODO move UserInteface keyboard actions to this class
+};     // TODO move UserInteface keyboard actions to this class
+#endif // KEYBOARDINTERACTION_HPP

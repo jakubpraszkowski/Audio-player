@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MUSICLIBRARY_ALBUM_HPP
+#define MUSICLIBRARY_ALBUM_HPP
+
 #include "Song.hpp"
 #include <memory>
 #include <vector>
@@ -19,3 +21,4 @@ class Album : Song {
 
     void addSong(std::shared_ptr<Song> song);
 };
+#endif // MUSICLIBRARY_ALBUM_HPP

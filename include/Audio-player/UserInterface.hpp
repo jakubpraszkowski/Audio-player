@@ -4,35 +4,29 @@
 #include "AudioPlayer.hpp"
 #include "MusicLibrary.hpp"
 #include "Song.hpp"
+
 #include <array>
 #include <iomanip>
 #include <iostream>
 #include <ncurses/ncurses.h>
 #include <thread>
 
-class UserInterface {
-    typedef struct _win_current_struct {
-        int currentLine1stBox;
-        int currentLineSongMenu;
-        int currentLineAlbumMenu;
-        int currentBox;
-    } WIN_BOX;
+class KeyboardInteraction;
 
+class UserInterface {
     typedef struct _window_init_params {
-        int mainWinWidth, mainWinHeight;
-        int sidebarWinWidth, topWinHeight;
-        int mainWinX, mainWinY;
-        int sidebarWinX, sidebarWinY;
-        int topWinY;
+        int mainWinWidth = 0;
+        int mainWinHeight = 0;
+        int sidebarWinWidth = 20;
+        int topWinHeight = 5;
+        int mainWinX = 0;
+        int mainWinY = 0;
+        int sidebarWinX = 0;
+        int sidebarWinY = 0;
+        int topWinY = 0;
     } WINDOW_INIT;
 
-    typedef enum { PLAY, SONGS, ALBUMS } MENU;
-
-    const std::array<std::string, 7> defaultMenu = {
-        "Play", "Songs", "Albums", "Next", "Previous", "Shuffle", "Exit"};
-
-    const std::array<std::string, 3> musicStatus = {
-        "Playing", "Paused", "Empty queue"};
+    static const std::array<std::string, 4> optionMenu;
 
     typedef struct _menu_bool {
         bool isSongMenu = true;
@@ -43,12 +37,9 @@ class UserInterface {
   public:
     static void changeDir(fs::path nDirectory); // Reimplement
 
-    void createWindow(MusicLibrary &ml, AudioPlayer &ap);
+    static const std::array<std::string, 4> &getOptionMenu();
 
-    void moveKeysScreen(
-        MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &ch,
-        std::thread &playbackThread, WINDOW *win, WINDOW *topWin,
-        WINDOW *sidebarWin);
+    void createWindow(MusicLibrary &ml, AudioPlayer ap, KeyboardInteraction ki);
 
     template <typename T>
     void printVectorInsideBox(
@@ -71,8 +62,6 @@ class UserInterface {
     void moveUp(int &currentLine);
 
     void printMenu(int &currentLine);
-
-    void printStatus(AudioPlayer &ap, WINDOW *topWin);
 
     void printProgressBar(AudioPlayer &ap, WINDOW *topWin);
 };
