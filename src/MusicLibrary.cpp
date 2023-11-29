@@ -44,12 +44,13 @@ void MusicLibrary::updateSongs(FileManager &fm) {
 
 void MusicLibrary::addSongToAlbum(
     const std::string &albumName, const std::shared_ptr<Song> &song) {
-    if (allAlbums.find(albumName) == allAlbums.end()) {
+    if (allAlbumsMap.find(albumName) == allAlbumsMap.end()) {
         Album newAlbum(albumName);
         newAlbum.addSong(song);
-        allAlbums[albumName] = newAlbum;
+        allAlbumsMap[albumName] = newAlbum;
+        allAlbums.push_back(newAlbum);
     } else {
-        allAlbums[albumName].addSong(song);
+        allAlbumsMap[albumName].addSong(song);
     }
 }
 

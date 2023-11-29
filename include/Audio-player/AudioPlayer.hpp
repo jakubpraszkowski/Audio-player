@@ -8,9 +8,10 @@
 #include <SFML/Audio.hpp>
 #include <SFML/System/Time.hpp>
 #include <atomic>
+#include <chrono>
 #include <deque>
 #include <iostream>
-#include <variant>
+#include <random>
 
 class AudioPlayer {
     sf::Music music;
@@ -23,6 +24,8 @@ class AudioPlayer {
 
     void
     loadSound2Queue(int &whichItem, std::vector<std::shared_ptr<Song>> &vec);
+
+    void loadSound2Queue(int &whichItem, std::vector<Album> &vec);
 
     void playQueue();
 
@@ -40,9 +43,15 @@ class AudioPlayer {
 
     void stopMusic(sf::Music &music);
 
+    void shuffleQueue();
+
     sf::Time &getCurrentTime();
 
     float calculateSongProgressBar(sf::Music &music);
+
+    std::deque<std::shared_ptr<Song>> &getSongQueue() { return songQueue; }
+
+    std::shared_ptr<Song> &getSongQueueFront() { return songQueue.front(); }
 };
 
 #endif // MUSICLIBRARY_AUDIOPLAYER_HPP

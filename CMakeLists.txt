@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.24)
-project(MusicLibrary)
+project(MusicLibrary VERSION 0.0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
+
+include(UpdateSubmodules.cmake)
+
+include(CTest)
+
+add_subdirectory(external)
+
 
 add_executable(MusicLibrary
         src/main.cpp src/Song.cpp include/Audio-player/Song.hpp src/MusicLibrary.cpp include/Audio-player/MusicLibrary.hpp src/UserInterface.cpp include/Audio-player/UserInterface.hpp src/AudioPlayer.cpp include/Audio-player/AudioPlayer.hpp src/Playlist.cpp include/Audio-player/Playlist.hpp

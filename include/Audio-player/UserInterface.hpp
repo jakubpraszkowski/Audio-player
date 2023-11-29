@@ -12,29 +12,33 @@
 
 class UserInterface {
     typedef struct _win_current_struct {
-        int currentLine1stBox;
-        int currentLine3rdBox;
-        int currentBox;
+        int currentLine1stBox = 0;
+        int currentLine3rdBox = 0;
+        int currentBox = 2;
     } WIN_BOX;
 
     typedef struct _window_init_params {
-        int mainWinWidth, mainWinHeight;
-        int sidebarWinWidth, topWinHeight;
-        int mainWinX, mainWinY;
-        int sidebarWinX, sidebarWinY;
-        int topWinY;
+        int mainWinWidth = 0;
+        int mainWinHeight = 0;
+        int sidebarWinWidth = 20;
+        int sidebarWinX = 0;
+        int sidebarWinY = 0;
+        int topWinHeight = 5;
+        int topWinY = 0;
+        int mainWinY = 0;
+        int mainWinX = 0;
     } WINDOW_INIT;
 
-    typedef enum { PLAY, SONGS, ALBUMS } MENU;
+    typedef enum { PLAY, SONGS, ALBUMS, SHUFFLE } MENU;
 
     const std::array<std::string, 7> defaultMenu = {
-        "Play", "Songs", "Albums", "Next", "Previous", "Shuffle", "Exit"};
+        "Play", "Songs", "Albums", "Shuffle"};
 
     const std::array<std::string, 3> musicStatus = {
         "Playing", "Paused", "Empty queue"};
 
     typedef struct _menu_bool {
-        bool isSongMenu = true;
+        bool isSongMenu = false;
         bool isAlbumMenu = false;
         bool isPlaylistMenu = false;
     } MENU_BOOL;
@@ -52,6 +56,10 @@ class UserInterface {
     template <typename T>
     void printVectorInsideBox(
         MusicLibrary &ml, WINDOW *win, int &currentLine, std::vector<T> &vec);
+
+    void printVectorInsideBox(
+        MusicLibrary &ml, WINDOW *win, int &currentLine,
+        std::vector<Album> &vec);
 
     void printVectorInsideBox(
         MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
@@ -78,9 +86,7 @@ class UserInterface {
 
     void printProgressBar(AudioPlayer &ap, WINDOW *topWin);
 
-    // void printAlbumsInsideBox(
-    //     MusicLibrary &ml, int startY, int startX, int height, int width,
-    //     int &currentLine);
+    void printCurrentSong(AudioPlayer &ap, WINDOW *topWin);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP

@@ -21,8 +21,8 @@ namespace fs = std::filesystem;
 class MusicLibrary {
     std::vector<Playlist> allPlaylists;
     std::vector<std::shared_ptr<Song>> allSongs;
-    std::unordered_map<std::string, Album> allAlbums;
-    // std::vector<Album> allAlbums;
+    std::unordered_map<std::string, Album> allAlbumsMap;
+    std::vector<Album> allAlbums;
     fs::path directory;
 
   public:
@@ -43,13 +43,13 @@ class MusicLibrary {
 
     void updateAlbums();
 
-    const std::unordered_map<std::string, Album> &getAlbums() const {
-        return allAlbums;
+    const std::unordered_map<std::string, Album> &getAlbumsMap() const {
+        return allAlbumsMap;
     }
 
-    Song getSong(const std::string &songTitle);
+    std::vector<Album> &getAlbums() { return allAlbums; }
 
-    // const std::vector<std::string> getAlbumsName() const;
+    Song getSong(const std::string &songTitle);
 
     std::vector<std::shared_ptr<Song>> &getSongs() { return allSongs; }
 

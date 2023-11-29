@@ -5,6 +5,12 @@ void AudioPlayer::loadSound2Queue(
     songQueue.push_back(vec[whichItem]);
 }
 
+void AudioPlayer::loadSound2Queue(int &whichItem, std::vector<Album> &vec) {
+    for (auto &song : vec[whichItem].getAlbumSongs()) {
+        songQueue.push_back(song);
+    }
+}
+
 void AudioPlayer::playQueue() {
     while (true) {
         if (songQueue.empty()) {
@@ -65,6 +71,13 @@ void AudioPlayer::stopMusic(sf::Music &music) {
     std::unique_lock<std::mutex> lock(musicMutex);
     music.stop();
     songQueue.clear();
+    lock.unlock();
+}
+
+void AudioPlayer::shuffleQueue() {
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine rng(seed);
+    std::shuffle(songQueue.begin(), songQueue.end(), rng);
 }
 
 sf::Time &AudioPlayer::getCurrentTime() { return currentTime; }
