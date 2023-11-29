@@ -1,4 +1,4 @@
-# Audio Player
+# TerminalTunes
 
 This C++ project utilizes system audio capabilities to play various audio formats, offering a simple yet efficient way to groove to your music collection without leaving your terminal session.
 
