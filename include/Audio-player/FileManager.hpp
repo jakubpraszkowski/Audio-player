@@ -1,19 +1,16 @@
-#ifndef MUSICLIBRARY_FILEMANAGER_HPP
-#define MUSICLIBRARY_FILEMANAGER_HPP
+#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_FILEMANAGER_HPP
+#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_FILEMANAGER_HPP
 
 #include <filesystem>
-#include <iostream>
+#include <vector>
+
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
 #include <taglib/tpropertymap.h>
-#include <vector>
 
 namespace fs = std::filesystem;
 
 class FileManager {
-    fs::path directory;
-    std::vector<std::string> oggFilePaths;
-
   public:
     FileManager();
 
@@ -24,6 +21,11 @@ class FileManager {
     void printOggFilePaths();
 
     std::vector<std::string> &getOggFilePaths();
+
+  private:
+    fs::path directory;
+
+    std::vector<std::string> oggFilePaths;
 };
 
 #endif

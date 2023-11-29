@@ -1,22 +1,9 @@
-#ifndef MUSICLIBRARY_SONG_HPP
-#define MUSICLIBRARY_SONG_HPP
+#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_SONG_HPP
+#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_SONG_HPP
 
-#include <iostream>
-#include <memory>
 #include <string>
 
 class Song {
-    std::string genre;
-    u_int year = 0;
-    std::string path;
-
-  protected:
-    std::string name;
-    std::string creator;
-    u_int size;
-    u_int duration;
-    std::string album;
-
   public:
     Song() = default;
 
@@ -40,8 +27,6 @@ class Song {
 
     const std::string &getPath() const;
 
-    friend std::ostream &operator<<(std::ostream &os, const Song &song);
-
     static bool compareByDuration(const Song &s1, const Song &s2);
 
     static bool compareByTitle(const Song &s1, const Song &s2);
@@ -53,6 +38,18 @@ class Song {
     static bool compareByGenre(const Song &s1, const Song &s2);
 
     static bool compareByYear(const Song &s1, const Song &s2);
+
+  protected:
+    std::string name;
+    std::string creator;
+    u_int size;
+    u_int duration;
+    std::string album;
+
+  private:
+    std::string genre;
+    u_int year = 0;
+    std::string path;
 };
 
 #endif // MUSICLIBRARY_SONG_HPP

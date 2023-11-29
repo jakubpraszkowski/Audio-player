@@ -69,7 +69,11 @@
         "mutex": "cpp",
         "semaphore": "cpp",
         "stop_token": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "any": "cpp",
+        "cstring": "cpp",
+        "forward_list": "cpp",
+        "unordered_set": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

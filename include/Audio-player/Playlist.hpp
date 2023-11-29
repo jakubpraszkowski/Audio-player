@@ -1,35 +1,30 @@
-#ifndef MUSICLIBRARY_PLAYLIST_HPP
-#define MUSICLIBRARY_PLAYLIST_HPP
+#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_PLAYLIST_HPP
+#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_PLAYLIST_HPP
 
-#include "Song.hpp"
 #include <chrono>
 #include <ctime>
-#include <iomanip>
 #include <memory>
-#include <string>
-#include <utility>
 #include <vector>
 
-class Playlist : public Song {
-    std::vector<std::shared_ptr<Song>> playlistSongs;
-    std::tm year{};
+#include "Song.hpp"
 
+class Playlist : public Song {
   public:
     Playlist();
 
     Playlist(
         std::string title, const std::string &artist,
-        const std::vector<std::shared_ptr<Song>> &playlistSongs, std::tm year);
+        std::vector<std::shared_ptr<Song>> &playlistSongs, std::tm year);
 
     Playlist createPlaylist();
 
-    static bool compareByDuration(const Playlist &p1, const Playlist &p2);
+    bool compareByDuration(const Playlist &p1, const Playlist &p2);
 
-    static bool compareByTitle(const Playlist &p1, const Playlist &p2);
+    bool compareByTitle(const Playlist &p1, const Playlist &p2);
 
-    static bool compareByCreator(const Playlist &p1, const Playlist &p2);
+    bool compareByCreator(const Playlist &p1, const Playlist &p2);
 
-    static bool compareByYear(const Playlist &p1, const Playlist &p2);
+    bool compareByYear(const Playlist &p1, const Playlist &p2);
 
     void addSongToPlaylist(
         const std::shared_ptr<Song> &song, const std::string &playlistTitle,
@@ -39,7 +34,9 @@ class Playlist : public Song {
 
     u_int calculateDuration();
 
-    friend std::ostream &operator<<(std::ostream &os, const Playlist &pl);
+  private:
+    std::vector<std::shared_ptr<Song>> playlistSongs;
+    std::tm year{};
 };
 
 #endif // MUSICLIBRARY_PLAYLIST_HPP

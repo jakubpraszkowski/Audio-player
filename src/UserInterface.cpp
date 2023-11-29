@@ -1,5 +1,15 @@
 #include "../include/Audio-player/UserInterface.hpp"
 
+void UserInterface::entryPoint() {
+    FileManager fm;
+    fm.scanDirectory();
+    MusicLibrary ml;
+    ml.updateSongs(fm);
+    UserInterface ui;
+    AudioPlayer ap;
+    ui.createWindow(ml, ap);
+}
+
 void UserInterface::changeDir(fs::path nDirectory) {
     std::cout << "Where to look for songs? Please provide the full path: ";
     std::cin >> nDirectory;
@@ -7,19 +17,9 @@ void UserInterface::changeDir(fs::path nDirectory) {
 
 void UserInterface::createWindow(MusicLibrary &ml, AudioPlayer &ap) {
     int ch;
-
-    initscr();
-    refresh();
-    start_color();
-    cbreak();
-    keypad(stdscr, TRUE);
-    noecho();
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-
+    initNcurses();
     std::thread playbackThread;
-
     WINDOW_INIT winInit;
-
     WIN_BOX winBox;
 
     do {
@@ -68,30 +68,16 @@ void UserInterface::moveKeysScreen(
         break;
 
     case KEY_UP:
-        if (winBox.currentBox == 1) {
-            moveUp(winBox.currentLine3rdBox);
-        } else if (winBox.currentBox == 2) {
-            moveUp(winBox.currentLine1stBox);
-        }
+        processKeyUp(winBox);
         break;
 
     case KEY_DOWN:
-        if (winBox.currentBox == 1) {
-            moveDownVector(ml.getSongs(), winBox.currentLine3rdBox);
-        } else if (winBox.currentBox == 2) {
-            moveDown(winBox.currentLine1stBox);
-        }
+        processKeyDown(winBox, ml);
         break;
 
     case KEY_F(4):
         if (winBox.currentBox == 1) {
-            if (winBox.currentLine1stBox == MENU::SONGS) {
-                ap.loadSound2Queue(winBox.currentLine3rdBox, ml.getSongs());
-            } else if (winBox.currentLine1stBox == MENU::ALBUMS) {
-                ap.loadSound2Queue(winBox.currentLine3rdBox, ml.getAlbums());
-            } else if (winBox.currentLine1stBox == MENU::SHUFFLE) {
-                ap.shuffleQueue();
-            }
+            leftMenuAction(winBox, ml, ap);
         } else if (winBox.currentBox == 2 && winBox.currentLine1stBox == 0) {
             if (!playbackThread.joinable()) {
                 playbackThread = std::thread([&ap]() { ap.playQueue(); });
@@ -126,29 +112,7 @@ void UserInterface::moveKeysScreen(
     }
 
     MENU_BOOL menuBool;
-
-    if (winBox.currentLine1stBox == MENU::SONGS) {
-        menuBool.isSongMenu = true;
-        menuBool.isAlbumMenu = false;
-        menuBool.isPlaylistMenu = false;
-
-    } else if (winBox.currentLine1stBox == MENU::ALBUMS) {
-        menuBool.isSongMenu = false;
-        menuBool.isAlbumMenu = true;
-        menuBool.isPlaylistMenu = false;
-    }
-    if (menuBool.isSongMenu && !menuBool.isAlbumMenu &&
-        !menuBool.isPlaylistMenu) {
-        printVectorInsideBox(
-            ml, mainWin, winBox.currentLine3rdBox, ml.getSongs());
-    } else if (
-        menuBool.isAlbumMenu && !menuBool.isSongMenu &&
-        !menuBool.isPlaylistMenu) {
-        printVectorInsideBox(
-            ml, mainWin, winBox.currentLine3rdBox, ml.getAlbums());
-    }
-
-    printMenu(winBox.currentLine1stBox);
+    whichVectorShow(winBox, menuBool, ml, mainWin);
 }
 
 void UserInterface::printVectorInsideBox(
@@ -166,7 +130,7 @@ void UserInterface::printVectorInsideBox(
     int endIdx =
         std::min(currentLine + maxLines, static_cast<int>(vec.size()) - 1);
 
-    for (int i = startIdx; i <= endIdx; ++i) {
+    for (int i = startIdx; i <= endIdx; i++) {
         if (i == currentLine) {
             attron(A_REVERSE);
             mvprintw(
@@ -195,7 +159,7 @@ void UserInterface::printVectorInsideBox(
     int endIdx =
         std::min(currentLine + maxLines, static_cast<int>(vec.size()) - 1);
 
-    for (int i = startIdx; i <= endIdx; ++i) {
+    for (int i = startIdx; i <= endIdx; i++) {
         if (i == currentLine) {
             attron(A_REVERSE);
             mvprintw(
@@ -218,7 +182,7 @@ void UserInterface::printMapInsideBox(
     int maxLines = mainWin->_maxy - 2;
     int index = 0;
 
-    for (auto it = map.begin(); it != map.end(); ++it) {
+    for (auto it = map.begin(); it != map.end(); it++) {
         if (index >= currentLine && index < currentLine + maxLines) {
             if (index == currentLine) {
                 attron(A_REVERSE);
@@ -234,38 +198,38 @@ void UserInterface::printMapInsideBox(
                     it->second.getAlbumName().c_str());
             }
         }
-        ++index;
+        index++;
     }
 }
 
 template <typename T>
 void UserInterface::moveDownVector(std::vector<T> &vec, int &currentLine) {
     if (currentLine < vec.size() - 1) {
-        ++currentLine;
+        currentLine++;
     }
 }
 
 void moveDownVector(
     const std::vector<std::shared_ptr<Song>> &vec, int &currentLine) {
     if (currentLine < vec.size() - 1) {
-        ++currentLine;
+        currentLine++;
     }
 }
 
 void UserInterface::moveUp(int &currentLine) {
     if (currentLine > 0) {
-        --currentLine;
+        currentLine--;
     }
 }
 
 void UserInterface::moveDown(int &currentLine) {
     if (currentLine < defaultMenu.size() - 1) {
-        ++currentLine;
+        currentLine++;
     }
 }
 
 void UserInterface::printMenu(int &currentLine) {
-    for (int i = 0; i < 7; ++i) {
+    for (int i = 0; i < 4; i++) {
         if (i == currentLine) {
             attron(A_REVERSE);
             mvprintw(1 + i, 1, "%s", defaultMenu[i].c_str());
@@ -302,4 +266,67 @@ void UserInterface::printCurrentSong(AudioPlayer &ap, WINDOW *topWin) {
             topWin->_begy + 1, topWin->_begx + 10, "%s",
             ap.getSongQueueFront()->getTitle().c_str());
     }
+}
+
+void UserInterface::initNcurses() {
+    initscr();
+    refresh();
+    start_color();
+    cbreak();
+    keypad(stdscr, TRUE);
+    noecho();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+}
+
+void UserInterface::processKeyUp(WIN_BOX &winBox) {
+    if (winBox.currentBox == 1) {
+        moveUp(winBox.currentLine3rdBox);
+    } else if (winBox.currentBox == 2) {
+        moveUp(winBox.currentLine1stBox);
+    }
+}
+
+void UserInterface::processKeyDown(WIN_BOX &winBox, MusicLibrary &ml) {
+    if (winBox.currentBox == 1) {
+        moveDownVector(ml.getSongs(), winBox.currentLine3rdBox);
+    } else if (winBox.currentBox == 2) {
+        moveDown(winBox.currentLine1stBox);
+    }
+}
+
+void UserInterface::leftMenuAction(
+    WIN_BOX &winBox, MusicLibrary &ml, AudioPlayer &ap) {
+    if (winBox.currentLine1stBox == MENU::SONGS) {
+        ap.loadSound2Queue(winBox.currentLine3rdBox, ml.getSongs());
+    } else if (winBox.currentLine1stBox == MENU::ALBUMS) {
+        ap.loadSound2Queue(winBox.currentLine3rdBox, ml.getAlbums());
+    } else if (winBox.currentLine1stBox == MENU::SHUFFLE) {
+        ap.shuffleQueue();
+    }
+}
+
+void UserInterface::whichVectorShow(
+    WIN_BOX &winBox, MENU_BOOL &menuBool, MusicLibrary &ml, WINDOW *mainWin) {
+    if (winBox.currentLine1stBox == MENU::SONGS) {
+        menuBool.isSongMenu = true;
+        menuBool.isAlbumMenu = false;
+        menuBool.isPlaylistMenu = false;
+
+    } else if (winBox.currentLine1stBox == MENU::ALBUMS) {
+        menuBool.isSongMenu = false;
+        menuBool.isAlbumMenu = true;
+        menuBool.isPlaylistMenu = false;
+    }
+    if (menuBool.isSongMenu && !menuBool.isAlbumMenu &&
+        !menuBool.isPlaylistMenu) {
+        printVectorInsideBox(
+            ml, mainWin, winBox.currentLine3rdBox, ml.getSongs());
+    } else if (
+        menuBool.isAlbumMenu && !menuBool.isSongMenu &&
+        !menuBool.isPlaylistMenu) {
+        printVectorInsideBox(
+            ml, mainWin, winBox.currentLine3rdBox, ml.getAlbums());
+    }
+
+    printMenu(winBox.currentLine1stBox);
 }

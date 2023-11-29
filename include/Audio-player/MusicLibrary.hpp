@@ -1,15 +1,8 @@
-#ifndef MUSICLIBRARY_MUSICLIBRARY_HPP
-#define MUSICLIBRARY_MUSICLIBRARY_HPP
+#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_MUSICLIBRARY_HPP
+#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_MUSICLIBRARY_HPP
 
-#include <algorithm>
 #include <filesystem>
-#include <future>
-#include <iostream>
-#include <map>
-#include <string>
-#include <type_traits>
 #include <unordered_map>
-#include <vector>
 
 #include "Album.hpp"
 #include "FileManager.hpp"
@@ -19,12 +12,6 @@
 namespace fs = std::filesystem;
 
 class MusicLibrary {
-    std::vector<Playlist> allPlaylists;
-    std::vector<std::shared_ptr<Song>> allSongs;
-    std::unordered_map<std::string, Album> allAlbumsMap;
-    std::vector<Album> allAlbums;
-    fs::path directory;
-
   public:
     MusicLibrary() = default;
 
@@ -59,6 +46,13 @@ class MusicLibrary {
     void sortBy(std::vector<T> &vector, bool (*compare)(const T &, const T &)) {
         std::sort(vector.begin(), vector.end(), compare);
     }
+
+  private:
+    std::vector<Playlist> allPlaylists;
+    std::vector<std::shared_ptr<Song>> allSongs;
+    std::unordered_map<std::string, Album> allAlbumsMap;
+    std::vector<Album> allAlbums;
+    fs::path directory;
 };
 
 #endif // MUSICLIBRARY_MUSICLIBRARY_HPP

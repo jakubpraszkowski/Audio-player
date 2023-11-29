@@ -31,13 +31,6 @@ const int Song::getDuration() const { return duration; }
 
 const std::string &Song::getPath() const { return path; }
 
-std::ostream &operator<<(std::ostream &os, const Song &song) {
-    os << "Title: " << song.name << " Artist: " << song.creator
-       << " Album: " << song.album << " Genre: " << song.genre
-       << " Year: " << song.year << " Duration: " << song.duration;
-    return os;
-}
-
 bool Song::compareByDuration(const Song &s1, const Song &s2) {
     return s1.duration < s2.duration;
 }
