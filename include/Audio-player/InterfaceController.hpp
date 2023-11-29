@@ -23,7 +23,8 @@ class InterfaceController : public UserInterface, public KeyboardInteraction {
     void processKeyDown(MusicLibrary &ml, WIN_BOX &winBox, MENU_BOOL &menuBool);
 
     void moveOnScreen(
-        MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &input,
-        MENU_BOOL &menuBool);
+        MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &ch,
+        std::thread &playbackThread, WINDOW *mainWin, WINDOW *topWin,
+        WINDOW *sidebarWin);
 };
 #endif // INTERFACECONTROLLER_HPP

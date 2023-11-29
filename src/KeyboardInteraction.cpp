@@ -32,13 +32,3 @@ void KeyboardInteraction::moveDown(
 int KeyboardInteraction::changeCurrentBox(WIN_BOX &winBox) {
     return winBox.currentBox = (winBox.currentBox % 2) + 1;
 }
-
-void KeyboardInteraction::processKeyUp(WIN_BOX &winBox, MENU_BOOL &menuBool) {
-    if (winBox.currentBox == MUSIC_MENU && menuBool.songMenu) {
-        moveUp(winBox.currentLineSongMenu);
-    } else if (winBox.currentBox == MUSIC_MENU && menuBool.albumMenu) {
-        moveUp(winBox.currentLineAlbumMenu);
-    } else if (winBox.currentBox == LEFT_MENU) {
-        moveUp(winBox.currentLine1stBox);
-    }
-}

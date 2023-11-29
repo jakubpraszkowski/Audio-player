@@ -15,16 +15,19 @@ class KeyboardInteraction {
   protected:
     typedef struct _win_current_line {
         int currentLine1stBox = 0;
+        int currentLine3rdBox = 0;
         int currentLineSongMenu = 0;
         int currentLineAlbumMenu = 0;
         int currentBox = 1;
     } WIN_BOX;
 
     typedef struct _menu_bool {
-        bool songMenu = 1;
-        bool albumMenu = 0;
-        bool playlistMenu = 0;
+        bool songMenu = true;
+        bool albumMenu = false;
+        bool playlistMenu = false;
     } MENU_BOOL;
+
+    typedef enum { PLAY, SONGS, ALBUMS } MENU;
 
   public:
     KeyboardInteraction(){};

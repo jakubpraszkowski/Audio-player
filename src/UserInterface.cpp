@@ -1,5 +1,4 @@
 #include "../include/Audio-player/UserInterface.hpp"
-#include "../include/Audio-player/KeyboardInteraction.hpp"
 
 const std::array<std::string, 4> UserInterface::optionMenu = {
     "Play", "Songs", "Albums", "Playlists"};
@@ -17,6 +16,35 @@ template <typename T>
 void UserInterface::printVectorInsideBox(
     MusicLibrary &ml, WINDOW *mainWin, int &currentLine, std::vector<T> &vec) {
 
+    int maxLines = mainWin->_maxy - 2;
+
+    if (currentLine < 0)
+        currentLine = 0;
+    if (currentLine >= vec.size())
+        currentLine = vec.size() - 1;
+
+    int startIdx = currentLine;
+    int endIdx =
+        std::min(currentLine + maxLines, static_cast<int>(vec.size()) - 1);
+
+    for (int i = startIdx; i <= endIdx; ++i) {
+        if (i == currentLine) {
+            attron(A_REVERSE);
+            mvprintw(
+                mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
+                vec[i].getTitle().c_str());
+            attroff(A_REVERSE);
+        } else {
+            mvprintw(
+                mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
+                vec[i].getTitle().c_str());
+        }
+    }
+}
+
+void UserInterface::printVectorInsideBox(
+    MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
+    std::vector<Album> &vec) {
     int maxLines = mainWin->_maxy - 2;
 
     if (currentLine < 0)
@@ -128,14 +156,6 @@ void UserInterface::initWindowParams() {
     keypad(stdscr, TRUE);
     noecho();
     init_pair(1, COLOR_RED, COLOR_BLACK);
-}
-
-void UserInterface::createProgressBar(AudioPlayer &ap, WINDOW *win) {
-    if (ap.checkMusicPlaying()) {
-        float progressBar = ap.calculateSongProgressBar(ap.getCurrentMusic());
-        mvprintw(win->_begy + 1, win->_begx + 1, "%f", progressBar);
-        wrefresh(win);
-    }
 }
 
 void UserInterface::printCurrentSong(AudioPlayer &ap, WINDOW *win) {

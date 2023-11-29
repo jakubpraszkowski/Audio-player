@@ -41,6 +41,10 @@ class UserInterface {
         MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
         std::vector<std::shared_ptr<Song>> &vec);
 
+    void printVectorInsideBox(
+        MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
+        std::vector<Album> &vec);
+
     template <typename T>
     void printMapInsideBox(
         MusicLibrary &ml, WINDOW *win, int &currentLine,
