@@ -8,6 +8,8 @@ add_executable(MusicLibrary
         include/Audio-player/Album.hpp
         include/Audio-player/FileManager.hpp
         include/Audio-player/KeyboardInteraction.hpp
+        include/Audio-player/InterfaceController.hpp
+        src/InterfaceController.cpp
         src/KeyboardInteraction.cpp
         src/FileManager.cpp
 )

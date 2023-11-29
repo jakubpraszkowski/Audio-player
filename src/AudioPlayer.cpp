@@ -81,3 +81,11 @@ float AudioPlayer::calculateSongProgressBar(sf::Music &music) {
     sf::Time duration = music.getDuration();
     return time.asSeconds() / duration.asSeconds();
 }
+
+std::deque<std::shared_ptr<Song>> &AudioPlayer::getSongQueue() {
+    return songQueue;
+}
+
+std::shared_ptr<Song> &AudioPlayer::getPlayingSong() {
+    return songQueue.front();
+}

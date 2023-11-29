@@ -11,9 +11,8 @@
 #include <ncurses/ncurses.h>
 #include <thread>
 
-class KeyboardInteraction;
-
 class UserInterface {
+  protected:
     typedef struct _window_init_params {
         int mainWinWidth = 0;
         int mainWinHeight = 0;
@@ -26,23 +25,16 @@ class UserInterface {
         int topWinY = 0;
     } WINDOW_INIT;
 
+  private:
     static const std::array<std::string, 4> optionMenu;
-
-    typedef struct _menu_bool {
-        bool isSongMenu = true;
-        bool isAlbumMenu = false;
-        bool isPlaylistMenu = false;
-    } MENU_BOOL;
 
   public:
     static void changeDir(fs::path nDirectory); // Reimplement
 
     static const std::array<std::string, 4> &getOptionMenu();
 
-    void createWindow(MusicLibrary &ml, AudioPlayer ap, KeyboardInteraction ki);
-
     template <typename T>
-    void printVectorInsideBox(
+    static void printVectorInsideBox(
         MusicLibrary &ml, WINDOW *win, int &currentLine, std::vector<T> &vec);
 
     void printVectorInsideBox(
@@ -54,16 +46,15 @@ class UserInterface {
         MusicLibrary &ml, WINDOW *win, int &currentLine,
         const std::unordered_map<std::string, T> &map);
 
-    template <typename T>
-    void moveDownVector(const std::vector<T> &vec, int &currentLine);
-
-    void moveDown(int &currentLine);
-
-    void moveUp(int &currentLine);
-
     void printMenu(int &currentLine);
 
     void printProgressBar(AudioPlayer &ap, WINDOW *topWin);
+
+    void initWindowParams();
+
+    void createProgressBar(AudioPlayer &ap, WINDOW *win);
+
+    void printCurrentSong(AudioPlayer &ap, WINDOW *win);
 };
 
 #endif // MUSICLIBRARY_USERINTERFACE_HPP

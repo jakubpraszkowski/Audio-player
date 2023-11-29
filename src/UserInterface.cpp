@@ -13,58 +13,6 @@ const std::array<std::string, 4> &UserInterface::getOptionMenu() {
     return optionMenu;
 }
 
-void UserInterface::createWindow(
-    MusicLibrary &ml, AudioPlayer ap, KeyboardInteraction ki) {
-    int input;
-
-    initscr();
-    refresh();
-    start_color();
-    cbreak();
-    keypad(stdscr, TRUE);
-    noecho();
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-
-    WINDOW_INIT winInit;
-    KeyboardInteraction::MENU_BOOL menuBool;
-    KeyboardInteraction::WIN_BOX winBox;
-
-    do {
-        getmaxyx(stdscr, winInit.mainWinHeight, winInit.mainWinWidth);
-
-        WINDOW *sidebarWin = newwin(
-            winInit.mainWinHeight, winInit.sidebarWinWidth, winInit.sidebarWinY,
-            winInit.sidebarWinX);
-        WINDOW *topWin = newwin(
-            winInit.topWinHeight,
-            winInit.mainWinWidth - winInit.sidebarWinWidth, winInit.topWinY,
-            winInit.sidebarWinWidth);
-        WINDOW *mainWin = newwin(
-            winInit.mainWinHeight - winInit.topWinHeight,
-            winInit.mainWinWidth - winInit.sidebarWinWidth,
-            winInit.topWinHeight, winInit.sidebarWinWidth);
-
-        box(sidebarWin, 0, 0);
-        box(topWin, 0, 0);
-        box(mainWin, 0, 0);
-        printMenu(winBox.currentLine1stBox);
-        ki.moveOnScreen(
-            ml, ap, winBox, input,
-            menuBool); // Let UserInterface handle the drawing with keyboard
-        printVectorInsideBox(
-            ml, mainWin, winBox.currentLineSongMenu, ml.getSongs());
-
-        // printProgressBar(ap, topWin);
-        wrefresh(sidebarWin);
-        wrefresh(topWin);
-        wrefresh(mainWin);
-
-    } while (input = getch() != KEY_F(1));
-
-    endwin();
-    delwin(stdscr);
-}
-
 template <typename T>
 void UserInterface::printVectorInsideBox(
     MusicLibrary &ml, WINDOW *mainWin, int &currentLine, std::vector<T> &vec) {
@@ -169,5 +117,32 @@ void UserInterface::printProgressBar(AudioPlayer &ap, WINDOW *topWin) {
         float progressBar = ap.calculateSongProgressBar(ap.getCurrentMusic());
         mvprintw(topWin->_begy + 1, topWin->_begx + 1, "%f", progressBar);
         wrefresh(topWin);
+    }
+}
+
+void UserInterface::initWindowParams() {
+    initscr();
+    refresh();
+    start_color();
+    cbreak();
+    keypad(stdscr, TRUE);
+    noecho();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+}
+
+void UserInterface::createProgressBar(AudioPlayer &ap, WINDOW *win) {
+    if (ap.checkMusicPlaying()) {
+        float progressBar = ap.calculateSongProgressBar(ap.getCurrentMusic());
+        mvprintw(win->_begy + 1, win->_begx + 1, "%f", progressBar);
+        wrefresh(win);
+    }
+}
+
+void UserInterface::printCurrentSong(AudioPlayer &ap, WINDOW *win) {
+    if (ap.checkMusicPlaying()) {
+        mvprintw(
+            win->_begy + 1, win->_begx + 1, "%s",
+            ap.getPlayingSong()->getTitle().c_str());
+        wrefresh(win);
     }
 }

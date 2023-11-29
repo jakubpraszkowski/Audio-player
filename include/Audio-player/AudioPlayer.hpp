@@ -45,6 +45,10 @@ class AudioPlayer {
     sf::Time &getCurrentTime();
 
     float calculateSongProgressBar(sf::Music &music);
+
+    std::deque<std::shared_ptr<Song>> &getSongQueue();
+
+    std::shared_ptr<Song> &getPlayingSong();
 };
 
 #endif // MUSICLIBRARY_AUDIOPLAYER_HPP

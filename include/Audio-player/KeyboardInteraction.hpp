@@ -3,7 +3,7 @@
 
 #include "AudioPlayer.hpp"
 #include "MusicLibrary.hpp"
-#include "UserInterface.hpp"
+#include <fstream>
 #include <ncurses/ncurses.h>
 
 #define KEY_TAB '\t'
@@ -11,13 +11,8 @@
 #define MUSIC_MENU 1
 #define LEFT_MENU 2
 
-// class UserInterface;
-
 class KeyboardInteraction {
-
-  public:
-    KeyboardInteraction(){};
-
+  protected:
     typedef struct _win_current_line {
         int currentLine1stBox = 0;
         int currentLineSongMenu = 0;
@@ -30,6 +25,9 @@ class KeyboardInteraction {
         bool albumMenu = 0;
         bool playlistMenu = 0;
     } MENU_BOOL;
+
+  public:
+    KeyboardInteraction(){};
 
     void moveOnScreen(
         MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &input,
@@ -47,13 +45,14 @@ class KeyboardInteraction {
     moveDown(const std::array<std::string, 4> &arrayMenu, int &currentLine);
 
     template <typename T>
-    void moveDown(const std::vector<T> &vec, int &currentLine);
+    void moveDown(const std::vector<T> &vec, int &currentLine) {
+        if (currentLine < vec.size() - 1) {
+            ++currentLine;
+        }
+    }
 
     int changeCurrentBox(WIN_BOX &winBox);
 
     void processKeyUp(WIN_BOX &winBox, MENU_BOOL &menuBool);
-
-    void processKeyDown(MusicLibrary &ml, WIN_BOX &winBox, MENU_BOOL &menuBool);
-
-};     // TODO move UserInteface keyboard actions to this class
+};
 #endif // KEYBOARDINTERACTION_HPP

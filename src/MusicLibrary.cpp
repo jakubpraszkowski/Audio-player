@@ -40,10 +40,6 @@ void MusicLibrary::updateSongs(FileManager &fm) {
             addSongToAlbum(albumName, song);
         }
     }
-
-    // for (auto &album : allAlbums) {
-    //     printf("Album: %s\n", album.getAlbumName().c_str());
-    // }
 }
 
 void MusicLibrary::addSongToAlbum(
@@ -53,12 +49,8 @@ void MusicLibrary::addSongToAlbum(
         newAlbum.addSong(song);
         allAlbumsMap[albumName] = newAlbum;
         allAlbums.push_back(newAlbum);
-        // printf("Utworzono nowy album: %s\n", albumName.c_str());
     } else {
         allAlbumsMap[albumName].addSong(song);
-        // printf(
-        //     "Dodano utwór %s do albumu: %s\n", song->getTitle().c_str(),
-        //     albumName.c_str());
     }
 }
 
