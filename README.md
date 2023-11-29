@@ -1,6 +1,6 @@
-# Audio Player
+# TerminalTunes
 
-The Music Library project is written in C++17 and allows users to manage their collection of songs and playlists.
+This C++ project utilizes system audio capabilities to play various audio formats, offering a simple yet efficient way to groove to your music collection without leaving your terminal session.
 
 # Features
 * Adding Songs: Users can add new songs to the library by providing the title, artist, album, genre, release year, and duration of the song.
