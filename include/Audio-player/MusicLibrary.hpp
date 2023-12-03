@@ -2,7 +2,10 @@
 #define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_MUSICLIBRARY_HPP
 
 #include <filesystem>
+#include <memory>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "Album.hpp"
 #include "FileManager.hpp"
@@ -40,10 +43,11 @@ class MusicLibrary {
 
     std::vector<std::shared_ptr<Song>> &getSongs() { return allSongs; }
 
-    const std::vector<Playlist> &getPlaylists() { return allPlaylists; }
+    std::vector<Playlist> &getPlaylists() { return allPlaylists; }
 
     template <typename T>
-    void sortBy(std::vector<T> &vector, bool (*compare)(const T &, const T &)) {
+    inline void
+    sortBy(std::vector<T> &vector, bool (*compare)(const T &, const T &)) {
         std::sort(vector.begin(), vector.end(), compare);
     }
 

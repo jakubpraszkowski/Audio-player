@@ -21,6 +21,33 @@ Playlist::Playlist(
     this->year = year;
 }
 
+Playlist::Playlist(const std::string &name) {
+    this->name = name;
+    // char *envUsername = std::getenv("USERNAME");
+    // if (envUsername != nullptr) {
+    //     this->creator = envUsername;
+    // } else {
+    //     this->creator = "Unknown";
+    // }
+
+    // std::chrono::system_clock::time_point now =
+    //     std::chrono::system_clock::now();
+    // std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+    // year = *std::localtime(&now_time);
+}
+
+Playlist &Playlist::operator=(const Playlist &playlist) {
+    if (this != &playlist) {
+        name = playlist.name;
+        creator = playlist.creator;
+        playlistSongs = playlist.playlistSongs;
+        year = playlist.year;
+    }
+    return *this;
+}
+
+Playlist::~Playlist(){};
+
 bool Playlist::compareByDuration(const Playlist &p1, const Playlist &p2) {
     return p1.duration < p2.duration;
 }
@@ -46,23 +73,19 @@ bool Playlist::compareByYear(const Playlist &p1, const Playlist &p2) {
     }
 }
 
-// void Playlist::addSongToPlaylist(
-//     const std::shared_ptr<Song> &song, const std::string &playlistTitle,
-//     std::vector<Song> &_playlistSongs) {
-//     playlistSongs.push_back(song);
-//     std::cout << "Song " << song->getTitle() << " added to playlist "
-//               << playlistTitle << std::endl;
-// }
+void Playlist::addSongToPlaylist(
+    const std::shared_ptr<Song> &song, const std::string &playlistTitle,
+    std::vector<Song> &_playlistSongs) {
+    playlistSongs.push_back(song);
+}
 
-// void Playlist::removeSongFromPlaylist(const std::string &songTitle) {
-//     for (auto &playlistSong : playlistSongs) {
-//         if (playlistSong->getTitle() == songTitle) {
-//             playlistSongs.erase(playlistSongs.begin());
-//             std::cout << "Song " << songTitle << " removed from playlist "
-//                       << name << std::endl;
-//         }
-//     }
-// }
+void Playlist::removeSongFromPlaylist(const std::string &songTitle) {
+    for (auto &playlistSong : playlistSongs) {
+        if (playlistSong->getTitle() == songTitle) {
+            playlistSongs.erase(playlistSongs.begin());
+        }
+    }
+}
 
 u_int Playlist::calculateDuration() {
     u_int duration = 0;

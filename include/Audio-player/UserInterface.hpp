@@ -1,54 +1,49 @@
 #ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_USERINTERFACE_HPP
 #define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_USERINTERFACE_HPP
 
+#include <unistd.h>
+
 #include <array>
+#include <memory>
 #include <thread>
+#include <vector>
 
 #include <ncurses/ncurses.h>
 
 #include "AudioPlayer.hpp"
 #include "MusicLibrary.hpp"
+#include "Playlist.hpp"
 #include "Song.hpp"
 
 class UserInterface {
   private:
     struct WIN_BOX;
     struct MENU_BOOL;
+    enum class MENU;
 
   public:
     static void entryPoint();
 
-    static void changeDir(fs::path nDirectory);
+    void drawWindowsOnScreen(MusicLibrary &ml, AudioPlayer &ap);
 
-    void createWindow(MusicLibrary &ml, AudioPlayer &ap);
-
-    void moveKeysScreen(
+    void moveOnScreenWithKeys(
         MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &ch,
         std::thread &playbackThread, WINDOW *win, WINDOW *topWin,
         WINDOW *sidebarWin);
 
-    template <typename T>
-    void printVectorInsideBox(
-        MusicLibrary &ml, WINDOW *win, int &currentLine, std::vector<T> &vec);
-
-    void printVectorInsideBox(
+    void printVectorInsideWindow(
         MusicLibrary &ml, WINDOW *win, int &currentLine,
         std::vector<Album> &vec);
 
-    void printVectorInsideBox(
+    void printVectorInsideWindow(
         MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
         std::vector<std::shared_ptr<Song>> &vec);
 
-    template <typename T>
-    void printMapInsideBox(
-        MusicLibrary &ml, WINDOW *win, int &currentLine,
-        const std::unordered_map<std::string, T> &map);
+    void printVectorInsideWindow(
+        MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
+        std::vector<Playlist> &vec);
 
-    template <typename T>
-    void moveDownVector(std::vector<T> &vec, int &currentLine);
-
-    void moveDownVector(
-        const std::vector<std::shared_ptr<Song>> &vec, int &currentLine);
+    template <typename T> void moveDown(std::vector<T> &vec, int &currentLine);
 
     void moveDown(int &currentLine);
 
@@ -71,8 +66,18 @@ class UserInterface {
     void leftMenuAction(WIN_BOX &winBox, MusicLibrary &ml, AudioPlayer &ap);
 
     void whichVectorShow(
-        WIN_BOX &winBox, MENU_BOOL &menuBool, MusicLibrary &ml,
-        WINDOW *mainWin);
+        WIN_BOX &winBox, MENU_BOOL &menuBool, MusicLibrary &ml, WINDOW *mainWin,
+        WINDOW *topWin);
+
+    void updateUI(AudioPlayer &ap, WINDOW *topWin);
+
+    void statusThread(AudioPlayer &ap, WINDOW *topWin);
+
+    void createPlaylistMenu(WINDOW *topWin, int &ch, MusicLibrary &ml);
+
+    std::string getMenuOption(MENU menu);
+
+    void noPlaylists(WINDOW *mainWin);
 
   private:
     struct WIN_BOX {
@@ -97,12 +102,18 @@ class UserInterface {
         bool isSongMenu = false;
         bool isAlbumMenu = false;
         bool isPlaylistMenu = false;
+        bool isCreatingPlaylist = false;
     };
 
-    typedef enum { PLAY, SONGS, ALBUMS, SHUFFLE } MENU;
-
-    const std::array<std::string, 4> defaultMenu = {
-        "Play", "Songs", "Albums", "Shuffle"};
+    enum class MENU {
+        PLAY,
+        SONGS,
+        ALBUMS,
+        SHUFFLE,
+        PLAYLISTS,
+        CREATE_PLAYLIST,
+        MENU_SIZE
+    };
 
     const std::array<std::string, 3> musicStatus = {
         "Playing", "Paused", "Empty queue"};

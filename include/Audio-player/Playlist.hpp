@@ -4,19 +4,26 @@
 #include <chrono>
 #include <ctime>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "Song.hpp"
 
 class Playlist : public Song {
   public:
-    Playlist();
+    Playlist() = default;
 
     Playlist(
         std::string title, const std::string &artist,
         std::vector<std::shared_ptr<Song>> &playlistSongs, std::tm year);
 
-    Playlist createPlaylist();
+    Playlist(const std::string &title);
+
+    Playlist(const Playlist &playlist){};
+
+    Playlist &operator=(const Playlist &playlist);
+
+    ~Playlist();
 
     bool compareByDuration(const Playlist &p1, const Playlist &p2);
 

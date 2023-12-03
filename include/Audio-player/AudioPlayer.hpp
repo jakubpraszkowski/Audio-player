@@ -2,8 +2,10 @@
 #define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_AUDIOPLAYER_HPP
 
 #include <deque>
+#include <memory>
 #include <mutex>
 #include <random>
+#include <vector>
 
 #include <SFML/Audio.hpp>
 #include <SFML/System/Time.hpp>

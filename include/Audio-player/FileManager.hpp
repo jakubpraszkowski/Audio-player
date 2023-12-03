@@ -2,6 +2,7 @@
 #define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_FILEMANAGER_HPP
 
 #include <filesystem>
+#include <string>
 #include <vector>
 
 #include <taglib/fileref.h>
