@@ -11,11 +11,13 @@
 
 class Playlist : public Song {
   public:
+    using songsVector = std::vector<std::shared_ptr<Song>>;
+
     Playlist() = default;
 
     Playlist(
-        std::string title, const std::string &artist,
-        std::vector<std::shared_ptr<Song>> &playlistSongs, std::tm year);
+        const std::string &title, const std::string &artist,
+        songsVector &playlistSongs, std::tm year);
 
     Playlist(const std::string &title);
 
@@ -23,7 +25,7 @@ class Playlist : public Song {
 
     Playlist &operator=(const Playlist &playlist);
 
-    ~Playlist();
+    ~Playlist() = default;
 
     bool compareByDuration(const Playlist &p1, const Playlist &p2);
 
@@ -42,7 +44,7 @@ class Playlist : public Song {
     u_int calculateDuration();
 
   private:
-    std::vector<std::shared_ptr<Song>> playlistSongs;
+    songsVector playlistSongs;
     std::tm year{};
 };
 

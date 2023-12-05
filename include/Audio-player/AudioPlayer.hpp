@@ -16,10 +16,11 @@
 
 class AudioPlayer {
   public:
+    using songsVector = std::vector<std::shared_ptr<Song>>;
+
     AudioPlayer() = default;
 
-    void
-    loadSound2Queue(int &whichItem, std::vector<std::shared_ptr<Song>> &vec);
+    void loadSound2Queue(int &whichItem, songsVector &vec);
 
     void loadSound2Queue(int &whichItem, std::vector<Album> &vec);
 

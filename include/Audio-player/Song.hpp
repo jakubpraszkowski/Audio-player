@@ -8,10 +8,11 @@ class Song {
     Song() = default;
 
     Song(
-        std::string title, std::string artist, std::string album,
-        std::string genre, u_int year, int duration, std::string path);
+        const std::string &title, const std::string &artist,
+        const std::string &album, const std::string &genre, unsigned int year,
+        int duration, const std::string &path);
 
-    Song(std::string title, int duration);
+    Song(const std::string &title, int duration);
 
     const std::string &getTitle() const;
 
@@ -21,7 +22,7 @@ class Song {
 
     const std::string &getGenre() const;
 
-    const u_int getYear() const;
+    const unsigned int getYear() const;
 
     const int getDuration() const;
 
@@ -42,13 +43,13 @@ class Song {
   protected:
     std::string name;
     std::string creator;
-    u_int size;
-    u_int duration;
+    unsigned int size;
+    unsigned int duration;
     std::string album;
 
   private:
     std::string genre;
-    u_int year = 0;
+    unsigned int year = 0;
     std::string path;
 };
 

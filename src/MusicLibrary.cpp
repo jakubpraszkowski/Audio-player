@@ -54,6 +54,13 @@ void MusicLibrary::addSongToAlbum(
     }
 }
 
+const std::unordered_map<std::string, Album> &
+MusicLibrary::getAlbumsMap() const {
+    return allAlbumsMap;
+}
+
+std::vector<Album> &MusicLibrary::getAlbums() { return allAlbums; }
+
 Song MusicLibrary::getSong(const std::string &songTitle) {
     for (auto &songPtr : allSongs) {
         if (songPtr->getTitle() == songTitle) {
@@ -62,3 +69,7 @@ Song MusicLibrary::getSong(const std::string &songTitle) {
     }
     throw std::runtime_error("Song not found");
 }
+
+MusicLibrary::songsVector &MusicLibrary::getSongs() { return allSongs; }
+
+std::vector<Playlist> &MusicLibrary::getPlaylists() { return allPlaylists; }

@@ -22,6 +22,8 @@ class UserInterface {
     enum class MENU;
 
   public:
+    using songsVector = std::vector<std::shared_ptr<Song>>;
+
     static void entryPoint();
 
     void drawWindowsOnScreen(MusicLibrary &ml, AudioPlayer &ap);
@@ -36,8 +38,7 @@ class UserInterface {
         std::vector<Album> &vec);
 
     void printVectorInsideWindow(
-        MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
-        std::vector<std::shared_ptr<Song>> &vec);
+        MusicLibrary &ml, WINDOW *mainWin, int &currentLine, songsVector &vec);
 
     void printVectorInsideWindow(
         MusicLibrary &ml, WINDOW *mainWin, int &currentLine,

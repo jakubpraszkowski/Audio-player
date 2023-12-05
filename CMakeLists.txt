@@ -9,16 +9,18 @@ include(CTest)
 add_subdirectory(external)
 
 add_executable(MusicLibrary
-        src/main.cpp src/Song.cpp include/Audio-player/Song.hpp src/MusicLibrary.cpp include/Audio-player/MusicLibrary.hpp src/UserInterface.cpp include/Audio-player/UserInterface.hpp src/AudioPlayer.cpp include/Audio-player/AudioPlayer.hpp src/Playlist.cpp include/Audio-player/Playlist.hpp
+        src/main.cpp
+        src/Song.cpp
+        src/MusicLibrary.cpp
+        src/UserInterface.cpp
+        src/AudioPlayer.cpp
+        src/Playlist.cpp
         src/Album.cpp 
-        include/Audio-player/Album.hpp
-        include/Audio-player/FileManager.hpp
         src/FileManager.cpp
 )
 
 find_package(SFML REQUIRED audio)
 set(Taglib_DIR "/usr/local/bin/taglib-config.cmake")
-# find_package(tag REQUIRED)
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 target_link_libraries(MusicLibrary PRIVATE sfml-system sfml-audio sfml-window sfml-graphics sfml-network tag z ${CURSES_LIBRARY})

@@ -1,8 +1,9 @@
 #include "../include/Audio-player/Song.hpp"
 
 Song::Song(
-    std::string name, std::string creator, std::string album, std::string genre,
-    u_int year, int duration, std::string path) {
+    const std::string &name, const std::string &creator,
+    const std::string &album, const std::string &genre, u_int year,
+    int duration, const std::string &path) {
     this->name = name;
     this->creator = creator;
     this->album = album;
@@ -12,7 +13,7 @@ Song::Song(
     this->path = path;
 }
 
-Song::Song(std::string name, int duration) {
+Song::Song(const std::string &name, int duration) {
     this->name = name;
     this->duration = duration;
 }

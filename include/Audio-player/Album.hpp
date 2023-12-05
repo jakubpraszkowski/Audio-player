@@ -9,18 +9,20 @@
 
 class Album : public Song {
   public:
+    using songsVector = std::vector<std::shared_ptr<Song>>;
+
     Album() = default;
 
     Album(const std::string &album_name);
 
-    std::vector<std::shared_ptr<Song>> &getAlbumSongs();
+    songsVector &getAlbumSongs();
 
     const std::string &getAlbumName() const;
 
     void addSong(std::shared_ptr<Song> song);
 
   private:
-    std::vector<std::shared_ptr<Song>> songsInAlbum;
+    songsVector songsInAlbum;
 };
 
 #endif // MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_ALBUM_HPP

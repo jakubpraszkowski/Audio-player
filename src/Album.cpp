@@ -2,9 +2,7 @@
 
 Album::Album(const std::string &album_name) { name = album_name; }
 
-std::vector<std::shared_ptr<Song>> &Album::getAlbumSongs() {
-    return songsInAlbum;
-}
+Album::songsVector &Album::getAlbumSongs() { return songsInAlbum; }
 
 const std::string &Album::getAlbumName() const { return name; }
 

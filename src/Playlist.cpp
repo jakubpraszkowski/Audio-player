@@ -1,8 +1,8 @@
 #include "../include/Audio-player/Playlist.hpp"
 
 Playlist::Playlist(
-    std::string name, const std::string &creator,
-    std::vector<std::shared_ptr<Song>> &playlistSongs, std::tm year) {
+    const std::string &name, const std::string &creator,
+    songsVector &playlistSongs, std::tm year) {
     this->name = name;
 
     char *envUsername = std::getenv("USERNAME");
@@ -45,8 +45,6 @@ Playlist &Playlist::operator=(const Playlist &playlist) {
     }
     return *this;
 }
-
-Playlist::~Playlist(){};
 
 bool Playlist::compareByDuration(const Playlist &p1, const Playlist &p2) {
     return p1.duration < p2.duration;

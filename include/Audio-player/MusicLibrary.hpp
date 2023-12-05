@@ -16,6 +16,8 @@ namespace fs = std::filesystem;
 
 class MusicLibrary {
   public:
+    using songsVector = std::vector<std::shared_ptr<Song>>;
+
     MusicLibrary() = default;
 
     MusicLibrary(fs::path _directory);
@@ -33,27 +35,24 @@ class MusicLibrary {
 
     void updateAlbums();
 
-    const std::unordered_map<std::string, Album> &getAlbumsMap() const {
-        return allAlbumsMap;
-    }
+    const std::unordered_map<std::string, Album> &getAlbumsMap() const;
 
-    std::vector<Album> &getAlbums() { return allAlbums; }
+    std::vector<Album> &getAlbums();
 
     Song getSong(const std::string &songTitle);
 
-    std::vector<std::shared_ptr<Song>> &getSongs() { return allSongs; }
+    songsVector &getSongs();
 
-    std::vector<Playlist> &getPlaylists() { return allPlaylists; }
+    std::vector<Playlist> &getPlaylists();
 
     template <typename T>
-    inline void
-    sortBy(std::vector<T> &vector, bool (*compare)(const T &, const T &)) {
+    void sortBy(std::vector<T> &vector, bool (*compare)(const T &, const T &)) {
         std::sort(vector.begin(), vector.end(), compare);
     }
 
   private:
     std::vector<Playlist> allPlaylists;
-    std::vector<std::shared_ptr<Song>> allSongs;
+    songsVector allSongs;
     std::unordered_map<std::string, Album> allAlbumsMap;
     std::vector<Album> allAlbums;
     fs::path directory;
