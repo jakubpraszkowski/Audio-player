@@ -189,8 +189,9 @@ void UserInterface::moveUp(int &currentLine) {
     }
 }
 
-void UserInterface::moveDown(int &currentLine) {
-    if (currentLine < static_cast<int>(MENU::MENU_SIZE) - 1) {
+void UserInterface::moveDown(
+    int &currentLine, std::function<int()> getSizeFunc) {
+    if (currentLine < getSizeFunc() - 1) {
         currentLine++;
     }
 }
@@ -271,7 +272,9 @@ void UserInterface::processKeyDown(WIN_BOX &winBox, MusicLibrary &ml) {
     if (winBox.currentBox == 1) {
         moveDown(ml.getSongs(), winBox.currentLine3rdBox);
     } else if (winBox.currentBox == 2) {
-        moveDown(winBox.currentLine1stBox);
+        moveDown(winBox.currentLine1stBox, []() {
+            return static_cast<int>(MENU::MENU_SIZE);
+        });
     }
 }
 
@@ -283,6 +286,7 @@ void UserInterface::leftMenuAction(
         ap.loadSound2Queue(winBox.currentLine3rdBox, ml.getAlbums());
     } else if (winBox.currentLine1stBox == static_cast<int>(MENU::SHUFFLE)) {
         ap.shuffleQueue();
+    } else if (winBox.currentLine1stBox == static_cast<int>(MENU::PLAYLISTS)) {
     }
 }
 

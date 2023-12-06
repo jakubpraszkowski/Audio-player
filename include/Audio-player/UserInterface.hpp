@@ -44,7 +44,7 @@ class UserInterface {
 
     template <typename T> void moveDown(std::vector<T> &vec, int &currentLine);
 
-    void moveDown(int &currentLine);
+    void moveDown(int &currentLine, std::function<int()> getSizeFunc);
 
     void moveUp(int &currentLine);
 
@@ -109,6 +109,14 @@ class UserInterface {
         bool isSongMenu = false;
         bool isAlbumMenu = false;
         bool isPlaylistMenu = false;
+    };
+
+    struct PLAYLIST_MENU_BOOL {
+        bool isShowMenu = false;
+        bool isCreateMenu = false;
+        bool isDeleteMenu = false;
+        bool isAddSongMenu = false;
+        bool isRemoveSongMenu = false;
     };
 
     enum class MENU { PLAY, SONGS, ALBUMS, PLAYLISTS, SHUFFLE, MENU_SIZE };
