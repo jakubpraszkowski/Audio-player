@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include <array>
+#include <functional>
 #include <memory>
 #include <thread>
 #include <vector>
@@ -47,7 +48,9 @@ class UserInterface {
 
     void moveUp(int &currentLine);
 
-    void printMenu(int &currentLine);
+    template <typename T>
+    void printMenu(
+        int &currentLine, std::function<std::string(T)> getMenuOptionFunc);
 
     void printStatus(AudioPlayer &ap, WINDOW *topWin);
 
@@ -80,7 +83,8 @@ class UserInterface {
 
     void noPlaylists(WINDOW *mainWin);
 
-    void playlistMenu(WINDOW *mainWin, int &ch, MusicLibrary &ml);
+    void playlistMenu(
+        WINDOW *sidebarWin, int &ch, MusicLibrary &ml, WINDOW *mainWin);
 
   private:
     struct WIN_BOX {
@@ -114,6 +118,9 @@ class UserInterface {
         CREATE,
         DELETE,
         ADD_SONG,
+        REMOVE_SONG,
+        GO_BACK,
+        MENU_SIZE
     };
 
     const std::array<std::string, 3> musicStatus = {

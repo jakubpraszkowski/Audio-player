@@ -195,16 +195,18 @@ void UserInterface::moveDown(int &currentLine) {
     }
 }
 
-void UserInterface::printMenu(int &currentLine) {
-    for (int i = 0; i < static_cast<int>(MENU::MENU_SIZE); i++) {
+template <typename T>
+void UserInterface::printMenu(
+    int &currentLine, std::function<std::string(T)> getMenuOptionFunc) {
+    for (int i = 0; i < static_cast<int>(T::MENU_SIZE); i++) {
         if (i == currentLine) {
             attron(A_REVERSE);
             mvprintw(
-                1 + i, 1, "%s", getMenuOption(static_cast<MENU>(i)).c_str());
+                1 + i, 1, "%s", getMenuOptionFunc(static_cast<T>(i)).c_str());
             attroff(A_REVERSE);
         } else {
             mvprintw(
-                1 + i, 1, "%s", getMenuOption(static_cast<MENU>(i)).c_str());
+                1 + i, 1, "%s", getMenuOptionFunc(static_cast<T>(i)).c_str());
         }
     }
 }
@@ -305,6 +307,7 @@ void UserInterface::whichVectorShow(
 
     if (menuBool.isSongMenu && !menuBool.isAlbumMenu &&
         !menuBool.isPlaylistMenu) {
+
         printVectorInsideWindow(
             ml, mainWin, winBox.currentLine3rdBox, ml.getSongs());
     } else if (
@@ -319,7 +322,9 @@ void UserInterface::whichVectorShow(
             ml, mainWin, winBox.currentLine3rdBox, ml.getPlaylists());
     }
 
-    printMenu(winBox.currentLine1stBox);
+    printMenu<MENU>(winBox.currentLine1stBox, [this](MENU menu) {
+        return this->getMenuOption(menu);
+    });
 }
 
 void UserInterface::updateUI(AudioPlayer &ap, WINDOW *topWin) {
@@ -385,6 +390,10 @@ std::string UserInterface::getPlaylistMenuOption(PLAYLIST_MENU plMenu) {
         return "Delete";
     case PLAYLIST_MENU::SHOW:
         return "Show";
+    case PLAYLIST_MENU::REMOVE_SONG:
+        return "Remove song";
+    case PLAYLIST_MENU::GO_BACK:
+        return "Go back";
     default:
         return "UNKNOWN";
     }
@@ -396,6 +405,8 @@ void UserInterface::noPlaylists(WINDOW *mainWin) {
         "No playlists created yet");
 }
 
-void UserInterface::playlistMenu(WINDOW *mainWin, int &ch, MusicLibrary &ml) {
+void UserInterface::playlistMenu(
+    WINDOW *sidebarWin, int &ch, MusicLibrary &ml, WINDOW *mainWin) {
+    wrefresh(sidebarWin);
     wrefresh(mainWin);
 }
