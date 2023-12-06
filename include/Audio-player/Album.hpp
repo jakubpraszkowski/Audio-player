@@ -17,8 +17,6 @@ class Album : public Song {
 
     songsVector &getAlbumSongs();
 
-    const std::string &getAlbumName() const;
-
     void addSong(std::shared_ptr<Song> song);
 
   private:

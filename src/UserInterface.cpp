@@ -111,9 +111,15 @@ void UserInterface::moveOnScreenWithKeys(
     whichVectorShow(winBox, menuBool, ml, mainWin, topWin);
 }
 
+template <typename T>
 void UserInterface::printVectorInsideWindow(
-    MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
-    std::vector<Album> &vec) {
+    MusicLibrary &ml, WINDOW *mainWin, int &currentLine, std::vector<T> &vec) {
+    if (vec.empty()) {
+        if (typeid(T) == typeid(Playlist)) {
+            noPlaylists(mainWin);
+        }
+        return;
+    }
 
     int maxLines = mainWin->_maxy - 2;
 
@@ -131,12 +137,12 @@ void UserInterface::printVectorInsideWindow(
             attron(A_REVERSE);
             mvprintw(
                 mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
-                vec[i].getAlbumName().c_str());
+                vec[i].getTitle().c_str());
             attroff(A_REVERSE);
         } else {
             mvprintw(
                 mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
-                vec[i].getAlbumName().c_str());
+                vec[i].getTitle().c_str());
         }
     }
 }
@@ -166,41 +172,6 @@ void UserInterface::printVectorInsideWindow(
             mvprintw(
                 mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
                 (*vec[i]).getTitle().c_str());
-        }
-    }
-}
-
-void UserInterface::printVectorInsideWindow(
-    MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
-    std::vector<Playlist> &vec) {
-
-    if (vec.empty()) {
-        noPlaylists(mainWin);
-        return;
-    }
-
-    int maxLines = mainWin->_maxy - 2;
-
-    if (currentLine < 0)
-        currentLine = 0;
-    if (currentLine >= vec.size())
-        currentLine = vec.size() - 1;
-
-    int startIdx = currentLine;
-    int endIdx =
-        std::min(currentLine + maxLines, static_cast<int>(vec.size()) - 1);
-
-    for (int i = startIdx; i <= endIdx; i++) {
-        if (i == currentLine) {
-            attron(A_REVERSE);
-            mvprintw(
-                mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
-                vec[i].getTitle().c_str());
-            attroff(A_REVERSE);
-        } else {
-            mvprintw(
-                mainWin->_begy + i - currentLine + 1, mainWin->_begx + 1, "%s",
-                vec[i].getTitle().c_str());
         }
     }
 }
@@ -281,11 +252,9 @@ void UserInterface::printCurrentSong(AudioPlayer &ap, WINDOW *topWin) {
 void UserInterface::initNcurses() {
     initscr();
     refresh();
-    start_color();
     cbreak();
     keypad(stdscr, TRUE);
     noecho();
-    init_pair(1, COLOR_RED, COLOR_BLACK);
 }
 
 void UserInterface::processKeyUp(WIN_BOX &winBox) {
@@ -322,44 +291,32 @@ void UserInterface::whichVectorShow(
         menuBool.isSongMenu = true;
         menuBool.isAlbumMenu = false;
         menuBool.isPlaylistMenu = false;
-        menuBool.isCreatingPlaylist = false;
 
     } else if (winBox.currentLine1stBox == static_cast<int>(MENU::ALBUMS)) {
         menuBool.isSongMenu = false;
         menuBool.isAlbumMenu = true;
         menuBool.isPlaylistMenu = false;
-        menuBool.isCreatingPlaylist = false;
-    } else if (
-        winBox.currentLine1stBox == static_cast<int>(MENU::CREATE_PLAYLIST)) {
-        menuBool.isSongMenu = false;
-        menuBool.isAlbumMenu = false;
-        menuBool.isPlaylistMenu = false;
-        menuBool.isCreatingPlaylist = true;
+
     } else if (winBox.currentLine1stBox == static_cast<int>(MENU::PLAYLISTS)) {
         menuBool.isSongMenu = false;
         menuBool.isAlbumMenu = false;
         menuBool.isPlaylistMenu = true;
-        menuBool.isCreatingPlaylist = false;
     }
 
     if (menuBool.isSongMenu && !menuBool.isAlbumMenu &&
-        !menuBool.isPlaylistMenu && !menuBool.isCreatingPlaylist) {
+        !menuBool.isPlaylistMenu) {
         printVectorInsideWindow(
             ml, mainWin, winBox.currentLine3rdBox, ml.getSongs());
     } else if (
         menuBool.isAlbumMenu && !menuBool.isSongMenu &&
-        !menuBool.isPlaylistMenu && !menuBool.isCreatingPlaylist) {
+        !menuBool.isPlaylistMenu) {
         printVectorInsideWindow(
             ml, mainWin, winBox.currentLine3rdBox, ml.getAlbums());
     } else if (
         !menuBool.isAlbumMenu && !menuBool.isSongMenu &&
-        menuBool.isPlaylistMenu && !menuBool.isCreatingPlaylist) {
+        menuBool.isPlaylistMenu) {
         printVectorInsideWindow(
             ml, mainWin, winBox.currentLine3rdBox, ml.getPlaylists());
-    } else if (
-        menuBool.isCreatingPlaylist && !menuBool.isPlaylistMenu &&
-        !menuBool.isAlbumMenu && !menuBool.isSongMenu) {
-        createPlaylistMenu(topWin, winBox.currentLine3rdBox, ml);
     }
 
     printMenu(winBox.currentLine1stBox);
@@ -380,7 +337,8 @@ void UserInterface::statusThread(AudioPlayer &ap, WINDOW *topWin) {
 }
 
 void UserInterface::createPlaylistMenu(
-    WINDOW *topWin, int &ch, MusicLibrary &ml) {
+    WINDOW *topWin, int &ch, MusicLibrary &ml, WINDOW *mainWin) {
+    wrefresh(mainWin);
     mvprintw(
         topWin->_begy + 1, topWin->_begx + 10, "%s", "Playlist Creation Mode");
     mvprintw(
@@ -394,10 +352,10 @@ void UserInterface::createPlaylistMenu(
             input.push_back(ch);
         };
         mvprintw(topWin->_begy + 3, topWin->_begx + 30, "%s", input.c_str());
-        refresh();
     }
     Playlist newPlaylist(input);
     ml.addPlaylist(newPlaylist);
+    wrefresh(topWin);
 }
 
 std::string UserInterface::getMenuOption(MENU menu) {
@@ -410,10 +368,23 @@ std::string UserInterface::getMenuOption(MENU menu) {
         return "Albums";
     case MENU::SHUFFLE:
         return "Shuffle";
-    case MENU::CREATE_PLAYLIST:
-        return "Create playlist";
     case MENU::PLAYLISTS:
         return "Playlists";
+    default:
+        return "UNKNOWN";
+    }
+}
+
+std::string UserInterface::getPlaylistMenuOption(PLAYLIST_MENU plMenu) {
+    switch (plMenu) {
+    case PLAYLIST_MENU::ADD_SONG:
+        return "Add song";
+    case PLAYLIST_MENU::CREATE:
+        return "Create";
+    case PLAYLIST_MENU::DELETE:
+        return "Delete";
+    case PLAYLIST_MENU::SHOW:
+        return "Show";
     default:
         return "UNKNOWN";
     }
@@ -423,4 +394,8 @@ void UserInterface::noPlaylists(WINDOW *mainWin) {
     mvprintw(
         mainWin->_begy + 1, mainWin->_begx + 1, "%s",
         "No playlists created yet");
+}
+
+void UserInterface::playlistMenu(WINDOW *mainWin, int &ch, MusicLibrary &ml) {
+    wrefresh(mainWin);
 }

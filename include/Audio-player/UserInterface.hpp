@@ -20,6 +20,7 @@ class UserInterface {
     struct WIN_BOX;
     struct MENU_BOOL;
     enum class MENU;
+    enum class PLAYLIST_MENU;
 
   public:
     using songsVector = std::vector<std::shared_ptr<Song>>;
@@ -34,15 +35,11 @@ class UserInterface {
         WINDOW *sidebarWin);
 
     void printVectorInsideWindow(
-        MusicLibrary &ml, WINDOW *win, int &currentLine,
-        std::vector<Album> &vec);
-
-    void printVectorInsideWindow(
         MusicLibrary &ml, WINDOW *mainWin, int &currentLine, songsVector &vec);
 
+    template <typename T>
     void printVectorInsideWindow(
-        MusicLibrary &ml, WINDOW *mainWin, int &currentLine,
-        std::vector<Playlist> &vec);
+        MusicLibrary &ml, WINDOW *win, int &currentLine, std::vector<T> &vec);
 
     template <typename T> void moveDown(std::vector<T> &vec, int &currentLine);
 
@@ -74,11 +71,16 @@ class UserInterface {
 
     void statusThread(AudioPlayer &ap, WINDOW *topWin);
 
-    void createPlaylistMenu(WINDOW *topWin, int &ch, MusicLibrary &ml);
+    void createPlaylistMenu(
+        WINDOW *topWin, int &ch, MusicLibrary &ml, WINDOW *mainWin);
 
     std::string getMenuOption(MENU menu);
 
+    std::string getPlaylistMenuOption(PLAYLIST_MENU plMenu);
+
     void noPlaylists(WINDOW *mainWin);
+
+    void playlistMenu(WINDOW *mainWin, int &ch, MusicLibrary &ml);
 
   private:
     struct WIN_BOX {
@@ -103,17 +105,15 @@ class UserInterface {
         bool isSongMenu = false;
         bool isAlbumMenu = false;
         bool isPlaylistMenu = false;
-        bool isCreatingPlaylist = false;
     };
 
-    enum class MENU {
-        PLAY,
-        SONGS,
-        ALBUMS,
-        SHUFFLE,
-        PLAYLISTS,
-        CREATE_PLAYLIST,
-        MENU_SIZE
+    enum class MENU { PLAY, SONGS, ALBUMS, PLAYLISTS, SHUFFLE, MENU_SIZE };
+
+    enum class PLAYLIST_MENU {
+        SHOW,
+        CREATE,
+        DELETE,
+        ADD_SONG,
     };
 
     const std::array<std::string, 3> musicStatus = {
