@@ -21,9 +21,9 @@ class Playlist : public Song {
 
     Playlist(const std::string &title);
 
-    Playlist(const Playlist &playlist){};
+    Playlist(const Playlist &otherPlaylist);
 
-    Playlist &operator=(const Playlist &playlist);
+    Playlist &operator=(const Playlist &otherPlaylist);
 
     ~Playlist() = default;
 
@@ -41,7 +41,7 @@ class Playlist : public Song {
 
     void removeSongFromPlaylist(const std::string &songTitle);
 
-    u_int calculateDuration();
+    unsigned int calculateDuration();
 
   private:
     songsVector playlistSongs;

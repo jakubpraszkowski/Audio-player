@@ -1,9 +1,9 @@
 #include "../include/Audio-player/Playlist.hpp"
 
 Playlist::Playlist(
-    const std::string &name, const std::string &creator,
+    const std::string &title, const std::string &creator,
     songsVector &playlistSongs, std::tm year) {
-    this->name = name;
+    name = title;
 
     char *envUsername = std::getenv("USERNAME");
     if (envUsername != nullptr) {
@@ -21,28 +21,29 @@ Playlist::Playlist(
     this->year = year;
 }
 
-Playlist::Playlist(const std::string &name) {
-    this->name = name;
-    // char *envUsername = std::getenv("USERNAME");
-    // if (envUsername != nullptr) {
-    //     this->creator = envUsername;
-    // } else {
-    //     this->creator = "Unknown";
-    // }
+Playlist::Playlist(const std::string &title) { name = title; }
 
-    // std::chrono::system_clock::time_point now =
-    //     std::chrono::system_clock::now();
-    // std::time_t now_time = std::chrono::system_clock::to_time_t(now);
-    // year = *std::localtime(&now_time);
+Playlist::Playlist(const Playlist &otherPlaylist)
+    : playlistSongs(otherPlaylist.playlistSongs) {
+    std::copy(
+        otherPlaylist.playlistSongs.begin(), otherPlaylist.playlistSongs.end(),
+        playlistSongs.begin());
+    name = otherPlaylist.name;
+    creator = otherPlaylist.creator;
+    year = otherPlaylist.year;
 }
 
-Playlist &Playlist::operator=(const Playlist &playlist) {
-    if (this != &playlist) {
-        name = playlist.name;
-        creator = playlist.creator;
-        playlistSongs = playlist.playlistSongs;
-        year = playlist.year;
+Playlist &Playlist::operator=(const Playlist &otherPlaylist) {
+    if (this == &otherPlaylist) {
+        return *this;
     }
+    std::copy(
+        otherPlaylist.playlistSongs.begin(), otherPlaylist.playlistSongs.end(),
+        playlistSongs.begin());
+    name = otherPlaylist.name;
+    creator = otherPlaylist.creator;
+    year = otherPlaylist.year;
+
     return *this;
 }
 
