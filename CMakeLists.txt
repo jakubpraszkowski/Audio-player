@@ -19,8 +19,17 @@ add_executable(MusicLibrary
         src/FileManager.cpp
 )
 
+enable_testing()
+
+file(GLOB TEST_FILES "tests/*.cpp")
+add_executable(runUnitTests ${TEST_FILES})
+
+target_link_libraries(runUnitTests gtest gtest_main pthread)
+
 find_package(SFML REQUIRED audio)
 set(Taglib_DIR "/usr/local/bin/taglib-config.cmake")
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 target_link_libraries(MusicLibrary PRIVATE sfml-system sfml-audio sfml-window sfml-graphics sfml-network tag z ${CURSES_LIBRARY})
+
+add_test(NAME checkAlbum COMMAND runUnitTests)
