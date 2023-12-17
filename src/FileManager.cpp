@@ -26,3 +26,24 @@ void FileManager::printOggFilePaths() {
 std::vector<std::string> &FileManager::getOggFilePaths() {
     return oggFilePaths;
 }
+
+void FileManager::saveFilePaths() {
+    std::ofstream file("filepaths.txt");
+    for (const auto &path : oggFilePaths) {
+        file << path << std::endl;
+    }
+    file.close();
+}
+
+void FileManager::loadFilePaths() {
+    std::ifstream file("filepaths.txt");
+    std::string line;
+    while (std::getline(file, line)) {
+        oggFilePaths.push_back(line);
+    }
+    file.close();
+}
+
+bool FileManager::checkForChanges() { return false; }
+
+fs::path &FileManager::getDirectory() { return directory; }
