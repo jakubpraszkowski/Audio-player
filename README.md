@@ -32,13 +32,3 @@ Getting Started
 * Clone this repository to your local machine.
 * Build the project using CMake.
 * Run the executable to launch the Music Library application.
-
-# TODO Section
-
-Week 1:
---------
-[ ] Add Menu for Playlists, Albums, Songs.
-
-[ ] Add caching directories.
-
-[ ] Add creation of playlists.
