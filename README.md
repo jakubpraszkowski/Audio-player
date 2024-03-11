@@ -37,3 +37,4 @@ cmake</code></pre>
 <pre><code>make</code></pre>
 
 ## Application View
+![Application](media/app.gif)

@@ -28,10 +28,10 @@ void MusicLibrary::updateSongs(FileManager &fm) {
         TagLib::FileRef f(path.c_str());
         if (!f.isNull() && f.tag()) {
             TagLib::Tag *tag = f.tag();
-            std::string title = tag->title().toCString();
-            std::string artist = tag->artist().toCString();
-            std::string albumName = tag->album().toCString();
-            std::string genre = tag->genre().toCString();
+            std::string title = tag->title().toCString(true);
+            std::string artist = tag->artist().toCString(true);
+            std::string albumName = tag->album().toCString(true);
+            std::string genre = tag->genre().toCString(true);
             u_int year = tag->year();
             int duration = f.audioProperties()->lengthInSeconds();
             std::shared_ptr<Song> song = std::make_shared<Song>(
