@@ -11,24 +11,24 @@ void FileManager::ScanDirectory() {
     }
 }
 
-void FileManager::ChangeScanningDirectory(fs::path &new_directory) {
+void FileManager::ChangeScanningDirectory(const fs::path &new_directory) {
     directory_ = new_directory;
 }
 
-void FileManager::PrintOggFilePaths() {
-    int i = 0;
+void FileManager::PrintOggFilePaths() const {
+    int count = 0;
     for (const auto &path : ogg_file_paths_) {
         std::cout << path << std::endl;
-        i++;
+        count++;
     }
-    std::cout << "Total: " << i;
+    std::cout << "Total: " << count;
 }
 
 std::vector<std::string> &FileManager::get_ogg_file_paths() {
     return ogg_file_paths_;
 }
 
-void FileManager::SaveFilePaths() {
+void FileManager::SaveFilePaths() const {
     std::ofstream file("filepaths.txt");
     for (const auto &path : ogg_file_paths_) {
         file << path << std::endl;
@@ -45,6 +45,6 @@ void FileManager::LoadFilePaths() {
     file.close();
 }
 
-bool FileManager::CheckForChanges() { return false; }
+bool FileManager::CheckForChanges() const { return false; }
 
-fs::path &FileManager::get_directory() { return directory_; }
+const fs::path &FileManager::get_directory() const { return directory_; }

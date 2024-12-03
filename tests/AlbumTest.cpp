@@ -3,18 +3,7 @@
 #include <gtest/gtest.h>
 #include <memory>
 
-class AlbumTest : public ::testing::Test, public Song {
-  public:
-    bool operator==(const Album &rhs) const {
-        return get_title() == rhs.get_title();
-    }
-    bool operator==(const Song &rhs) const {
-        return get_title() == rhs.get_title() && get_artist() == rhs.get_artist() &&
-               get_album() == rhs.get_album() && get_genre() == rhs.get_genre() &&
-               get_year() == rhs.get_year() &&
-               get_duration() == rhs.get_duration() && get_path() == rhs.get_path();
-    }
-
+class AlbumTest : public ::testing::Test {
   protected:
     std::shared_ptr<Song> expected_song1 = std::make_shared<Song>("Song1", 200);
     std::shared_ptr<Song> expected_song2 = std::make_shared<Song>("Song2", 200);

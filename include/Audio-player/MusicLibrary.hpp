@@ -19,15 +19,15 @@ class MusicLibrary {
 
     MusicLibrary() = default;
 
-    explicit MusicLibrary(fs::path directory);
+    explicit MusicLibrary(const fs::path directory);
 
     void AddPlaylist(const Playlist &playlist);
 
     template <typename T> void PrintVector(const std::vector<T> &vec) const;
 
-    template <typename T> bool IsEmpty(std::vector<T> &vector);
+    template <typename T> bool IsEmpty(const std::vector<T> &vector) const;
 
-    void UpdateSongs(FileManager &fm);
+    void UpdateSongs(FileManager &file_manager);
 
     std::shared_ptr<Song> create_song_from_tag(
         TagLib::FileRef &file_ref, const std::string &path) const;
@@ -41,7 +41,7 @@ class MusicLibrary {
 
     std::vector<Album> &get_albums();
 
-    Song get_song(const std::string &song_title);
+    Song get_song(const std::string &song_title) const;
 
     SongsVector &get_songs();
 

@@ -15,8 +15,8 @@
 
 namespace fs = std::filesystem;
 
-const int kEventSize = sizeof(struct inotify_event);
-const int kEventBufLen = 1024 * (kEventSize + 16);
+constexpr int kEventSize = sizeof(struct inotify_event);
+constexpr int kEventBufLen = 1024 * (kEventSize + 16);
 
 class FileManager {
   public:
@@ -24,19 +24,19 @@ class FileManager {
 
     void ScanDirectory();
 
-    void ChangeScanningDirectory(fs::path &new_directory);
+    void ChangeScanningDirectory(const fs::path &new_directory);
 
-    void PrintOggFilePaths();
+    void PrintOggFilePaths() const;
 
     std::vector<std::string> &get_ogg_file_paths();
 
-    void SaveFilePaths();
+    void SaveFilePaths() const;
 
     void LoadFilePaths();
 
-    bool CheckForChanges();
+    bool CheckForChanges() const;
 
-    fs::path &get_directory();
+    const fs::path &get_directory() const;
 
   private:
     fs::path directory_;

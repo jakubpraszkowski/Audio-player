@@ -15,7 +15,8 @@ void MusicLibrary::PrintVector(const std::vector<T> &vec) const {
     }
 }
 
-template <typename T> bool MusicLibrary::IsEmpty(std::vector<T> &vec) {
+template <typename T>
+bool MusicLibrary::IsEmpty(const std::vector<T> &vec) const {
     return vec.empty();
 }
 
@@ -61,8 +62,8 @@ MusicLibrary::get_albums_map() const {
 
 std::vector<Album> &MusicLibrary::get_albums() { return all_albums_; }
 
-Song MusicLibrary::get_song(const std::string &song_title) {
-    for (auto &song_ptr : all_songs_) {
+Song MusicLibrary::get_song(const std::string &song_title) const {
+    for (const auto &song_ptr : all_songs_) {
         if (song_ptr->get_title() == song_title) {
             return *song_ptr;
         }
