@@ -19,6 +19,7 @@ class UserInterface {
   private:
     struct WinBox;
     struct MenuBool;
+    struct WindowInit;
     enum class Menu;
     enum class PlaylistMenu;
 
@@ -29,10 +30,18 @@ class UserInterface {
 
     void DrawWindowsOnScreen(MusicLibrary &ml, AudioPlayer &ap);
 
+    void create_windows(WindowInit &window_init);
+
+    void
+    refresh_windows(WINDOW *sidebar_win, WINDOW *top_win, WINDOW *main_win);
+
     void MoveOnScreenWithKeys(
         MusicLibrary &ml, AudioPlayer &ap, WinBox &win_box, int &ch,
-        std::thread &playback_thread, WINDOW *win, WINDOW *top_win,
-        WINDOW *sidebar_win);
+        std::thread &playback_thread, WINDOW *win, WINDOW *top_win);
+
+    void handle_key_f4(
+        WinBox &win_box, MusicLibrary &music_library, AudioPlayer &audio_player,
+        std::thread &playback_thread);
 
     void PrintVectorInsideWindow(
         MusicLibrary &ml, WINDOW *main_win, int &current_line,

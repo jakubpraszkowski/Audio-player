@@ -19,34 +19,7 @@ void UserInterface::DrawWindowsOnScreen(
     WinBox win_box;
 
     do {
-        getmaxyx(
-            stdscr, window_init.main_win_height, window_init.main_win_width);
-
-        WINDOW *sidebar_win = newwin(
-            window_init.main_win_height, window_init.sidebar_win_width,
-            window_init.sidebar_win_y, window_init.sidebar_win_x);
-        WINDOW *top_win = newwin(
-            window_init.top_win_height,
-            window_init.main_win_width - window_init.sidebar_win_width,
-            window_init.top_win_y, window_init.sidebar_win_width);
-        WINDOW *main_win = newwin(
-            window_init.main_win_height - window_init.top_win_height,
-            window_init.main_win_width - window_init.sidebar_win_width,
-            window_init.top_win_height, window_init.sidebar_win_width);
-
-        box(sidebar_win, 0, 0);
-        box(top_win, 0, 0);
-        box(main_win, 0, 0);
-
-        MoveOnScreenWithKeys(
-            music_library, audio_player, win_box, ch, playback_thread, main_win,
-            top_win, sidebar_win);
-
-        PrintCurrentSong(audio_player, top_win);
-
-        wrefresh(sidebar_win);
-        wrefresh(top_win);
-        wrefresh(main_win);
+        create_windows(window_init);
 
     } while ((ch = getch()) != KEY_F(1));
 
@@ -57,10 +30,36 @@ void UserInterface::DrawWindowsOnScreen(
     delwin(stdscr);
 }
 
+void UserInterface::create_windows(WindowInit &window_init) {
+    getmaxyx(stdscr, window_init.main_win_height, window_init.main_win_width);
+
+    WINDOW *sidebar_win = newwin(
+        window_init.main_win_height, window_init.sidebar_win_width,
+        window_init.sidebar_win_y, window_init.sidebar_win_x);
+    WINDOW *top_win = newwin(
+        window_init.top_win_height,
+        window_init.main_win_width - window_init.sidebar_win_width,
+        window_init.top_win_y, window_init.sidebar_win_width);
+    WINDOW *main_win = newwin(
+        window_init.main_win_height - window_init.top_win_height,
+        window_init.main_win_width - window_init.sidebar_win_width,
+        window_init.top_win_height, window_init.sidebar_win_width);
+
+    box(sidebar_win, 0, 0);
+    box(top_win, 0, 0);
+    box(main_win, 0, 0);
+}
+
+void UserInterface::refresh_windows(
+    WINDOW *sidebar_win, WINDOW *top_win, WINDOW *main_win) {
+    wrefresh(sidebar_win);
+    wrefresh(top_win);
+    wrefresh(main_win);
+}
+
 void UserInterface::MoveOnScreenWithKeys(
     MusicLibrary &music_library, AudioPlayer &audio_player, WinBox &win_box,
-    int &ch, std::thread &playback_thread, WINDOW *main_win, WINDOW *top_win,
-    WINDOW *sidebar_win) {
+    int &ch, std::thread &playback_thread, WINDOW *main_win, WINDOW *top_win) {
     switch (ch) {
     case '\t':
         win_box.current_box = (win_box.current_box % 2) + 1;
@@ -75,15 +74,7 @@ void UserInterface::MoveOnScreenWithKeys(
         break;
 
     case KEY_F(4):
-        if (win_box.current_box == 1) {
-            LeftMenuAction(win_box, music_library, audio_player);
-        } else if (
-            win_box.current_box == 2 && win_box.current_line_1st_box == 0) {
-            if (!playback_thread.joinable()) {
-                playback_thread = std::thread(
-                    [&audio_player]() { audio_player.PlayQueue(); });
-            }
-        }
+        handle_key_f4(win_box, music_library, audio_player, playback_thread);
         break;
 
     case KEY_RIGHT:
@@ -114,6 +105,19 @@ void UserInterface::MoveOnScreenWithKeys(
 
     MenuBool menu_bool;
     WhichVectorShow(win_box, menu_bool, music_library, main_win, top_win);
+}
+
+void UserInterface::handle_key_f4(
+    WinBox &win_box, MusicLibrary &music_library, AudioPlayer &audio_player,
+    std::thread &playback_thread) {
+    if (win_box.current_box == 1) {
+        LeftMenuAction(win_box, music_library, audio_player);
+    } else if (win_box.current_box == 2 && win_box.current_line_1st_box == 0) {
+        if (!playback_thread.joinable()) {
+            playback_thread =
+                std::thread([&audio_player]() { audio_player.PlayQueue(); });
+        }
+    }
 }
 
 template <typename T>
