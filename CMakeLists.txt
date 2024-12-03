@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.24)
 project(MusicLibrary VERSION 0.0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+endif()
+
 include(UpdateSubmodules.cmake)
 
 include(CTest)
@@ -25,4 +30,4 @@ include_directories(${CURSES_INCLUDE_DIR})
 
 target_link_libraries(MusicLibrary PRIVATE sfml-system sfml-audio sfml-window sfml-graphics sfml-network tag z ${CURSES_LIBRARY})
 
-add_test(NAME checkAlbum COMMAND runUnitTests)
+add_test(NAME checkAlbum  COMMAND runUnitTests)

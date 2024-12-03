@@ -12,7 +12,7 @@ class AlbumTest : public ::testing::Test {
     Album album = Album("Test Album");
 };
 
-TEST_F(AlbumTest, TestAlbumName) { EXPECT_EQ(album.get_title(), "Test Album"); }
+TEST_F(AlbumTest, TestAlbumName) { EXPECT_EQ(album.get_album(), "Test Album"); }
 
 TEST_F(AlbumTest, TestAddSong) {
     album.add_song(expected_song1);

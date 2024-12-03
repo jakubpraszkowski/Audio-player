@@ -6,6 +6,7 @@ This C++ project utilizes system audio capabilities to play various audio format
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* [Running Tests and Coverage](#running-tests-and-coverage)
 * [Application view](#application-view)
 
 ## General info
@@ -24,6 +25,8 @@ This project is a comprehensive audio player application developed in C++. The a
 * Multithreading
 * Templates
 * Git
+* SFML
+* ncurses
 
 ## Setup
 <p>Install external dependencies:</p>
@@ -32,9 +35,17 @@ This project is a comprehensive audio player application developed in C++. The a
 <pre><code>git clone https://github.com/jakubpraszkowski/TerminalTunes.git</code></pre>
 <p>Build the project using CMake.</p>
 <pre><code>cd TerminalTunes
-cmake</code></pre>
+cmake .
+make</code></pre>
 <p>Run the project.</p>
-<pre><code>make</code></pre>
+<pre><code>./MusicLibrary</code></pre>
+
+## Running Tests and Coverage
+<p>To run tests and generate a coverage report, you need to install the following tools:</p>
+<pre><code>sudo dnf install lcov</code></pre>
+<p>Use the provided script to run tests and generate the coverage report:</p>
+<pre><code>./run_coverage.sh</code></pre>
+<p>This script will clean the build directory, rebuild the project with coverage flags, run the tests, and generate an HTML coverage report.</p>
 
 ## Application View
 ![Application](media/app.gif)
