@@ -1,5 +1,4 @@
-#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_AUDIOPLAYER_HPP
-#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_AUDIOPLAYER_HPP
+#pragma once
 
 #include <deque>
 #include <memory>
@@ -16,45 +15,43 @@
 
 class AudioPlayer {
   public:
-    using songsVector = std::vector<std::shared_ptr<Song>>;
+    using SongsVector = std::vector<std::shared_ptr<Song>>;
 
     AudioPlayer() = default;
 
-    void loadSound2Queue(int &whichItem, songsVector &vec);
+    void LoadSoundToQueue(int &which_item, SongsVector &vec);
 
-    void loadSound2Queue(int &whichItem, std::vector<Album> &vec);
+    void LoadSoundToQueue(int &which_item, std::vector<Album> &vec);
 
-    void playQueue();
+    void PlayQueue();
 
-    bool isDequeEmpty();
+    bool is_deque_empty();
 
-    sf::Music &getCurrentMusic();
+    sf::Music &get_current_music();
 
-    bool checkMusicPlaying();
+    bool check_music_playing();
 
-    void pauseOrResumeMusic(sf::Music &music);
+    void PauseOrResumeMusic(sf::Music &music);
 
-    void advanceForwardMusic(sf::Music &music);
+    void AdvanceForwardMusic(sf::Music &music);
 
-    void advanceBackwardMusic(sf::Music &music);
+    void AdvanceBackwardMusic(sf::Music &music);
 
-    void stopMusic(sf::Music &music);
+    void StopMusic(sf::Music &music);
 
-    void shuffleQueue();
+    void ShuffleQueue();
 
-    sf::Time &getCurrentTime();
+    sf::Time &get_current_time();
 
-    float calculateSongProgressBar(sf::Music &music);
+    float CalculateSongProgressBar(sf::Music &music);
 
-    std::deque<std::shared_ptr<Song>> &getSongQueue() { return songQueue; }
+    std::deque<std::shared_ptr<Song>> &get_song_queue();
 
-    std::shared_ptr<Song> &getSongQueueFront() { return songQueue.front(); }
+    std::shared_ptr<Song> &get_song_queue_front();
 
   private:
-    sf::Music music;
-    std::deque<std::shared_ptr<Song>> songQueue;
-    std::mutex musicMutex;
-    sf::Time currentTime;
+    sf::Music music_;
+    std::deque<std::shared_ptr<Song>> song_queue_;
+    std::mutex music_mutex_;
+    sf::Time current_time_;
 };
-
-#endif

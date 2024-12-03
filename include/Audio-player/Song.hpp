@@ -3,7 +3,7 @@
 
 #include <string>
 
-class Song {
+class Song {  
   public:
     Song() = default;
 
@@ -14,43 +14,41 @@ class Song {
 
     Song(const std::string &title, int duration);
 
-    const std::string &getTitle() const;
+    const std::string &get_title() const;
 
-    const std::string &getArtist() const;
+    const std::string &get_artist() const;
 
-    const std::string &getAlbum() const;
+    const std::string &get_album() const;
 
-    const std::string &getGenre() const;
+    const std::string &get_genre() const;
 
-    const unsigned int getYear() const;
+    const unsigned int get_year() const;
 
-    const int getDuration() const;
+    int get_duration() const;
 
-    const std::string &getPath() const;
+    const std::string &get_path() const;
 
-    static bool compareByDuration(const Song &s1, const Song &s2);
+    static bool CompareByDuration(const Song &s1, const Song &s2);
 
-    static bool compareByTitle(const Song &s1, const Song &s2);
+    static bool CompareByTitle(const Song &s1, const Song &s2);
 
-    static bool compareByArtist(const Song &s1, const Song &s2);
+    static bool CompareByArtist(const Song &s1, const Song &s2);
 
-    static bool compareByAlbum(const Song &s1, const Song &s2);
+    static bool CompareByAlbum(const Song &s1, const Song &s2);
 
-    static bool compareByGenre(const Song &s1, const Song &s2);
+    static bool CompareByGenre(const Song &s1, const Song &s2);
 
-    static bool compareByYear(const Song &s1, const Song &s2);
+    static bool CompareByYear(const Song &s1, const Song &s2);
 
   protected:
-    std::string name;
-    std::string creator;
-    unsigned int size;
-    unsigned int duration;
-    std::string album;
-
-  private:
-    std::string genre;
-    unsigned int year = 0;
-    std::string path;
+    std::string title_;
+    std::string artist_;
+    unsigned int size_;
+    unsigned int duration_;
+    std::string album_;
+    std::string genre_;
+    unsigned int year_ = 0;
+    std::string path_;
 };
 
-#endif // MUSICLIBRARY_SONG_HPP
+#endif

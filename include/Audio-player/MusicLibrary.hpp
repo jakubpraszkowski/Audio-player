@@ -1,5 +1,4 @@
-#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_MUSICLIBRARY_HPP
-#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_MUSICLIBRARY_HPP
+#pragma once
 
 #include <filesystem>
 #include <memory>
@@ -16,46 +15,47 @@ namespace fs = std::filesystem;
 
 class MusicLibrary {
   public:
-    using songsVector = std::vector<std::shared_ptr<Song>>;
+    using SongsVector = std::vector<std::shared_ptr<Song>>;
 
     MusicLibrary() = default;
 
-    MusicLibrary(fs::path _directory);
+    explicit MusicLibrary(fs::path directory);
 
-    void addPlaylist(const Playlist &playlist);
+    void AddPlaylist(const Playlist &playlist);
 
-    template <typename T> void printVector(const std::vector<T> &vec);
+    template <typename T> void PrintVector(const std::vector<T> &vec) const;
 
-    template <typename T> bool isEmpty(std::vector<T> &vector);
+    template <typename T> bool IsEmpty(std::vector<T> &vector);
 
-    void updateSongs(FileManager &fm);
+    void UpdateSongs(FileManager &fm);
 
-    void addSongToAlbum(
-        const std::string &albumName, const std::shared_ptr<Song> &song);
+    std::shared_ptr<Song> create_song_from_tag(
+        TagLib::FileRef &file_ref, const std::string &path) const;
 
-    void updateAlbums();
+    void AddSongToAlbum(
+        const std::string &album_name, const std::shared_ptr<Song> &song);
 
-    const std::unordered_map<std::string, Album> &getAlbumsMap() const;
+    void UpdateAlbums();
 
-    std::vector<Album> &getAlbums();
+    const std::unordered_map<std::string, Album> &get_albums_map() const;
 
-    Song getSong(const std::string &songTitle);
+    std::vector<Album> &get_albums();
 
-    songsVector &getSongs();
+    Song get_song(const std::string &song_title);
 
-    std::vector<Playlist> &getPlaylists();
+    SongsVector &get_songs();
+
+    std::vector<Playlist> &get_playlists();
 
     template <typename T>
-    void sortBy(std::vector<T> &vector, bool (*compare)(const T &, const T &)) {
+    void SortBy(std::vector<T> &vector, bool (*compare)(const T &, const T &)) {
         std::sort(vector.begin(), vector.end(), compare);
     }
 
   private:
-    std::vector<Playlist> allPlaylists;
-    songsVector allSongs;
-    std::unordered_map<std::string, Album> allAlbumsMap;
-    std::vector<Album> allAlbums;
-    fs::path directory;
+    std::vector<Playlist> all_playlists_;
+    SongsVector all_songs_;
+    std::unordered_map<std::string, Album> all_albums_map_;
+    std::vector<Album> all_albums_;
+    fs::path directory_;
 };
-
-#endif // MUSICLIBRARY_MUSICLIBRARY_HPP

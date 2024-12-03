@@ -1,5 +1,4 @@
-#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_PLAYLIST_HPP
-#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_PLAYLIST_HPP
+#pragma once
 
 #include <chrono>
 #include <ctime>
@@ -11,41 +10,39 @@
 
 class Playlist : public Song {
   public:
-    using songsVector = std::vector<std::shared_ptr<Song>>;
+    using SongsVector = std::vector<std::shared_ptr<Song>>;
 
     Playlist() = default;
 
     Playlist(
         const std::string &title, const std::string &artist,
-        songsVector &playlistSongs, std::tm year);
+        SongsVector &playlist_songs, std::tm year);
 
     Playlist(const std::string &title);
 
-    Playlist(const Playlist &otherPlaylist);
+    Playlist(const Playlist &other_playlist);
 
-    Playlist &operator=(const Playlist &otherPlaylist);
+    Playlist &operator=(const Playlist &other_playlist);
 
     ~Playlist() = default;
 
-    bool compareByDuration(const Playlist &p1, const Playlist &p2);
+    bool CompareByDuration(const Playlist &p1, const Playlist &p2);
 
-    bool compareByTitle(const Playlist &p1, const Playlist &p2);
+    bool CompareByTitle(const Playlist &p1, const Playlist &p2);
 
-    bool compareByCreator(const Playlist &p1, const Playlist &p2);
+    bool CompareByCreator(const Playlist &p1, const Playlist &p2);
 
-    bool compareByYear(const Playlist &p1, const Playlist &p2);
+    bool CompareByYear(const Playlist &p1, const Playlist &p2);
 
-    void addSongToPlaylist(
-        const std::shared_ptr<Song> &song, const std::string &playlistTitle,
-        std::vector<Song> &playlistSongs);
+    void AddSongToPlaylist(
+        const std::shared_ptr<Song> &song, const std::string &playlist_title,
+        std::vector<Song> &playlist_songs);
 
-    void removeSongFromPlaylist(const std::string &songTitle);
+    void RemoveSongFromPlaylist(const std::string &song_title);
 
-    unsigned int calculateDuration();
+    unsigned int CalculateDuration();
 
   private:
-    songsVector playlistSongs;
-    std::tm year{};
+    SongsVector playlist_songs_;
+    std::tm year_;
 };
-
-#endif // MUSICLIBRARY_PLAYLIST_HPP

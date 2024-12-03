@@ -1,6 +1,6 @@
 #include "../include/Audio-player/UserInterface.hpp"
 
 int main() {
-    UserInterface::entryPoint();
+    UserInterface::EntryPoint();
     return 0;
 }

@@ -1,57 +1,57 @@
 #include "../include/Audio-player/Song.hpp"
 
 Song::Song(
-    const std::string &name, const std::string &creator,
-    const std::string &album, const std::string &genre, u_int year,
+    const std::string &title, const std::string &artist,
+    const std::string &album, const std::string &genre, unsigned int year,
     int duration, const std::string &path) {
-    this->name = name;
-    this->creator = creator;
-    this->album = album;
-    this->genre = genre;
-    this->year = year;
-    this->duration = duration;
-    this->path = path;
+    title_ = title;
+    artist_ = artist;
+    album_ = album;
+    genre_ = genre;
+    year_ = year;
+    duration_ = duration;
+    path_ = path;
 }
 
-Song::Song(const std::string &name, int duration) {
-    this->name = name;
-    this->duration = duration;
+Song::Song(const std::string &title, int duration) {
+    title_ = title;
+    duration_ = duration;
 }
 
-const std::string &Song::getTitle() const { return name; }
+const std::string &Song::get_title() const { return title_; }
 
-const std::string &Song::getArtist() const { return creator; }
+const std::string &Song::get_artist() const { return artist_; }
 
-const std::string &Song::getAlbum() const { return album; }
+const std::string &Song::get_album() const { return album_; }
 
-const std::string &Song::getGenre() const { return genre; }
+const std::string &Song::get_genre() const { return genre_; }
 
-const u_int Song::getYear() const { return year; }
+const unsigned int Song::get_year() const { return year_; }
 
-const int Song::getDuration() const { return duration; }
+int Song::get_duration() const { return duration_; }
 
-const std::string &Song::getPath() const { return path; }
+const std::string &Song::get_path() const { return path_; }
 
-bool Song::compareByDuration(const Song &s1, const Song &s2) {
-    return s1.duration < s2.duration;
+bool Song::CompareByDuration(const Song &s1, const Song &s2) {
+    return s1.duration_ < s2.duration_;
 }
 
-bool Song::compareByTitle(const Song &s1, const Song &s2) {
-    return s1.name < s2.name;
+bool Song::CompareByTitle(const Song &s1, const Song &s2) {
+    return s1.title_ < s2.title_;
 }
 
-bool Song::compareByArtist(const Song &s1, const Song &s2) {
-    return s1.creator < s2.creator;
+bool Song::CompareByArtist(const Song &s1, const Song &s2) {
+    return s1.artist_ < s2.artist_;
 }
 
-bool Song::compareByAlbum(const Song &s1, const Song &s2) {
-    return s1.album < s2.album;
+bool Song::CompareByAlbum(const Song &s1, const Song &s2) {
+    return s1.album_ < s2.album_;
 }
 
-bool Song::compareByGenre(const Song &s1, const Song &s2) {
-    return s1.genre < s2.genre;
+bool Song::CompareByGenre(const Song &s1, const Song &s2) {
+    return s1.genre_ < s2.genre_;
 }
 
-bool Song::compareByYear(const Song &s1, const Song &s2) {
-    return s1.year < s2.year;
+bool Song::CompareByYear(const Song &s1, const Song &s2) {
+    return s1.year_ < s2.year_;
 }

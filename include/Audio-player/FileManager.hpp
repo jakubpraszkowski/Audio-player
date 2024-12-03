@@ -1,5 +1,4 @@
-#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_FILEMANAGER_HPP
-#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_FILEMANAGER_HPP
+#pragma once
 
 #include <sys/inotify.h>
 #include <unistd.h>
@@ -16,33 +15,30 @@
 
 namespace fs = std::filesystem;
 
-constexpr int EVENT_SIZE = sizeof(struct inotify_event);
-constexpr int EVENT_BUF_LEN = 1024 * (EVENT_SIZE + 16);
+const int kEventSize = sizeof(struct inotify_event);
+const int kEventBufLen = 1024 * (kEventSize + 16);
 
 class FileManager {
   public:
     FileManager();
 
-    void scanDirectory();
+    void ScanDirectory();
 
-    void changeScanningDirectory(fs::path &newDirectory);
+    void ChangeScanningDirectory(fs::path &new_directory);
 
-    void printOggFilePaths();
+    void PrintOggFilePaths();
 
-    std::vector<std::string> &getOggFilePaths();
+    std::vector<std::string> &get_ogg_file_paths();
 
-    void saveFilePaths();
+    void SaveFilePaths();
 
-    void loadFilePaths();
+    void LoadFilePaths();
 
-    bool checkForChanges();
+    bool CheckForChanges();
 
-    fs::path &getDirectory();
+    fs::path &get_directory();
 
   private:
-    fs::path directory;
-
-    std::vector<std::string> oggFilePaths;
+    fs::path directory_;
+    std::vector<std::string> ogg_file_paths_;
 };
-
-#endif

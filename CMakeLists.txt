@@ -8,16 +8,8 @@ include(CTest)
 
 add_subdirectory(external)
 
-add_executable(MusicLibrary
-        src/main.cpp
-        src/Song.cpp
-        src/MusicLibrary.cpp
-        src/UserInterface.cpp
-        src/AudioPlayer.cpp
-        src/Playlist.cpp
-        src/Album.cpp 
-        src/FileManager.cpp
-)
+file(GLOB SRC_FILES "src/*.cpp")
+add_executable(MusicLibrary ${SRC_FILES})
 
 enable_testing()
 
@@ -27,7 +19,6 @@ add_executable(runUnitTests ${TEST_FILES})
 target_link_libraries(runUnitTests gtest gtest_main pthread)
 
 find_package(SFML REQUIRED audio)
-set(Taglib_DIR "/usr/local/bin/taglib-config.cmake")
 find_package(Curses REQUIRED)
 
 include_directories(${CURSES_INCLUDE_DIR})

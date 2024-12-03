@@ -1,5 +1,4 @@
-#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_ALBUM_HPP
-#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_ALBUM_HPP
+#pragma once
 
 #include <memory>
 #include <string>
@@ -9,18 +8,16 @@
 
 class Album : public Song {
   public:
-    using songsVector = std::vector<std::shared_ptr<Song>>;
+  using SongsVector = std::vector<std::shared_ptr<Song>>;
 
     Album() = default;
 
     Album(const std::string &album_name);
 
-    songsVector &getAlbumSongs();
+    SongsVector &get_album_songs();
 
-    void addSong(std::shared_ptr<Song> song);
+    void add_song(std::shared_ptr<Song> song);
 
   private:
-    songsVector songsInAlbum;
+    SongsVector songs_in_album_;
 };
-
-#endif // MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_ALBUM_HPP

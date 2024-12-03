@@ -1,5 +1,4 @@
-#ifndef MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_USERINTERFACE_HPP
-#define MUSICLIBRARY_INCLUDE_AUDIO_PLAYER_USERINTERFACE_HPP
+#pragma once
 
 #include <unistd.h>
 
@@ -18,110 +17,111 @@
 
 class UserInterface {
   private:
-    struct WIN_BOX;
-    struct MENU_BOOL;
-    enum class MENU;
-    enum class PLAYLIST_MENU;
+    struct WinBox;
+    struct MenuBool;
+    enum class Menu;
+    enum class PlaylistMenu;
 
   public:
-    using songsVector = std::vector<std::shared_ptr<Song>>;
+    using SongsVector = std::vector<std::shared_ptr<Song>>;
 
-    static void entryPoint();
+    static void EntryPoint();
 
-    void drawWindowsOnScreen(MusicLibrary &ml, AudioPlayer &ap);
+    void DrawWindowsOnScreen(MusicLibrary &ml, AudioPlayer &ap);
 
-    void moveOnScreenWithKeys(
-        MusicLibrary &ml, AudioPlayer &ap, WIN_BOX &winBox, int &ch,
-        std::thread &playbackThread, WINDOW *win, WINDOW *topWin,
-        WINDOW *sidebarWin);
+    void MoveOnScreenWithKeys(
+        MusicLibrary &ml, AudioPlayer &ap, WinBox &win_box, int &ch,
+        std::thread &playback_thread, WINDOW *win, WINDOW *top_win,
+        WINDOW *sidebar_win);
 
-    void printVectorInsideWindow(
-        MusicLibrary &ml, WINDOW *mainWin, int &currentLine, songsVector &vec);
-
-    template <typename T>
-    void printVectorInsideWindow(
-        MusicLibrary &ml, WINDOW *win, int &currentLine, std::vector<T> &vec);
-
-    template <typename T> void moveDown(std::vector<T> &vec, int &currentLine);
-
-    void moveDown(int &currentLine, std::function<int()> getSizeFunc);
-
-    void moveUp(int &currentLine);
+    void PrintVectorInsideWindow(
+        MusicLibrary &ml, WINDOW *main_win, int &current_line,
+        SongsVector &vec);
 
     template <typename T>
-    void printMenu(
-        int &currentLine, std::function<std::string(T)> getMenuOptionFunc);
+    void PrintVectorInsideWindow(
+        MusicLibrary &ml, WINDOW *win, int &current_line, std::vector<T> &vec);
 
-    void printStatus(AudioPlayer &ap, WINDOW *topWin);
+    template <typename T> void MoveDown(std::vector<T> &vec, int &current_line);
 
-    void printProgressBar(AudioPlayer &ap, WINDOW *topWin);
+    void MoveDown(int &current_line, std::function<int()> get_size_func);
 
-    void printCurrentSong(AudioPlayer &ap, WINDOW *topWin);
+    void MoveUp(int &current_line);
 
-    void initNcurses();
+    template <typename T>
+    void PrintMenu(
+        int &current_line, std::function<std::string(T)> get_menu_option_func);
 
-    void processKeyUp(WIN_BOX &winBox);
+    void PrintStatus(AudioPlayer &ap, WINDOW *top_win);
 
-    void processKeyDown(WIN_BOX &winBox, MusicLibrary &ml);
+    void PrintProgressBar(AudioPlayer &ap, WINDOW *top_win);
 
-    void leftMenuAction(WIN_BOX &winBox, MusicLibrary &ml, AudioPlayer &ap);
+    void PrintCurrentSong(AudioPlayer &ap, WINDOW *top_win);
 
-    void whichVectorShow(
-        WIN_BOX &winBox, MENU_BOOL &menuBool, MusicLibrary &ml, WINDOW *mainWin,
-        WINDOW *topWin);
+    void InitNcurses();
 
-    void updateUI(AudioPlayer &ap, WINDOW *topWin);
+    void ProcessKeyUp(WinBox &win_box);
 
-    void statusThread(AudioPlayer &ap, WINDOW *topWin);
+    void ProcessKeyDown(WinBox &win_box, MusicLibrary &ml);
 
-    void createPlaylistMenu(
-        WINDOW *topWin, int &ch, MusicLibrary &ml, WINDOW *mainWin);
+    void LeftMenuAction(WinBox &win_box, MusicLibrary &ml, AudioPlayer &ap);
 
-    std::string getMenuOption(MENU menu);
+    void WhichVectorShow(
+        WinBox &win_box, MenuBool &menu_bool, MusicLibrary &ml,
+        WINDOW *main_win, WINDOW *top_win);
 
-    std::string getPlaylistMenuOption(PLAYLIST_MENU plMenu);
+    void UpdateUI(AudioPlayer &ap, WINDOW *top_win);
 
-    void noPlaylists(WINDOW *mainWin);
+    void StatusThread(AudioPlayer &ap, WINDOW *top_win);
 
-    void playlistMenu(
-        WINDOW *sidebarWin, int &ch, MusicLibrary &ml, WINDOW *mainWin);
+    void CreatePlaylistMenu(
+        WINDOW *top_win, int &ch, MusicLibrary &ml, WINDOW *main_win);
+
+    std::string get_menu_option(Menu menu);
+
+    std::string get_playlist_menu_option(PlaylistMenu playlist_menu);
+
+    void NoPlaylists(WINDOW *main_win);
+
+    void PlaylistMenuI(
+        WINDOW *sidebar_win, int &ch, MusicLibrary &ml, WINDOW *main_win);
 
   private:
-    struct WIN_BOX {
-        int currentLine1stBox = 0;
-        int currentLine3rdBox = 0;
-        int currentBox = 2;
+    struct WinBox {
+        int current_line_1st_box = 0;
+        int current_line_3rd_box = 0;
+        int current_box = 2;
     };
 
-    struct WINDOW_INIT {
-        int mainWinWidth = 0;
-        int mainWinHeight = 0;
-        int sidebarWinWidth = 20;
-        int sidebarWinX = 0;
-        int sidebarWinY = 0;
-        int topWinHeight = 5;
-        int topWinY = 0;
-        int mainWinY = 0;
-        int mainWinX = 0;
+    struct WindowInit {
+        int main_win_width = 0;
+        int main_win_height = 0;
+        int sidebar_win_width = 20;
+        int sidebar_win_x = 0;
+        int sidebar_win_y = 0;
+        int top_win_height = 5;
+        int top_win_y = 0;
+        int main_win_y = 0;
+        int main_win_x = 0;
     };
 
-    struct MENU_BOOL {
-        bool isSongMenu = false;
-        bool isAlbumMenu = false;
-        bool isPlaylistMenu = false;
+    struct MenuBool {
+        bool is_song_menu = false;
+        bool is_album_menu = false;
+        bool is_playlist_menu = false;
     };
 
-    struct PLAYLIST_MENU_BOOL {
-        bool isShowMenu = false;
-        bool isCreateMenu = false;
-        bool isDeleteMenu = false;
-        bool isAddSongMenu = false;
-        bool isRemoveSongMenu = false;
+    struct PlaylistMenuBool {
+        bool is_show_menu = false;
+        bool is_create_menu = false;
+        bool is_delete_menu = false;
+        bool is_add_song_menu = false;
+        bool is_remove_song_menu = false;
     };
 
-    enum class MENU { PLAY, SONGS, ALBUMS, PLAYLISTS, SHUFFLE, MENU_SIZE };
+    enum class Menu { PLAY, SONGS, ALBUMS, PLAYLISTS, SHUFFLE, MENU_SIZE };
 
-    enum class PLAYLIST_MENU {
+    enum class PlaylistMenu {
         SHOW,
         CREATE,
         DELETE,
@@ -131,8 +131,6 @@ class UserInterface {
         MENU_SIZE
     };
 
-    const std::array<std::string, 3> musicStatus = {
+    const std::array<std::string, 3> music_status = {
         "Playing", "Paused", "Empty queue"};
 };
-
-#endif // MUSICLIBRARY_USERINTERFACE_HPP

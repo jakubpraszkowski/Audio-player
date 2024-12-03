@@ -1,9 +1,9 @@
 #include "../include/Audio-player/Album.hpp"
 
-Album::Album(const std::string &album_name) { name = album_name; }
+Album::Album(const std::string &album_name) { album_ = album_name;}
 
-Album::songsVector &Album::getAlbumSongs() { return songsInAlbum; }
+Album::SongsVector &Album::get_album_songs() { return songs_in_album_; }
 
-void Album::addSong(std::shared_ptr<Song> song) {
-    songsInAlbum.push_back(song);
+void Album::add_song(std::shared_ptr<Song> song) {
+    songs_in_album_.push_back(song);
 }
