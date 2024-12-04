@@ -11,11 +11,9 @@ class Album : public Song {
   using SongsVector = std::vector<std::shared_ptr<Song>>;
 
     Album() = default;
-
-    Album(const std::string &album_name);
+    explicit Album(const std::string &album_name);
 
     SongsVector &get_album_songs();
-
     void add_song(std::shared_ptr<Song> song);
 
   private:

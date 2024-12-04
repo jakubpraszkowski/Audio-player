@@ -23,22 +23,16 @@ class FileManager {
     FileManager();
 
     void ScanDirectory();
-
     void ChangeScanningDirectory(const fs::path &new_directory);
-
     void PrintOggFilePaths() const;
-
     std::vector<std::string> &get_ogg_file_paths();
-
     void SaveFilePaths() const;
-
     void LoadFilePaths();
-
-    bool CheckForChanges() const;
-
     const fs::path &get_directory() const;
 
   private:
+    bool CheckForChanges() const;
+
     fs::path directory_;
     std::vector<std::string> ogg_file_paths_;
 };

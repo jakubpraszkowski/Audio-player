@@ -19,39 +19,25 @@ class AudioPlayer {
 
     AudioPlayer() = default;
 
-    void LoadSoundToQueue(int &which_item, SongsVector &vec);
-
-    void LoadSoundToQueue(int &which_item, std::vector<Album> &vec);
-
+    void LoadSoundToQueue(int which_item, SongsVector &vec);
+    void LoadSoundToQueue(int which_item, std::vector<Album> &vec);
     void PlayQueue();
-
-    bool is_deque_empty();
-
+    bool is_deque_empty() const;
     sf::Music &get_current_music();
-
-    bool check_music_playing();
-
-    void PauseOrResumeMusic(sf::Music &music);
-
-    void AdvanceForwardMusic(sf::Music &music);
-
-    void AdvanceBackwardMusic(sf::Music &music);
-
-    void StopMusic(sf::Music &music);
-
+    bool check_music_playing() const;
+    void PauseOrResumeMusic();
+    void AdvanceForwardMusic();
+    void AdvanceBackwardMusic();
+    void StopMusic();
     void ShuffleQueue();
-
-    sf::Time &get_current_time();
-
-    float CalculateSongProgressBar(sf::Music &music);
-
+    sf::Time get_current_time() const;
+    float CalculateSongProgressBar() const;
     std::deque<std::shared_ptr<Song>> &get_song_queue();
-
     std::shared_ptr<Song> &get_song_queue_front();
 
   private:
     sf::Music music_;
     std::deque<std::shared_ptr<Song>> song_queue_;
-    std::mutex music_mutex_;
+    mutable std::mutex music_mutex_;
     sf::Time current_time_;
 };

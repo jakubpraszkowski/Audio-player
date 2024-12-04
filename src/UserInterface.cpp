@@ -18,13 +18,9 @@ void UserInterface::DrawWindowsOnScreen(
 
     do {
         CreateWindows();
-
         MoveOnScreenWithKeys(music_library, audio_player, ch, playback_thread);
-
         PrintCurrentSong(audio_player);
-
         RefreshWindows();
-
     } while ((ch = getch()) != KEY_F(1));
 
     if (playback_thread.joinable())
@@ -82,24 +78,24 @@ void UserInterface::MoveOnScreenWithKeys(
 
     case KEY_RIGHT:
         if (audio_player.check_music_playing()) {
-            audio_player.AdvanceForwardMusic(audio_player.get_current_music());
+            audio_player.AdvanceForwardMusic();
         }
         break;
 
     case KEY_LEFT:
         if (audio_player.check_music_playing()) {
-            audio_player.AdvanceBackwardMusic(audio_player.get_current_music());
+            audio_player.AdvanceBackwardMusic();
         }
         break;
 
-    case char('s'):
+    case 's':
         if (audio_player.check_music_playing()) {
-            audio_player.StopMusic(audio_player.get_current_music());
+            audio_player.StopMusic();
         }
         break;
 
-    case char('p'):
-        audio_player.PauseOrResumeMusic(audio_player.get_current_music());
+    case 'p':
+        audio_player.PauseOrResumeMusic();
         break;
 
     default:
@@ -241,8 +237,7 @@ void UserInterface::PrintStatus(AudioPlayer &audio_player) {
 
 void UserInterface::PrintProgressBar(AudioPlayer &audio_player) {
     if (audio_player.check_music_playing()) {
-        float progress_bar = audio_player.CalculateSongProgressBar(
-            audio_player.get_current_music());
+        float progress_bar = audio_player.CalculateSongProgressBar();
         int progress_bar_length = static_cast<int>(progress_bar * 100);
 
         mvwprintw(
@@ -401,6 +396,17 @@ void UserInterface::CreatePlaylistMenu(MusicLibrary &music_library) {
     wrefresh(window_init_.top_win);
 }
 
+void UserInterface::NoPlaylists() {
+    mvprintw(
+        getbegy(window_init_.main_win) + 1, getbegx(window_init_.main_win) + 1,
+        "%s", "No playlists created yet");
+}
+
+void UserInterface::PlaylistMenuI() {
+    wrefresh(window_init_.sidebar_win);
+    wrefresh(window_init_.main_win);
+}
+
 std::string UserInterface::get_menu_option(Menu menu) {
     switch (menu) {
     case Menu::PLAY:
@@ -436,15 +442,4 @@ UserInterface::get_playlist_menu_option(PlaylistMenu playlist_menu) {
     default:
         return "UNKNOWN";
     }
-}
-
-void UserInterface::NoPlaylists() {
-    mvprintw(
-        getbegy(window_init_.main_win) + 1, getbegx(window_init_.main_win) + 1,
-        "%s", "No playlists created yet");
-}
-
-void UserInterface::PlaylistMenuI() {
-    wrefresh(window_init_.sidebar_win);
-    wrefresh(window_init_.main_win);
 }

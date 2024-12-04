@@ -8,51 +8,16 @@ void MusicLibrary::AddPlaylist(const Playlist &playlist) {
     all_playlists_.push_back(playlist);
 }
 
-template <typename T>
-void MusicLibrary::PrintVector(const std::vector<T> &vec) const {
-    for (const auto &item : vec) {
-        std::cout << item << std::endl;
-    }
-}
-
-template <typename T>
-bool MusicLibrary::IsEmpty(const std::vector<T> &vec) const {
-    return vec.empty();
-}
-
 void MusicLibrary::UpdateSongs(FileManager &file_manager) {
     setlocale(LC_ALL, "pl_PL.UTF-8");
     for (const auto &path : file_manager.get_ogg_file_paths()) {
         TagLib::FileRef file_ref(path.c_str());
         if (!file_ref.isNull() && file_ref.tag()) {
-            auto song = create_song_from_tag(file_ref, path);
+            auto song = CreateSongFromTag(file_ref, path);
             all_songs_.push_back(song);
             AddSongToAlbum(song->get_album(), song);
         }
     }
-}
-
-std::shared_ptr<Song> MusicLibrary::create_song_from_tag(
-    TagLib::FileRef &file_ref, const std::string &path) const {
-    TagLib::Tag *tag = file_ref.tag();
-    std::string title = tag->title().toCString(true);
-    std::string artist = tag->artist().toCString(true);
-    std::string album_name = tag->album().toCString(true);
-    std::string genre = tag->genre().toCString(true);
-    unsigned int year = tag->year();
-    int duration = file_ref.audioProperties()->lengthInSeconds();
-    return std::make_shared<Song>(
-        title, artist, album_name, genre, year, duration, path);
-}
-
-void MusicLibrary::AddSongToAlbum(
-    const std::string &album_name, const std::shared_ptr<Song> &song) {
-    auto &album = all_albums_map_[album_name];
-    if (album.get_title().empty()) {
-        album = Album(album_name);
-        all_albums_.push_back(album);
-    }
-    album.add_song(song);
 }
 
 const std::unordered_map<std::string, Album> &
@@ -74,3 +39,34 @@ Song MusicLibrary::get_song(const std::string &song_title) const {
 MusicLibrary::SongsVector &MusicLibrary::get_songs() { return all_songs_; }
 
 std::vector<Playlist> &MusicLibrary::get_playlists() { return all_playlists_; }
+
+std::shared_ptr<Song> MusicLibrary::CreateSongFromTag(
+    TagLib::FileRef &file_ref, const std::string &path) const {
+    TagLib::Tag *tag = file_ref.tag();
+    return std::make_shared<Song>(
+        tag->title().toCString(true), tag->artist().toCString(true),
+        tag->album().toCString(true), tag->genre().toCString(true), tag->year(),
+        file_ref.audioProperties()->lengthInSeconds(), path);
+}
+
+void MusicLibrary::AddSongToAlbum(
+    const std::string &album_name, const std::shared_ptr<Song> &song) {
+    auto &album = all_albums_map_[album_name];
+    if (album.get_title().empty()) {
+        album = Album(album_name);
+        all_albums_.push_back(album);
+    }
+    album.add_song(song);
+}
+
+template <typename T>
+void MusicLibrary::PrintVector(const std::vector<T> &vec) const {
+    for (const auto &item : vec) {
+        std::cout << item << std::endl;
+    }
+}
+
+template <typename T>
+bool MusicLibrary::IsEmpty(const std::vector<T> &vec) const {
+    return vec.empty();
+}

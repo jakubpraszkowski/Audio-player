@@ -2,7 +2,7 @@
 
 Playlist::Playlist(
     const std::string &title, const std::string &creator,
-    SongsVector &playlist_songs, std::tm year) {
+    SongsVector &playlist_songs) {
     title_ = title;
 
     char *env_username = std::getenv("USERNAME");
@@ -17,8 +17,7 @@ Playlist::Playlist(
     std::chrono::system_clock::time_point now =
         std::chrono::system_clock::now();
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
-    year = *std::localtime(&now_time);
-    year_ = year;
+    year_ = *std::localtime(&now_time);
 }
 
 Playlist::Playlist(const std::string &title) { title_ = title; }

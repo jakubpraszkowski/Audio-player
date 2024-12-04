@@ -18,41 +18,31 @@ class MusicLibrary {
     using SongsVector = std::vector<std::shared_ptr<Song>>;
 
     MusicLibrary() = default;
-
     explicit MusicLibrary(const fs::path directory);
 
     void AddPlaylist(const Playlist &playlist);
-
-    template <typename T> void PrintVector(const std::vector<T> &vec) const;
-
-    template <typename T> bool IsEmpty(const std::vector<T> &vector) const;
-
     void UpdateSongs(FileManager &file_manager);
 
-    std::shared_ptr<Song> create_song_from_tag(
-        TagLib::FileRef &file_ref, const std::string &path) const;
-
-    void AddSongToAlbum(
-        const std::string &album_name, const std::shared_ptr<Song> &song);
-
-    void UpdateAlbums();
-
     const std::unordered_map<std::string, Album> &get_albums_map() const;
-
     std::vector<Album> &get_albums();
-
     Song get_song(const std::string &song_title) const;
-
     SongsVector &get_songs();
-
     std::vector<Playlist> &get_playlists();
 
+  private:
+    std::shared_ptr<Song>
+    CreateSongFromTag(TagLib::FileRef &file_ref, const std::string &path) const;
+    void AddSongToAlbum(
+        const std::string &album_name, const std::shared_ptr<Song> &song);
+    void UpdateAlbums();
+
+    template <typename T> void PrintVector(const std::vector<T> &vec) const;
+    template <typename T> bool IsEmpty(const std::vector<T> &vector) const;
     template <typename T>
     void SortBy(std::vector<T> &vector, bool (*compare)(const T &, const T &)) {
         std::sort(vector.begin(), vector.end(), compare);
     }
 
-  private:
     std::vector<Playlist> all_playlists_;
     SongsVector all_songs_;
     std::unordered_map<std::string, Album> all_albums_map_;

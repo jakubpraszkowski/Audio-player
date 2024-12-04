@@ -28,18 +28,15 @@ class UserInterface {
     void
     DrawWindowsOnScreen(MusicLibrary &music_library, AudioPlayer &audio_player);
 
+  private:
     void CreateWindows();
-
     void RefreshWindows();
-
     void MoveOnScreenWithKeys(
         MusicLibrary &music_library, AudioPlayer &audio_player, int &ch,
         std::thread &playback_thread);
-
     void HandleF4Key(
         MusicLibrary &music_library, AudioPlayer &audio_player,
         std::thread &playback_thread);
-
     void PrintVectorInsideWindow(
         MusicLibrary &music_library, WINDOW *main_win, int &current_line,
         SongsVector &vec);
@@ -52,7 +49,6 @@ class UserInterface {
     template <typename T> void MoveDown(std::vector<T> &vec, int &current_line);
 
     void MoveDown(int &current_line, std::function<int()> get_size_func);
-
     void MoveUp(int &current_line);
 
     template <typename T>
@@ -60,36 +56,22 @@ class UserInterface {
         int &current_line, std::function<std::string(T)> get_menu_option_func);
 
     void PrintStatus(AudioPlayer &audio_player);
-
     void PrintProgressBar(AudioPlayer &audio_player);
-
     void PrintCurrentSong(AudioPlayer &audio_player);
-
     void InitNcurses();
-
     void ProcessKeyUp();
-
     void ProcessKeyDown(MusicLibrary &music_library);
-
     void LeftMenuAction(MusicLibrary &music_library, AudioPlayer &audio_player);
-
     void WhichVectorShow(MusicLibrary &music_library);
-
     void UpdateUi(AudioPlayer &audio_player);
-
     void StatusThread(AudioPlayer &audio_player);
-
     void CreatePlaylistMenu(MusicLibrary &music_library);
-
-    std::string get_menu_option(Menu menu);
-
-    std::string get_playlist_menu_option(PlaylistMenu playlist_menu);
-
     void NoPlaylists();
-
     void PlaylistMenuI();
 
-  private:
+    std::string get_menu_option(Menu menu);
+    std::string get_playlist_menu_option(PlaylistMenu playlist_menu);
+
     struct WinBox {
         int current_line_1st_box = 0;
         int current_line_3rd_box = 0;
