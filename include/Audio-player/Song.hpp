@@ -1,14 +1,18 @@
 #pragma once
 
+#include <stdexcept>
 #include <string>
 
-class Song {  
+#include <SFML/Audio.hpp>
+
+class Song {
   public:
     Song() = default;
     Song(
         const std::string &title, const std::string &artist,
         const std::string &album, const std::string &genre, unsigned int year,
         int duration, const std::string &path);
+    Song(const std::string &title, const std::string &file_path, int duration);
     Song(const std::string &title, int duration);
 
     const std::string &get_title() const;

@@ -25,8 +25,8 @@ Playlist::Playlist(const std::string &title) { title_ = title; }
 Playlist::Playlist(const Playlist &other_playlist)
     : playlist_songs_(other_playlist.playlist_songs_) {
     std::copy(
-        other_playlist.playlist_songs_.begin(), other_playlist.playlist_songs_.end(),
-        playlist_songs_.begin());
+        other_playlist.playlist_songs_.begin(),
+        other_playlist.playlist_songs_.end(), playlist_songs_.begin());
     artist_ = other_playlist.artist_;
     artist_ = other_playlist.artist_;
     year_ = other_playlist.year_;
@@ -37,8 +37,8 @@ Playlist &Playlist::operator=(const Playlist &other_playlist) {
         return *this;
     }
     std::copy(
-        other_playlist.playlist_songs_.begin(), other_playlist.playlist_songs_.end(),
-        playlist_songs_.begin());
+        other_playlist.playlist_songs_.begin(),
+        other_playlist.playlist_songs_.end(), playlist_songs_.begin());
     artist_ = other_playlist.artist_;
     artist_ = other_playlist.artist_;
     year_ = other_playlist.year_;
@@ -46,6 +46,29 @@ Playlist &Playlist::operator=(const Playlist &other_playlist) {
     return *this;
 }
 
+void Playlist::AddSongToPlaylist(const std::shared_ptr<Song> &song) {
+    playlist_songs_.push_back(song);
+}
+
+void Playlist::RemoveSongFromPlaylist(const std::string &song_title) {
+    for (auto &playlist_song : playlist_songs_) {
+        if (playlist_song->get_title() == song_title) {
+            playlist_songs_.erase(playlist_songs_.begin());
+        }
+    }
+}
+
+unsigned int Playlist::CalculateDuration() {
+    unsigned int duration = 0;
+    for (const auto &song : playlist_songs_) {
+        duration += song->get_duration();
+    }
+    return duration;
+}
+
+const Playlist::SongsVector &Playlist::get_playlist_songs() const {
+    return playlist_songs_;
+}
 bool Playlist::CompareByDuration(const Playlist &p1, const Playlist &p2) {
     return p1.duration_ < p2.duration_;
 }
@@ -69,26 +92,4 @@ bool Playlist::CompareByYear(const Playlist &p1, const Playlist &p2) {
     } else {
         return tm1.tm_mday < tm2.tm_mday;
     }
-}
-
-void Playlist::AddSongToPlaylist(
-    const std::shared_ptr<Song> &song, const std::string &playlist_title,
-    std::vector<Song> &playlist_songs) {
-    playlist_songs_.push_back(song);
-}
-
-void Playlist::RemoveSongFromPlaylist(const std::string &song_title) {
-    for (auto &playlist_song : playlist_songs_) {
-        if (playlist_song->get_title() == song_title) {
-            playlist_songs_.erase(playlist_songs_.begin());
-        }
-    }
-}
-
-unsigned int Playlist::CalculateDuration() {
-    unsigned int duration = 0;
-    for (const auto &song : playlist_songs_) {
-        duration += song->get_duration();
-    }
-    return duration;
 }

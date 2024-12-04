@@ -3,10 +3,10 @@
 FileManager::FileManager() { directory_ = "/home/kubuski/Music"; }
 
 void FileManager::ScanDirectory() {
-    for (fs::recursive_directory_iterator it(directory_), end; it != end;
-         it++) {
-        if (fs::is_regular_file(*it) && it->path().extension() == ".ogg") {
-            ogg_file_paths_.push_back(it->path().string());
+    ogg_file_paths_.clear();
+    for (const auto& entry : std::filesystem::directory_iterator(directory_)) {
+        if (entry.path().extension() == ".ogg") {
+            ogg_file_paths_.push_back(entry.path().string());
         }
     }
 }

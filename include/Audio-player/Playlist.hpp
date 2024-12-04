@@ -22,12 +22,12 @@ class Playlist : public Song {
     Playlist &operator=(const Playlist &other_playlist);
     ~Playlist() = default;
 
-    void AddSongToPlaylist(
-        const std::shared_ptr<Song> &song, const std::string &playlist_title,
-        std::vector<Song> &playlist_songs);
+    void AddSongToPlaylist(const std::shared_ptr<Song> &song);
 
     void RemoveSongFromPlaylist(const std::string &song_title);
     unsigned int CalculateDuration();
+
+    const SongsVector &get_playlist_songs() const;
 
     static bool CompareByDuration(const Playlist &p1, const Playlist &p2);
     static bool CompareByTitle(const Playlist &p1, const Playlist &p2);

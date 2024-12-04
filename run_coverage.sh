@@ -8,19 +8,19 @@ BUILD_DIR="build"
 COVERAGE_DIR="coverage"
 COVERAGE_INFO="coverage.info"
 
-# Clean and create build directory
-rm -rf $BUILD_DIR
+# Create build directory if it doesn't exist
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
-# Run CMake with coverage flags
-cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_EXE_LINKER_FLAGS="--coverage" ..
+# Run CMake with coverage flags and Ninja generator
+cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_EXE_LINKER_FLAGS="--coverage" ..
 
-# Build the project
-make
+# Build the project with Ninja
+ninja
 
 # Run the tests
-./runUnitTests
+./entity_tests
+./functionality_tests
 
 # Capture coverage data
 lcov --capture --directory . --output-file $COVERAGE_INFO --ignore-errors mismatch

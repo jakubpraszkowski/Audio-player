@@ -1,4 +1,6 @@
-#include "../include/Audio-player/Song.hpp"
+// #include "../src/Song.cpp"
+#include "../../include/Audio-player/Song.hpp"
+
 #include <gtest/gtest.h>
 
 class SongComparisonTest : public ::testing::Test {
@@ -36,3 +38,27 @@ TEST_F(SongComparisonTest, CompareByYear) {
     EXPECT_TRUE(Song::CompareByYear(song1, song2));
     EXPECT_FALSE(Song::CompareByYear(song2, song1));
 }
+
+TEST_F(SongComparisonTest, TestTitle) {
+    EXPECT_EQ(song1.get_title(), "Title1");
+}
+
+TEST_F(SongComparisonTest, TestArtist) {
+    EXPECT_EQ(song1.get_artist(), "Artist1");
+}
+
+TEST_F(SongComparisonTest, TestAlbum) {
+    EXPECT_EQ(song1.get_album(), "Album1");
+}
+
+TEST_F(SongComparisonTest, TestGenre) {
+    EXPECT_EQ(song1.get_genre(), "Genre1");
+}
+
+TEST_F(SongComparisonTest, TestYear) { EXPECT_EQ(song1.get_year(), 2000); }
+
+TEST_F(SongComparisonTest, TestDuration) {
+    EXPECT_EQ(song1.get_duration(), 180);
+}
+
+TEST_F(SongComparisonTest, TestPath) { EXPECT_EQ(song1.get_path(), "Path1"); }

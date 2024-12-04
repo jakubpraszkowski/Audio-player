@@ -13,6 +13,9 @@ Song::Song(
     path_ = path;
 }
 
+Song::Song(const std::string &title, const std::string &file_path, int duration)
+    : title_(title), path_(file_path), duration_(duration) {}
+
 Song::Song(const std::string &title, int duration) {
     title_ = title;
     duration_ = duration;

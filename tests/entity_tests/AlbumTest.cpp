@@ -1,5 +1,6 @@
-#include "../src/Album.cpp"
-#include "../src/Song.cpp"
+#include "../../include/Audio-player/Album.hpp"
+#include "../../include/Audio-player/Song.hpp"
+
 #include <gtest/gtest.h>
 #include <memory>
 
@@ -33,4 +34,8 @@ TEST_F(AlbumTest, TestDifferentConstuctors) {
     album.add_song(expected_song3);
     EXPECT_EQ(album.get_album_songs().size(), 2);
     EXPECT_EQ(album.get_album_songs()[1], expected_song3);
+}
+
+TEST_F(AlbumTest, TestEmptyAlbum) {
+    EXPECT_EQ(album.get_album_songs().size(), 0);
 }

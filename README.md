@@ -42,7 +42,7 @@ make</code></pre>
 
 ## Running Tests and Coverage
 <p>To run tests and generate a coverage report, you need to install the following tools:</p>
-<pre><code>sudo dnf install lcov</code></pre>
+<pre><code>sudo dnf install lcov ninja-build</code></pre>
 <p>Use the provided script to run tests and generate the coverage report:</p>
 <pre><code>./run_coverage.sh</code></pre>
 <p>This script will clean the build directory, rebuild the project with coverage flags, run the tests, and generate an HTML coverage report.</p>
