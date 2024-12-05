@@ -11,9 +11,14 @@
 #include <ncurses/ncurses.h>
 
 #include "AudioPlayer.hpp"
+#include "InputHandler.hpp"
 #include "MusicLibrary.hpp"
 #include "Playlist.hpp"
 #include "Song.hpp"
+#include "WindowManager.hpp"
+
+class InputHandler;
+struct WinBox;
 
 class UserInterface {
   private:
@@ -23,20 +28,20 @@ class UserInterface {
   public:
     using SongsVector = std::vector<std::shared_ptr<Song>>;
 
+    static int get_menu_size();
     static void EntryPoint();
 
     void
     DrawWindowsOnScreen(MusicLibrary &music_library, AudioPlayer &audio_player);
-
-  private:
-    void CreateWindows();
+    void LeftMenuAction(MusicLibrary &music_library, AudioPlayer &audio_player);
     void RefreshWindows();
+
+    ~UserInterface();
+
     void MoveOnScreenWithKeys(
         MusicLibrary &music_library, AudioPlayer &audio_player, int &ch,
         std::thread &playback_thread);
-    void HandleF4Key(
-        MusicLibrary &music_library, AudioPlayer &audio_player,
-        std::thread &playback_thread);
+
     void PrintVectorInsideWindow(
         MusicLibrary &music_library, WINDOW *main_win, int &current_line,
         SongsVector &vec);
@@ -46,11 +51,6 @@ class UserInterface {
         MusicLibrary &music_library, WINDOW *win, int &current_line,
         std::vector<T> &vec);
 
-    template <typename T> void MoveDown(std::vector<T> &vec, int &current_line);
-
-    void MoveDown(int &current_line, std::function<int()> get_size_func);
-    void MoveUp(int &current_line);
-
     template <typename T>
     void PrintMenu(
         int &current_line, std::function<std::string(T)> get_menu_option_func);
@@ -59,40 +59,21 @@ class UserInterface {
     void PrintProgressBar(AudioPlayer &audio_player);
     void PrintCurrentSong(AudioPlayer &audio_player);
     void InitNcurses();
-    void ProcessKeyUp();
-    void ProcessKeyDown(MusicLibrary &music_library);
-    void LeftMenuAction(MusicLibrary &music_library, AudioPlayer &audio_player);
     void WhichVectorShow(MusicLibrary &music_library);
     void UpdateUi(AudioPlayer &audio_player);
     void StatusThread(AudioPlayer &audio_player);
     void CreatePlaylistMenu(MusicLibrary &music_library);
     void NoPlaylists();
     void PlaylistMenuI();
+    void ShowSongs(MusicLibrary &music_library);
+    void ShowAlbums(MusicLibrary &music_library);
+    void ShowPlaylists(MusicLibrary &music_library);
+    void UpdateMenuState();
 
     std::string get_menu_option(Menu menu);
     std::string get_playlist_menu_option(PlaylistMenu playlist_menu);
 
-    struct WinBox {
-        int current_line_1st_box = 0;
-        int current_line_3rd_box = 0;
-        int current_box = 2;
-    } win_box_;
-
-    struct WindowInit {
-        int main_win_width = 0;
-        int main_win_height = 0;
-        int sidebar_win_width = 20;
-        int sidebar_win_x = 0;
-        int sidebar_win_y = 0;
-        int top_win_height = 5;
-        int top_win_y = 0;
-        int main_win_y = 0;
-        int main_win_x = 0;
-        WINDOW *sidebar_win = nullptr;
-        WINDOW *top_win = nullptr;
-        WINDOW *main_win = nullptr;
-    } window_init_;
-
+  private:
     struct MenuBool {
         bool is_song_menu = false;
         bool is_album_menu = false;
@@ -111,6 +92,9 @@ class UserInterface {
         MENU_SIZE
     };
 
-    const std::array<std::string, 3> music_status = {
+    WindowManager window_manager_;
+    InputHandler *input_handler_;
+    WinBox *win_box_;
+    std::array<std::string, 3> music_status = {
         "Playing", "Paused", "Empty queue"};
 };
